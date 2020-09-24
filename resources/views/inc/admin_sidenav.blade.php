@@ -103,6 +103,18 @@
 
                         @endif
 
+
+                        <!-- Page Menu -->
+                        @if(Auth::user()->user_type == 'admin' || in_array('1', json_decode(Auth::user()->staff->role->permissions)))
+                            <li>
+                                <a href="">
+                                    <i class="fa fa-file"></i>
+                                    <span class="menu-title">{{__('Pages')}}</span>
+                                </a>
+                            </li>
+                        @endif
+
+
                         <!-- Product Menu -->
                         @if(Auth::user()->user_type == 'admin' || in_array('1', json_decode(Auth::user()->staff->role->permissions)))
                             <li>

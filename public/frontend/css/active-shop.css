@@ -455,7 +455,7 @@
   background: white;
   border-bottom: 1px solid #f1f1f1;
   position: relative;
-  z-index: 500;
+  z-index: 100;
 }
 
 .header-affix.sps--blw .top-navbar {
@@ -1657,7 +1657,7 @@
     border-bottom: 1px solid #f9f9f9;
   }
 
-  
+
 
   .mega-dropdown-menu .mega-dropdown-col-icon > a > i {
     font-size: 90px;
@@ -1671,7 +1671,7 @@
     color: rgba(255, 255, 255, 0.7);
   }
 
-  
+
 
   .mega-dropdown-menu .mega-dropdown-col:last-child > ul {
     border-right: 0;

@@ -33,6 +33,30 @@
 @endsection
 
 @section('content')
+
+    <div class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <ul class="breadcrumb">
+                        <li><a href="{{ route('home') }}">{{__('Home')}}</a></li>
+                        <li><a href="{{ route('products') }}">{{__('All Categories')}}</a></li>
+                        @if(($detailedProduct->subsubcategory_id))
+                            <li ><a href="{{ route('products.category', \App\SubSubCategory::find($detailedProduct->subsubcategory_id)->subcategory->category->slug) }}">{{ \App\SubSubCategory::find($detailedProduct->subsubcategory_id)->subcategory->category->name }}</a></li>
+                            <li ><a href="{{ route('products.subcategory', \App\SubsubCategory::find($detailedProduct->subsubcategory_id)->subcategory->slug) }}">{{ \App\SubsubCategory::find($detailedProduct->subsubcategory_id)->subcategory->name }}</a></li>
+                            <li class="active"><a href="{{ route('products.subsubcategory', \App\SubSubCategory::find($detailedProduct->subsubcategory_id)->slug) }}">{{ \App\SubSubCategory::find($detailedProduct->subsubcategory_id)->name }}</a></li>
+                        @elseif(($detailedProduct-> subcategory_id))
+                            <li ><a href="{{ route('products.category', \App\SubCategory::find($detailedProduct->subcategory_id)->category->slug) }}">{{ \App\SubCategory::find($detailedProduct->subcategory_id)->category->name }}</a></li>
+                            <li class="active"><a href="{{ route('products.subcategory', \App\SubCategory::find($detailedProduct->subcategory_id)->slug) }}">{{ \App\SubCategory::find($detailedProduct->subcategory_id)->name }}</a></li>
+                        @elseif(($detailedProduct->category_id))
+                            <li class="active"><a href="{{ route('products.category', \App\Category::find($detailedProduct->category_id)->slug) }}">{{ \App\Category::find($detailedProduct->category_id)->name }}</a></li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- SHOP GRID WRAPPER -->
     <section class="product-details-area gry-bg">
         <div class="container">
@@ -412,7 +436,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-9">
-                    <div class="product-desc-tab bg-white">
+                    <div class="product-desc-tab bg-white mb-4">
                         <div class="tabs tabs--style-2">
                             <ul class="nav nav-tabs justify-content-center sticky-top bg-white">
                                 <li class="nav-item">
@@ -587,6 +611,11 @@
                             </div>
                         </div>
                     </div>
+
+                    @php
+                    $relatedProductCount = filter_products(\App\Product::where('subcategory_id', $detailedProduct->subcategory_id)->where('id', '!=', $detailedProduct->id))->get()->count();
+                    @endphp
+                    @if($relatedProductCount > 0)
                     <div class="my-4 bg-white p-3">
                         <div class="section-title-1">
                             <h3 class="heading-5 strong-700 mb-0">
@@ -635,6 +664,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
                 <div class="col-xl-3 d-none d-xl-block">
                     <div class="seller-info-box mb-3">
@@ -715,6 +745,12 @@
                             @endif
                         </div>
                     </div>
+
+                    @php
+                    $topSellingProductCount = filter_products(\App\Product::where('user_id', $detailedProduct->user_id)->orderBy('num_of_sale', 'desc'))->get()->count();
+                    @endphp
+
+                    @if($topSellingProductCount > 0)
                     <div class="seller-top-products-box bg-white sidebar-box mb-3">
                         <div class="box-title">
                             {{__('Top Selling Products From This Seller')}}
@@ -747,6 +783,7 @@
                             @endforeach
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -71,7 +71,6 @@
         </div>
     </div>
 
-
     <section class="gry-bg py-4">
         <div class="container sm-px-0">
             <form class="" id="search-form" action="{{ route('search') }}" method="GET">
@@ -218,6 +217,88 @@
                     </div>
                 </div>
                 <div class="col-xl-9">
+
+                    @if(isset($category_id))
+                        <div class="mb-3 d-none d-lg-block">
+                            <div class="row no-gutters">
+                                @php
+                                    $num_todays_deal = count(filter_products(\App\Product::where('published', 1)->where('todays_deal', 1 ))->get());
+                                @endphp
+
+                                <div class="@if($num_todays_deal > 0) col-lg-9 @else col-lg-12 @endif order-1 order-lg-0">
+                                    <div class="home-slide">
+                                        <div class="home-slide">
+                                            <div class="slick-carousel" data-slick-arrows="true" data-slick-dots="true" data-slick-autoplay="true">
+                                                @foreach (\App\Slider::where('published', 1)->get() as $key => $slider)
+                                                    <div class="" style="height:275px;">
+                                                        <a href="{{ $slider->link }}" target="_blank">
+                                                            <img class="d-block w-100 h-100 lazyload" src="{{ asset('frontend/images/placeholder-rect.jpg') }}" data-src="{{ asset($slider->photo) }}" alt="{{ env('APP_NAME')}} promo">
+                                                        </a>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if($num_todays_deal > 0)
+
+                                    @endif
+                                    <div class="trending-category  d-none d-lg-block">
+                                        <ul>
+                                            @foreach (\App\Category::where('featured', 1)->get()->take(6) as $key => $category)
+                                                <li @if ($key == 0) class="active" @endif>
+                                                    <div class="trend-category-single">
+                                                        <a href="{{ route('products.category', $category->slug) }}" class="d-block">
+                                                            <div class="name">{{ __($category->name) }}</div>
+                                                            <div class="img">
+                                                                <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->banner) }}" alt="{{ __($category->name) }}" class="lazyload img-fit">
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 d-none d-lg-block">
+                                <div class="flash-deal-box bg-white category-sidebar">
+                                    <div class="title text-center p-2 clr-blue">
+                                        <h3 class="heading-6 mb-0">
+                                            {{ __('Trending') }}
+                                        </h3>
+                                    </div>
+                                    <div class="trending-section c-scrollbar c-height">
+                                        @foreach (filter_products(\App\Product::where('published', 1)->where('todays_deal', '1'))->get() as $key => $product)
+                                            @if ($product != null)
+                                                <a href="{{ route('product', $product->slug) }}" class="d-block flash-deal-item">
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col">
+                                                            <div class="trending-title">
+                                                                <span>{{$product->name}}</span>
+                                                            </div>
+                                                            <div class="price">
+                                                                <span class="d-block">{{ home_discounted_base_price($product->id) }}</span>
+                                                                @if(home_base_price($product->id) != home_discounted_base_price($product->id))
+                                                                    <del class="d-block">{{ home_base_price($product->id) }}</del>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="img">
+                                                                <img class="lazyload img-fit" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->flash_deal_img) }}" alt="{{ __($product->name) }}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                            </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <!-- <div class="bg-white"> -->
                         @isset($category_id)
                             <input type="hidden" name="category" value="{{ \App\Category::find($category_id)->slug }}">

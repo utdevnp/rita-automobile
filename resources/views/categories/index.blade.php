@@ -31,7 +31,7 @@
                 <tr>
                     <th>#</th>
                     <th>{{__('Name')}}</th>
-                    <th>{{__('Banner')}}</th>
+                    <th>{{__('Thumbnail')}}</th>
                     <th>{{__('Icon')}}</th>
                     <th>{{__('Featured')}}</th>
                     <th>{{__('Commission')}}</th>
@@ -43,7 +43,7 @@
                     <tr>
                         <td>{{ ($key+1) + ($categories->currentPage() - 1)*$categories->perPage() }}</td>
                         <td>{{__($category->name)}}</td>
-                        <td><img loading="lazy"  class="img-md" src="{{ asset($category->banner) }}" alt="{{__('banner')}}"></td>
+                        <td><img loading="lazy"  class="img-md" src="{{ asset($category->thumbnail) }}" alt="{{__('banner')}}"></td>
                         <td><img loading="lazy"  class="img-xs" src="{{ asset($category->icon) }}" alt="{{__('icon')}}"></td>
                         <td><label class="switch">
                             <input onchange="update_featured(this)" value="{{ $category->id }}" type="checkbox" <?php if($category->featured == 1) echo "checked";?> >

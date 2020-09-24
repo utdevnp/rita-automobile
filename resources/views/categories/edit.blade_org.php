@@ -10,43 +10,20 @@
 
         <!--Horizontal Form-->
         <!--===================================================-->
-        <form class="form-horizontal" action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{{ route('categories.update', $category->id) }}" method="POST" enctype="multipart/form-data">
+            <input name="_method" type="hidden" value="PATCH">
         	@csrf
             <div class="panel-body">
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="name">{{__('Name')}}</label>
                     <div class="col-sm-10">
-                        <input type="text" placeholder="{{__('Name')}}" id="name" name="name" class="form-control" required>
+                        <input type="text" placeholder="{{__('Name')}}" id="name" name="name" class="form-control" required value="{{$category->name}}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="thumbnail">{{__('Thumbnail Image')}} <small>(200x300)</small></label>
+                    <label class="col-sm-2 control-label" for="banner">{{__('Banner')}} <small>(200x300)</small></label>
                     <div class="col-sm-10">
-                        <input type="file" id="thumbnail" name="thumbnail" class="form-control" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="banner1">{{__('Banner')}}1 <small>(200x300)</small></label>
-                    <div class="col-sm-10">
-                        <input type="file" id="banner1" name="banner[]" class="form-control" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="banner2">{{__('Banner')}}2 <small>(200x300)</small></label>
-                    <div class="col-sm-10">
-                        <input type="file" id="banner2" name="banner[]" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="banner3">{{__('Banner')}}3 <small>(200x300)</small></label>
-                    <div class="col-sm-10">
-                        <input type="file" id="banner3" name="banner[]" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="banner4">{{__('Banner')}}4 <small>(200x300)</small></label>
-                    <div class="col-sm-10">
-                        <input type="file" id="banner4" name="banner[]" class="form-control">
+                        <input type="file" id="banner" name="banner" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
@@ -58,24 +35,31 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">{{__('Meta Title')}}</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="meta_title" placeholder="{{__('Meta Title')}}">
+                        <input type="text" class="form-control" name="meta_title" value="{{ $category->meta_title }}" placeholder="{{__('Meta Title')}}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">{{__('Description')}}</label>
                     <div class="col-sm-10">
-                        <textarea name="meta_description" rows="8" class="form-control"></textarea>
+                        <textarea name="meta_description" rows="8" class="form-control">{{ $category->meta_description }}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="name">{{__('Slug')}}</label>
+                    <div class="col-sm-10">
+                        <input type="text" placeholder="{{__('Slug')}}" id="slug" name="slug" value="{{ $category->slug }}" class="form-control">
                     </div>
                 </div>
                 @if (\App\BusinessSetting::where('type', 'category_wise_commission')->first()->value == 1)
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="name">{{__('Commission Rate')}}</label>
                         <div class="col-sm-8">
-                            <input type="number" min="0" step="0.01" placeholder="{{__('Commission Rate')}}" id="commision_rate" name="commision_rate" class="form-control">
+                            <input type="number" min="0" step="0.01" id="commision_rate" name="commision_rate" value="{{ $category->commision_rate }}" class="form-control">
                         </div>
                         <div class="col-lg-2">
                             <option class="form-control">%</option>
                         </div>
+                    </div>
                 @endif
             </div>
             <div class="panel-footer text-right">

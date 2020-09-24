@@ -18,7 +18,7 @@ use App\Language;
 
 
 
-class CategoryController extends Controller
+class   CategoryController extends Controller
 
 {
 
@@ -126,16 +126,32 @@ class CategoryController extends Controller
 
         saveJSONFile('en', $data);
 
+        if($request->hasFile('thumbnail')){
 
+            $image = $request->thumbnail;
+            $ext = $image->getClientOriginalExtension();
+            $filename = uniqid().'.'.$ext;
+            $image->storeAs('uploads/categories/thumbnail',$filename);
+            $category->thumbnail = 'uploads/categories/thumbnail/'.$filename;
+
+        }
+
+        $banners = array();
 
         if($request->hasFile('banner')){
 
-           // $category->banner = $request->file('banner')->store('uploads/categories/banner');
-            $image = $request->banner;
-            $ext = $image->getClientOriginalExtension();
-            $filename = uniqid().'.'.$ext;
-            $image->storeAs('uploads/categories/banner',$filename);
-            $category->banner = 'uploads/categories/banner/'.$filename;
+            foreach($request->banner as $key => $image) {
+                //$category->banner = $request->file('banner')->store('uploads/categories/banner');
+                //$image = $request->banner;
+                $ext = $image->getClientOriginalExtension();
+                $filename = uniqid() . '.' . $ext;
+                $path = $image->storeAs('uploads/categories/banner', $filename);
+//                $category->banner = 'uploads/categories/banner/' . $filename;
+
+                array_push($banners, $path);
+            }
+
+            $category->banner = json_encode($banners);
 
         }
 
@@ -273,17 +289,38 @@ class CategoryController extends Controller
         }
 
 
-
-         if($request->hasFile('banner')){
+         if($request->hasFile('thumbnail')){
 
            // $category->banner = $request->file('banner')->store('uploads/categories/banner');
-            $image = $request->banner;
+            $image = $request->thumbnail;
             $ext = $image->getClientOriginalExtension();
             $filename = uniqid().'.'.$ext;
-            $image->storeAs('uploads/categories/banner',$filename);
-            $category->banner = 'uploads/categories/banner/'.$filename;
+            $image->storeAs('uploads/categories/thumbnail',$filename);
+            $category->thumbnail = 'uploads/categories/thumbnail/'.$filename;
 
         }
+
+        $banners = array();
+
+        if($request->has('previous_banners')){
+            foreach($request->previous_banners as $key => $image) {
+                array_push($banners, $image);
+            }
+        }
+
+        if($request->hasFile('banner')){
+
+            foreach($request->banner as $key => $image) {
+                $ext = $image->getClientOriginalExtension();
+                $filename = uniqid() . '.' . $ext;
+                $path = $image->storeAs('uploads/categories/banner', $filename);
+
+                array_push($banners, $path);
+            }
+        }
+
+        if(count($banners) > 0)
+            $category->banner = json_encode($banners);
 
         if($request->hasFile('icon')){
 
@@ -373,7 +410,11 @@ class CategoryController extends Controller
 
             }
 
+            if($category->thumbnail != null){
 
+                //unlink($category->thumbnail);
+
+            }
 
             if($category->banner != null){
 

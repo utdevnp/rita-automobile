@@ -21,9 +21,27 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="banner">{{__('Banner')}} <small>(200x300)</small></label>
+                    <label class="col-sm-2 control-label" for="thumbnail">{{__('Thumbnail')}} <small>(200x300)</small></label>
                     <div class="col-sm-10">
-                        <input type="file" id="banner" name="banner" class="form-control">
+                        <input type="file" id="thumbnail" name="thumbnail" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{__('Banner')}}</label>
+                    <div class="col-sm-10">
+                        <div id="banners">
+                            @if(is_array(json_decode($category->banner)))
+                                @foreach (json_decode($category->banner) as $key => $banner)
+                                    <div class="col-xs-6">
+                                        <div class="img-upload-preview">
+                                            <img loading="lazy"  src="{{ asset($banner) }}" alt="" class="img-responsive">
+                                            <input type="hidden" name="previous_banners[]" value="{{ $banner }}">
+                                            <button type="button" class="btn btn-danger close-btn remove-files"><i class="fa fa-times"></i></button>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -71,5 +89,36 @@
 
     </div>
 </div>
+
+@endsection
+
+
+@section('script')
+
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            $("#banners").spartanMultiImagePicker({
+                fieldName:        'banner[]',
+                maxCount:         10,
+                rowHeight:        '200px',
+                groupClassName:   'col-xs-6',
+                maxFileSize:      '',
+                dropFileLabel : "Drop Here",
+                onExtensionErr : function(index, file){
+                    console.log(index, file,  'extension err');
+                    alert('Please only input png or jpg type file')
+                },
+                onSizeErr : function(index, file){
+                    console.log(index, file,  'file size too big');
+                    alert('File size too big');
+                }
+            });
+
+            $('.remove-files').on('click', function(){
+                $(this).parents(".col-xs-6").remove();
+            });
+        });
+    </script>
 
 @endsection

@@ -19,7 +19,7 @@
                                     <span class="cat-name">{{__('All')}} <br> {{__('Categories')}}</span>
                                 </a>
                             </li>
-                            @foreach (\App\Category::all()->take(11) as $key => $category)
+                        @foreach (\App\Category::all()->take(8) as $key => $category)
                                 @php
                                     $brands = array();
                                 @endphp
@@ -72,7 +72,7 @@
                                 <a href="{{ route('products.category', $category->slug) }}" class="d-block">
                                     <div class="name">{{ __($category->name) }}</div>
                                     <div class="img">
-                                        <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->banner) }}" alt="{{ __($category->name) }}" class="lazyload img-fit">
+                                        <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->thumbnail) }}" alt="{{ __($category->name) }}" class="lazyload img-fit">
                                     </div>
                                 </a>
                             </div>
@@ -91,7 +91,7 @@
                         <div class="trending-section c-scrollbar c-height">
                             @foreach (filter_products(\App\Product::where('published', 1)->where('todays_deal', '1'))->get() as $key => $product)
                                 @if ($product != null)
-                                    <a href="{{ route('product', $product->slug) }}" class="d-block flash-deal-item">
+                                    <div class="d-block flash-deal-item">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col">
                                                 <div class="trending-title">
@@ -103,6 +103,9 @@
                                                         <del class="d-block">{{ home_base_price($product->id) }}</del>
                                                     @endif
                                                 </div>
+                                                <span class="badge badge-md bg-red mt-2">
+                                                    <a href="{{ route('product', $product->slug) }}">Details</a>
+                                                </span>
                                             </div>
                                             <div class="col">
                                                 <div class="img">
@@ -110,7 +113,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </a>
+                                    </div>
                                 @endif
                             @endforeach
                         </div>
@@ -308,7 +311,7 @@
                                 <a href="{{ route('products.category', $category->slug) }}" class="bg-white border d-block c-base-2 box-2 icon-anim pl-2">
                                     <div class="row align-items-center no-gutters">
                                         <div class="col-3 text-center">
-                                            <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->banner) }}" alt="{{ __($category->name) }}" class="img-fluid img lazyload">
+                                            <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->thumbnail) }}" alt="{{ __($category->name) }}" class="img-fluid img lazyload">
                                         </div>
                                         <div class="info col-7">
                                             <div class="name text-truncate pl-3 py-4">{{ __($category->name) }}</div>

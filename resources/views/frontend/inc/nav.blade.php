@@ -1,5 +1,5 @@
 <div class="header bg-white">
-    
+
 
     <!-- mobile menu -->
     <div class="mobile-side-menu d-lg-none">
@@ -302,7 +302,7 @@
         </div>
     </div>
     <!-- end mobile menu -->
-    
+
 
     <div class="position-relative logo-bar-area">
         <div class="container-fluid">
@@ -396,7 +396,46 @@
                                     </a>
                                 </div>
                             </div>
-                            
+
+                            <div class="d-none d-lg-inline-block">
+                                <div class="nav-user-box d-block d-xl-none" id="user">
+                                    <a href=" @auth {{ route('dashboard') }} @else {{ route('user.login') }} @endauth" class="nav-box-link">
+                                        <i class="la la-user d-inline-block nav-box-icon"></i>
+                                    </a>
+                                </div>
+                                <div class="nav-user-box d-none d-xl-block" id="user">
+                                    <div class="nav-box-link">
+                                        <i class="la la-user d-inline-block nav-box-icon"></i>
+                                        <span class="user-group">
+                                            @auth
+                                                <a href="{{ route('dashboard') }}" class="nav-box-link"><span class="nav-box-text d-none d-xl-inline-block">{{__('My Panel')}}</span></a>
+                                                <a href="{{ route('logout') }}" class="nav-box-link"><span class="nav-box-text d-none d-xl-inline-block">{{__('Logout')}}</span></a>
+                                            @else
+                                                <a href="{{ route('user.login') }}" class="nav-box-link"><span class="nav-box-text d-none d-xl-inline-block">{{__('Login')}}</span></a>
+                                                <a href="{{ route('user.registration') }}" class="nav-box-link"><span class="nav-box-text d-none d-xl-inline-block">{{__('Registration')}}</span></a>
+                                            @endauth
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-none d-lg-inline-block">
+                                <div class="nav-message-box" id="message">
+                                    <a href="" class="nav-box-link">
+                                        <i class="la la-comment d-inline-block nav-box-icon"></i>
+                                        <span class="nav-box-text d-none d-xl-inline-block">{{__('Messages')}}</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="d-none d-lg-inline-block">
+                                <div class="nav-track-box" id="track_order">
+                                    <a href="{{ route('orders.track') }}" class="nav-box-link">
+                                        <i class="la la-file d-inline-block nav-box-icon"></i>
+                                        <span class="nav-box-text d-none d-xl-inline-block">{{__('Order')}}</span>
+                                    </a>
+                                </div>
+                            </div>
+
                             <div class="d-inline-block" data-hover="dropdown">
                                 <div class="nav-cart-box dropdown" id="cart_items">
                                     <a href="" class="nav-box-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -486,7 +525,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="d-none d-lg-inline-block">
+                            <!--<div class="d-none d-lg-inline-block">-->
                                 <!--<div class="nav-compare-box" id="compare">-->
                                 <!--    <a href="{{ route('compare') }}" class="nav-box-link">-->
                                 <!--        <i class="la la-refresh d-inline-block nav-box-icon"></i>-->
@@ -498,7 +537,7 @@
                                 <!--        @endif-->
                                 <!--    </a>-->
                                 <!--</div>-->
-                            </div>
+                            <!--</div>-->
                             <!--<div class="d-none d-lg-inline-block">-->
                                 <!--<div class="nav-wishlist-box" id="wishlist">-->
                                 <!--    <a href="{{ route('wishlists.index') }}" class="nav-box-link">-->
@@ -556,7 +595,7 @@
     <!-- Navbar -->
 
     <!-- Top Bar -->
-    
+
     <div class="top-navbar">
         <div class="container">
             <div class="row">

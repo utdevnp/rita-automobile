@@ -23,7 +23,7 @@
                             <div class="row">
                                 <div class="d-none d-lg-block col-lg-3">
                                     <a href="{{ route('products.category', $homeCategory->category->slug) }}" class="d-flex product-image h-100 text-center">
-                                        <img class="img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($homeCategory->category->banner) }}" alt="{{ __($homeCategory->category->name) }}">
+                                        <img class="img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($homeCategory->category->thumbnail) }}" alt="{{ __($homeCategory->category->name) }}">
                                     </a>
                                 </div>
                                 <div class="col-lg-9">

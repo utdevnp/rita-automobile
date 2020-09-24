@@ -156,7 +156,7 @@ function morebrands(em) {
     }
 }
 function sideMenuOpen(e) {
-    event.preventDefault();
+    e.preventDefault();
     $(e).find(".hamburger-icon").toggleClass("open");
     if ($(e).find(".hamburger-icon").hasClass("open")) {
         $(".side-menu-wrap,.side-menu-overlay")
@@ -391,4 +391,4 @@ $(document).ajaxComplete(function () {
 $("#category-menu-icon").click(function(){
   $("#hover-category-menu").toggle();
   $("#hover-category-menu").animate({top: '120px'})
-}); 
+});
