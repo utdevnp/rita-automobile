@@ -2,64 +2,95 @@
 
 @section('content')
 
-<div class="col-sm-12">
-    <div class="panel">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{__('Pages')}}</h3>
+    <div class="row">
+        <div class="col-sm-12">
+            <a href="{{ route('pages.create')}}" class="btn btn-rounded btn-info pull-right">{{__('Add New Page')}}</a>
         </div>
-        <!--Horizontal Form-->
-        <!--===================================================-->
-        <form class="form-horizontal" action="{{ route('pages.store') }}" method="POST" enctype="multipart/form-data">
-        	@csrf
-            <div class="panel-body">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="title">{{__('Title')}}</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="title" id="title" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2" for="url">{{__('Page Type')}}</label>
-                    <div class="col-sm-10">
-                        <select class="form-control demo-select2" name="type" required>
-                            <option value="1">{{__('Link')}}</option>
-                            <option value="2">{{__('Content')}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="name">{{__('Description')}}</label>
-                    <div class="col-sm-10">
-                        <textarea class="editor" name="content" required></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="banner">{{__('Banner')}} <small>(200x300)</small></label>
-                    <div class="col-sm-10">
-                        <input type="file" id="banner1" name="banner" class="form-control" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">{{__('Meta Title')}}</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="meta_title" placeholder="{{__('Meta Title')}}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">{{__('Description')}}</label>
-                    <div class="col-sm-10">
-                        <textarea name="meta_description" rows="8" class="form-control"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-footer text-right">
-                <button class="btn btn-purple" type="submit">{{__('Send')}}</button>
-            </div>
-        </form>
-        <!--===================================================-->
-        <!--End Horizontal Form-->
-
     </div>
-</div>
 
+    <br>
+
+    <!-- Basic Data Tables -->
+    <!--===================================================-->
+    <div class="panel">
+        <div class="panel-heading bord-btm clearfix pad-all h-100">
+            <h3 class="panel-title pull-left pad-no">{{__('Pages')}}</h3>
+            <div class="pull-right clearfix">
+                <form class="" id="sort_categories" action="" method="GET">
+                    <div class="box-inline pad-rgt pull-left">
+                        <div class="" style="min-width: 200px;">
+                            <input type="text" class="form-control" id="search" name="search"@isset($sort_search) value="{{ $sort_search }}" @endisset placeholder=" Type name & Enter">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped res-table mar-no" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{{__('Name')}}</th>
+                    <th>{{__('Position')}}</th>
+                    <th>{{__('Type')}}</th>
+                    <th>{{__('Weight')}}</th>
+                    <th>{{__('Status')}}</th>
+                    <th width="10%">{{__('Options')}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($pages as $key => $page)
+                    <tr>
+                        <td>{{ ($key+1) + ($pages->currentPage() - 1)*$pages->perPage() }}</td>
+                        <td>{{__($page->name)}}</td>
+                        <td>{{__($page->position)}}</td>
+                        <td>{{__($page->type)}}</td>
+                        <td>{{__($page->weight)}}</td>
+                        <td><label class="switch">
+                                <input onchange="update_status(this)" value="{{ $page->id }}" type="checkbox" <?php if($page->status == 1) echo "checked";?> >
+                                <span class="slider round"></span></label></td>
+                        <td>
+                            <div class="btn-group dropdown">
+                                <button class="btn btn-primary dropdown-toggle dropdown-toggle-icon" data-toggle="dropdown" type="button">
+                                    {{__('Actions')}} <i class="dropdown-caret"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="{{route('pages.edit', encrypt($page->id))}}">{{__('Edit')}}</a></li>
+                                    <li><a onclick="confirm_modal('{{route('pages.destroy', $page->id)}}');">{{__('Delete')}}</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+            <div class="clearfix">
+                <div class="pull-right">
+                    {{ $pages->appends(request()->input())->links() }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@section('script')
+    <script type="text/javascript">
+        function update_status(el){
+            if(el.checked){
+                var status = 1;
+            }
+            else{
+                var status = 0;
+            }
+            $.post('{{ route('pages.status') }}', {_token:'{{ csrf_token() }}', id:el.value, status:status}, function(data){
+                if(data == 1){
+                    showAlert('success', 'Page status updated successfully');
+                }
+                else{
+                    showAlert('danger', 'Something went wrong');
+                }
+            });
+        }
+    </script>
 @endsection

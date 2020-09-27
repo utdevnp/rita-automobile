@@ -22,13 +22,13 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="thumbnail">{{__('Thumbnail Image')}} <small>(200x300)</small></label>
                     <div class="col-sm-10">
-                        <input type="file" id="thumbnail" name="thumbnail" class="form-control" required>
+                        <input type="file" id="thumbnail" name="thumbnail" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="banner1">{{__('Banner')}}1 <small>(200x300)</small></label>
                     <div class="col-sm-10">
-                        <input type="file" id="banner1" name="banner[]" class="form-control" required>
+                        <input type="file" id="banner1" name="banner[]" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">

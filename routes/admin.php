@@ -13,6 +13,12 @@
 
 Route::get('/admin', 'HomeController@admin_dashboard')->name('admin.dashboard')->middleware(['auth', 'admin']);
 Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function(){
+	Route::resource('pages','PageController');
+    Route::get('/pages/destroy/{id}', 'PageController@destroy')->name('pages.destroy');
+    Route::post('/pages/status', 'PageController@updateStatus')->name('pages.status');
+    Route::post('/pages/weight', 'PageController@updateWeight')->name('pages.weight');
+    Route::post('/pages/parent', 'PageController@getParents')->name('pages.parent');
+
 	Route::resource('categories','CategoryController');
 	Route::get('/categories/destroy/{id}', 'CategoryController@destroy')->name('categories.destroy');
 	Route::post('/categories/featured', 'CategoryController@updateFeatured')->name('categories.featured');

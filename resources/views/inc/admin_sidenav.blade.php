@@ -105,9 +105,9 @@
 
 
                         <!-- Page Menu -->
-                        @if(Auth::user()->user_type == 'admin' || in_array('1', json_decode(Auth::user()->staff->role->permissions)))
-                            <li>
-                                <a href="">
+                        @if(Auth::user()->user_type == 'admin' || in_array('16', json_decode(Auth::user()->staff->role->permissions)))
+                            <li class="{{ areActiveRoutes(['pages.index', 'pages.create', 'pages.edit'])}}">
+                                <a href="{{route('pages.index')}}">
                                     <i class="fa fa-file"></i>
                                     <span class="menu-title">{{__('Pages')}}</span>
                                 </a>

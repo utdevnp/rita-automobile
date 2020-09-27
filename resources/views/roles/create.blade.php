@@ -190,6 +190,17 @@
                                 </label>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <label class="control-label">{{ __('Pages') }}</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="switch">
+                                    <input type="checkbox" name="permissions[]" class="form-control demo-sw" value="16">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
