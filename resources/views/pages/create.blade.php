@@ -25,6 +25,7 @@
                             <select class="form-control demo-select2" name="position" id="position" onchange="{ getParents(this); updateWeight(); }" required>
                                 <option value="">{{__('Select Position')}}</option>
                                 <option value="{{__('Header')}}">{{__('Header')}}</option>
+                                <option value="{{__('Useful Link')}}">{{__('Useful Link')}}</option>
                             </select>
                         </div>
                     </div>

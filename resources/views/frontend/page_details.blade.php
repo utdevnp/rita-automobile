@@ -8,8 +8,7 @@
 
 @section('content')
     @if($page_details->status == 1)
-        @if(!empty($page_details->banner))
-            <div class="about-main"
+        <div class="about-main"
                  style="background-image: url({{ asset($page_details->banner) }}), linear-gradient(-90deg,#fa771f52,#000000de);">
                 <div class="container">
                     <div class="about-content">
@@ -17,7 +16,6 @@
                     </div>
                 </div>
             </div>
-        @endif
         <div class="about-data parent-gap">
             <div class="container">
                 <div class="about-data-contant">

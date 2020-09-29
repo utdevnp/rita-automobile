@@ -420,7 +420,7 @@
                             </div>
                             <div class="d-none d-lg-inline-block">
                                 <div class="nav-message-box" id="message">
-                                    <a href="" class="nav-box-link">
+                                    <a href="javascript:void(Tawk_API.toggle())" class="nav-box-link">
                                         <i class="la la-comment d-inline-block nav-box-icon"></i>
                                         <span class="nav-box-text d-none d-xl-inline-block">{{__('Messages')}}</span>
                                     </a>

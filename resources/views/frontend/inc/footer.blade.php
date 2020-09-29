@@ -105,9 +105,9 @@
                             {{__('Useful Link')}}
                         </h4>
                         <ul class="footer-links">
-                            @foreach (\App\Link::all() as $key => $link)
+                            @foreach (\App\Page::where([['parentId', 0], ['position', 'Useful Link'], ['status', 1]])->orderBy('weight', 'asc')->get() as $key => $link)
                                 <li>
-                                    <a href="{{ $link->url }}" title="">
+                                    <a href="{{ "/page/" . $link->slug }}" title="{{$link->name}}">
                                         {{ $link->name }}
                                     </a>
                                 </li>

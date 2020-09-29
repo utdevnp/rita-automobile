@@ -32,6 +32,7 @@
                             <select class="form-control demo-select2" name="position" id="position" onchange="{ getParents(this); updateWeight(); }" required>
                                 <option value="">{{__('Select Position')}}</option>
                                 <option value="{{__('Header')}}" @if($page->position == 'Header') {{"selected"}} @endif>{{__('Header')}}</option>
+                                <option value="{{__('Useful Link')}}" @if($page->position == 'Useful Link') {{"selected"}} @endif>{{__('Useful Link')}}</option>
                             </select>
                         </div>
                     </div>
