@@ -21,13 +21,15 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-2 control-label" for="slug">{{__('Slug')}}</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="slug" id="slug" value="{{$page->slug}}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-2 control-label" for="position">{{__('Position')}}</label>
                         <div class="col-sm-10">
                             <select class="form-control demo-select2" name="position" id="position" onchange="{ getParents(this); updateWeight(); }" required>
-
-{{--                                @foreach($page->arrPositions as $val)--}}
-{{--                                    <option value="{{$val}}" @if($page->position == $val) {{"selected"}} @endif>{{$val}}</option>--}}
-{{--                                @endforeach--}}
                                 <option value="">{{__('Select Position')}}</option>
                                 <option value="{{__('Header')}}" @if($page->position == 'Header') {{"selected"}} @endif>{{__('Header')}}</option>
                             </select>
@@ -37,12 +39,12 @@
                         <label class="col-sm-2 control-label" for="type">{{__('Page Type')}}</label>
                         <div class="col-sm-10">
                             <select class="form-control demo-select2" name="type" id="type" required>
-                                <option value="{{__('Content')}}">{{__('Content')}}</option>
-                                <option value="{{__('Link')}}">{{__('Link')}}</option>
+                                <option value="{{__('Content')}}" @if($page->type == 'Content') {{"selected"}} @endif>{{__('Content')}}</option>
+                                <option value="{{__('Link')}}" @if($page->type == 'Link') {{"selected"}} @endif>{{__('Link')}}</option>
                             </select>
                         </div>
                     </div>
-                    <div id="descriptionBlock">
+                    <div id="descriptionBlock" style="display:none;">
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="description">{{__('Description')}}</label>
                             <div class="col-sm-10">
@@ -50,7 +52,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="linkBlock">
+                    <div id="linkBlock" style=""display:none;">
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="link">{{__('Link')}}</label>
                             <div class="col-sm-10">
@@ -120,8 +122,14 @@
 @section('script')
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#linkBlock').hide();
-
+            if ("{{$page->type}}" == "Content") {
+                $('#linkBlock').hide();
+                $('#descriptionBlock').show();
+            }
+            else if("{{$page->type}}" == "Link") {
+                $('#descriptionBlock').hide();
+                $('#linkBlock').show();
+            }
             $('#type').change(function () {
                 if ($(this).val() == "Link") {
                     $('#descriptionBlock').hide();

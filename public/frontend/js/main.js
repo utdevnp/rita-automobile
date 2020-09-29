@@ -156,7 +156,7 @@ function morebrands(em) {
     }
 }
 function sideMenuOpen(e) {
-    e.preventDefault();
+    event.preventDefault();
     $(e).find(".hamburger-icon").toggleClass("open");
     if ($(e).find(".hamburger-icon").hasClass("open")) {
         $(".side-menu-wrap,.side-menu-overlay")

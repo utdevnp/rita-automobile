@@ -600,47 +600,76 @@
         <div class="container">
             <div class="row">
                 <div class="col-8 d-none d-lg-block">
-                    <ul class="inline-links">
-                        @if (\App\BusinessSetting::where('type', 'classified_product')->first()->value)
-                            <li>
-                                <a href="{{ route('customer_packages_list_show') }}" class="top-bar-item">{{__('Classified Packages')}}</a>
-                            </li>
-                        @endif
-                        <li>
-                            <a href="{{ route('orders.track') }}" class="top-bar-item"><i class="la la-shopping-cart"></i>{{__('Track Order')}}</a>
-                        </li>
-                        @if (\App\Addon::where('unique_identifier', 'affiliate_system')->first() != null && \App\Addon::where('unique_identifier', 'affiliate_system')->first()->activated)
-                            <li>
-                                <a href="{{ route('affiliate.apply') }}" class="top-bar-item">{{__('Be an affiliate partner')}}</a>
-                            </li>
-                        @endif
-                        @auth
-                        <li>
-                            <a href="{{ route('dashboard') }}" class="top-bar-item">{{__('My Panel')}}</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('logout') }}" class="top-bar-item">{{__('Logout')}}</a>
-                        </li>
-                        @else
-                        <li>
-                            <a href="{{ route('user.login') }}" class="top-bar-item">{{__('Login')}}</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('user.registration') }}" class="top-bar-item">{{__('Registration')}}</a>
-                        </li>
-                        @endauth
-                    </ul>
-                </div>
-                <div class="col-lg-4 text-right col">
-                    <ul class="inline-links d-lg-inline-block d-flex justify-content-between">
-                        <li class="dropdown" id="lang-change">
-                            @php
-                                if(Session::has('locale')){
-                                    $locale = Session::get('locale', Config::get('app.locale'));
-                                }
-                                else{
-                                    $locale = 'en';
-                                }
+{{--                    <ul class="inline-links">--}}
+{{--                        @if (\App\BusinessSetting::where('type', 'classified_product')->first()->value)--}}
+{{--                            <li>--}}
+{{--                                <a href="{{ route('customer_packages_list_show') }}" class="top-bar-item">{{__('Classified Packages')}}</a>--}}
+{{--                            </li>--}}
+{{--                        @endif--}}
+{{--                        <li>--}}
+{{--                            <a href="{{ route('orders.track') }}" class="top-bar-item"><i class="la la-shopping-cart"></i>{{__('Track Order')}}</a>--}}
+{{--                        </li>--}}
+{{--                        @if (\App\Addon::where('unique_identifier', 'affiliate_system')->first() != null && \App\Addon::where('unique_identifier', 'affiliate_system')->first()->activated)--}}
+{{--                            <li>--}}
+{{--                                <a href="{{ route('affiliate.apply') }}" class="top-bar-item">{{__('Be an affiliate partner')}}</a>--}}
+{{--                            </li>--}}
+{{--                        @endif--}}
+{{--                        @auth--}}
+{{--                        <li>--}}
+{{--                            <a href="{{ route('dashboard') }}" class="top-bar-item">{{__('My Panel')}}</a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="{{ route('logout') }}" class="top-bar-item">{{__('Logout')}}</a>--}}
+{{--                        </li>--}}
+{{--                        @else--}}
+{{--                        <li>--}}
+{{--                            <a href="{{ route('user.login') }}" class="top-bar-item">{{__('Login')}}</a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="{{ route('user.registration') }}" class="top-bar-item">{{__('Registration')}}</a>--}}
+{{--                        </li>--}}
+{{--                        @endauth--}}
+{{--                    </ul>--}}
+
+                        @php
+                        $pagelist = \App\Page::where([['position', 'Header'], ['parentId', 0], ['status', 1]])->orderBY('weight', 'asc')->get();
+                        @endphp
+
+                        <ul class="inline-links">
+                            @foreach($pagelist as $key=>$page)
+                                @php
+                                $haveChild = false;
+                                @endphp
+
+                                @if(\App\Page::where([['parentId', $page->id], ['status', 1], ['position', 'Header']])->get()->count() > 0)
+                                     @php $haveChild = true; @endphp
+                                @endif
+                                <li @if($haveChild)class="dropdown"@endif>
+                                    <a href="@if(!$haveChild){{"/page/" . $page->slug}}@endif" class="top-bar-item @if($haveChild){{"dropdown-toggle"}}@endif" @if($haveChild){{"data-toggle=dropdown"}} @endif>{{$page->name}}</a>
+                                    @if($haveChild)
+                                        <ul class="dropdown-menu">
+                                        @foreach(\App\Page::where([['position', 'Header'], ['parentId', $page->id], ['status', 1]])->orderBY('weight', 'asc')->orderBy('weight', 'asc')->get() as $subkey => $subpage)
+                                            <li class="dropdown-item">
+                                                <a href="{{$subpage->slug}}">{{$subpage->name}}</a>
+                                            </li>
+                                        @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+
+                    </div>
+                    <div class="col-lg-4 text-right col">
+                        <ul class="inline-links d-lg-inline-block d-flex justify-content-between">
+                            <li class="dropdown" id="lang-change">
+                                @php
+                                    if(Session::has('locale')){
+                                        $locale = Session::get('locale', Config::get('app.locale'));
+                                    }
+                                    else{
+                                        $locale = 'en';
+                                    }
                             @endphp
                             <a href="" class="dropdown-toggle top-bar-item" data-toggle="dropdown">
                                 <img src="{{ asset('frontend/images/placeholder.jpg') }}" height="11" data-src="{{ asset('frontend/images/icons/flags/'.$locale.'.png') }}" class="flag lazyload" alt="{{ \App\Language::where('code', $locale)->first()->name }}" height="11"><span class="language">{{ \App\Language::where('code', $locale)->first()->name }}</span>

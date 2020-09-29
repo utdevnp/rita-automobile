@@ -741,4 +741,29 @@ if (! function_exists('convertPrice')) {
 }
 
 
+if (! function_exists('formatYoutubeLink')) {
+    function formatYoutubeLink($youtubeLink, $format="/embed/")
+    {
+        $link = strpos($youtubeLink, "src=");
+        $newString = substr($youtubeLink, $link);
+        $strExplode = explode(" ", $newString);
+        $onlySrc = $strExplode[0];
+        $exploded = explode('"', $onlySrc);
+        $link = stripslashes($exploded[0]);
+
+        $url = "";
+        if (strpos($link, "/v/") > 0)
+            $url = str_replace("/v/", $format, $link);
+        elseif (strpos($link, "/watch?v=") > 0)
+            $url = str_replace("/watch?v=", $format, $link);
+        elseif (strpos($link, "youtu.be/") > 0)
+            $url = str_replace("youtu.be/", $format, $link);
+        elseif (strpos($link, "/embed/") > 0)
+            $url = str_replace("/embed/", $format, $link);
+
+        return $url;
+    }
+}
+
+
 ?>

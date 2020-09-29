@@ -224,3 +224,5 @@ Route::get('/blog', 'BlogController@index');
 Route::get('/vogue-pay', 'VoguePayController@showForm');
 Route::get('/vogue-pay/success/{id}', 'VoguePayController@paymentSuccess');
 Route::get('/vogue-pay/failure/{id}', 'VoguePayController@paymentFailure');
+
+Route::get('/page/{slug}', 'PageController@show')->name('page-details');

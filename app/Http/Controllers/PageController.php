@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 
 
+use App\FlashDeal;
 use Illuminate\Http\Request;
 
 use App\Page;
@@ -186,10 +187,28 @@ class   PageController extends Controller
 
      */
 
-    public function show($id)
+    public function show($slug)
 
     {
-
+        $page_details = Page::where('slug', $slug)->first();
+        $page_details->youtubeLink = "";
+        if($page_details != null)
+            if($page_details->type == 'Content') {
+                if(!empty($page_details->video)) {
+                    $page_details->youtubeLink = formatYoutubeLink($page_details->video);
+                }
+                return view('frontend.page_details', compact('page_details'));
+            }
+            else if($page_details->type == "Link") {
+                if(!empty($page_details->description)) {
+                    return redirect($page_details->description);
+                } else {
+                    abort(404);
+                }
+            }
+        else {
+            abort(404);
+        }
         //
 
     }
@@ -214,7 +233,7 @@ class   PageController extends Controller
 
         $page = Page::findOrFail(decrypt($id));
 
-        $parentRes = Page::where([['position', $page->position], ['parentId', 0]], ['id', '!=', $page->id])->orderBy('weight', 'asc')->get();
+        $parentRes = Page::where([['position', $page->position], ['parentId', 0], ['id', '!=', $page->id]])->orderBy('weight', 'asc')->get();
 
         $page->parents = $parentRes;
 
@@ -279,16 +298,12 @@ class   PageController extends Controller
 
         $page->weight = $request->weight;
 
-        $page->status = $request->status;
-
         $page->meta_title = $request->meta_title;
 
         $page->meta_description = $request->meta_description;
 
         if ($request->slug != null) {
-
             $page->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug));
-
         }
 
         else {
