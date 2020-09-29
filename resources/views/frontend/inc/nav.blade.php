@@ -333,13 +333,13 @@
                             @endif
                         </a>
 
-                        @if(Route::currentRouteName() != 'home' && Route::currentRouteName() != 'categories.all')
-                            <div class="d-none d-xl-block category-menu-icon-box">
-                                <div class="dropdown-toggle navbar-light category-menu-icon" id="category-menu-icon">
-                                    <span class="navbar-toggler-icon"></span>
-                                </div>
-                            </div>
-                        @endif
+{{--                        @if(Route::currentRouteName() != 'home' && Route::currentRouteName() != 'categories.all')--}}
+{{--                            <div class="d-none d-xl-block category-menu-icon-box">--}}
+{{--                                <div class="dropdown-toggle navbar-light category-menu-icon" id="category-menu-icon">--}}
+{{--                                    <span class="navbar-toggler-icon"></span>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        @endif--}}
                     </div>
                 </div>
                 <div class="col-lg-10 col-4 position-static">
@@ -560,11 +560,11 @@
             <div class="container">
                 <div class="row no-gutters position-relative">
                     <div class="col-lg-3 position-static">
-                        <div class="category-sidebar" id="category-sidebar">
-                            <div class="all-category">
-                                <span>{{__('CATEGORIES')}}</span>
-                                <a href="{{ route('categories.all') }}" class="d-inline-block">See All ></a>
-                            </div>
+                        <div class="category-sidebar" id="category-sidebar" style="height:auto;">
+{{--                            <div class="all-category">--}}
+{{--                                <span>{{__('CATEGORIES')}}</span>--}}
+{{--                                <a href="{{ route('categories.all') }}" class="d-inline-block">See All ></a>--}}
+{{--                            </div>--}}
                             <ul class="categories">
                                 @foreach (\App\Category::all()->take(11) as $key => $category)
                                     @php
@@ -600,6 +600,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-8 d-none d-lg-block">
+
 {{--                    <ul class="inline-links">--}}
 {{--                        @if (\App\BusinessSetting::where('type', 'classified_product')->first()->value)--}}
 {{--                            <li>--}}
@@ -636,6 +637,9 @@
                         @endphp
 
                         <ul class="inline-links">
+                            <li class="dropdown-toggle" id="category-menu-icon">
+                                <a href="javascript: void(0);" class="top-bar-item"><i class="la la-bars"></i> Categories</a>
+                            </li>
                             @foreach($pagelist as $key=>$page)
                                 @php
                                 $haveChild = false;
@@ -648,7 +652,7 @@
                                     <a href="@if(!$haveChild){{"/page/" . $page->slug}}@endif" class="top-bar-item @if($haveChild){{"dropdown-toggle"}}@endif" @if($haveChild){{"data-toggle=dropdown"}} @endif>{{$page->name}}</a>
                                     @if($haveChild)
                                         <ul class="dropdown-menu">
-                                        @foreach(\App\Page::where([['position', 'Header'], ['parentId', $page->id], ['status', 1]])->orderBY('weight', 'asc')->orderBy('weight', 'asc')->get() as $subkey => $subpage)
+                                        @foreach(\App\Page::where([['position', 'Header'], ['parentId', $page->id], ['status', 1]])->orderBY('weight', 'asc')->get() as $subkey => $subpage)
                                             <li class="dropdown-item">
                                                 <a href="{{$subpage->slug}}">{{$subpage->name}}</a>
                                             </li>

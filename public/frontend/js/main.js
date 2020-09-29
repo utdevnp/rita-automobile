@@ -15,15 +15,15 @@ var searchOpen = (function () {
 })();
 
 $(function () {
-    // $("#category-menu-icon, #category-sidebar")
-    //     .on("mouseover", function (event) {
-    //         $("#hover-category-menu").show();
-    //         $("#category-menu-icon").addClass("active");
-    //     })
-    //     .on("mouseout", function (event) {
-    //         $("#hover-category-menu").hide();
-    //         $("#category-menu-icon").removeClass("active");
-    //     });
+    $("#category-menu-icon, #category-sidebar")
+        .on("mouseover", function (event) {
+            $("#hover-category-menu").show();
+            $("#category-menu-icon").addClass("active");
+        })
+        .on("mouseout", function (event) {
+            $("#hover-category-menu").hide();
+            $("#category-menu-icon").removeClass("active");
+        });
 
     $(".nav-search-box a").on("click", function (e) {
         e.preventDefault();
@@ -386,9 +386,9 @@ $(document).ajaxComplete(function () {
     });
 });
 
-
-
-$("#category-menu-icon").click(function(){
-  $("#hover-category-menu").toggle();
-  $("#hover-category-menu").animate({top: '120px'})
-});
+//
+//
+// $("#category-menu-icon").click(function(){
+//   $("#hover-category-menu").toggle();
+//   $("#hover-category-menu").animate({top: '116px'})
+// });
