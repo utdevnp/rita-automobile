@@ -284,7 +284,7 @@
                             </div>
                         </div>
                     @endif
-                    <!-- <div class="sidebar-widget-title py-0">
+                    <div class="sidebar-widget-title py-0">
                         <span>Categories</span>
                     </div>
                     <ul class="side-seller-menu">
@@ -296,7 +296,7 @@
                             </a>
                         </li>
                         @endforeach
-                    </ul> -->
+                    </ul>
                 </div>
             </div>
         </div>

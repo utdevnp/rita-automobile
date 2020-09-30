@@ -23,12 +23,12 @@
                         <span>{{$page_details->name}}</span>
                     </div>
                     <div class="about-data-subtitle">
+                        {{$page_details->description}}
                         @if(!empty($page_details->video))
-                            <div class="embed-responsive embed-responsive-21by9 mb-3">
+                            <div class="embed-responsive embed-responsive-21by9 mt-5">
                                 <embed src="{{$page_details->youtubeLink}}" class="embed-responsive-item">
                             </div>
                         @endif
-                        {{$page_details->description}}
                     </div>
                 </div>
             </div>
