@@ -66,6 +66,14 @@
                                 </button>
                             </form>
                         </div>
+                        <div class="mt-3">
+                            <span style="display: inline-block; border: 1px solid #555; border-radius: 5px; margin-right: 10px;">
+                                <img loading="lazy" src="{{ asset("frontend/images/app/appstore.png") }}" alt="{{ env('APP_NAME') . " IOS App" }}">
+                            </span>
+                            <span style="display: inline-block; border: 1px solid #555; border-radius: 5px;">
+                                <img loading="lazy" src="{{ asset("frontend/images/app/playstore.png") }}" alt="{{ env('APP_NAME') . " Android App" }}">
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">

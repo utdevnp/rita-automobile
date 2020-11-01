@@ -12,7 +12,8 @@ class ProductDetailCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection->map(function($data) {
-                return [
+
+                $items =  [
                     'id' => (integer) $data->id,
                     'name' => $data->name,
                     'added_by' => $data->added_by,
@@ -39,14 +40,20 @@ class ProductDetailCollection extends ResourceCollection
                         'links' => [
                             'products' => route('products.subCategory', $data->subcategory_id)
                         ]
-                    ],
-                    'brand' => [
+                    ]
+                ];
+
+                if(!is_null($data->brand_id)) {
+                    $items['brand'] = [
                         'name' => $data->brand->name,
                         'logo' => $data->brand->logo,
                         'links' => [
                             'products' => route('api.products.brand', $data->brand_id)
                         ]
-                    ],
+                    ];
+                }
+
+                $items += [
                     'photos' => json_decode($data->photos),
                     'thumbnail_image' => $data->thumbnail_img,
                     'featured_image' => $data->featured_img,
@@ -75,7 +82,9 @@ class ProductDetailCollection extends ResourceCollection
                         'related' => route('products.related', $data->id)
                     ]
                 ];
-            })
+
+                return $items;
+             })
         ];
     }
 

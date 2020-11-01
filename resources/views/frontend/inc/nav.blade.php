@@ -346,7 +346,7 @@
                     <div class="d-flex w-100">
                         <div class="search-box flex-grow-1 px-4">
                             <form action="{{ route('search') }}" method="GET">
-                                <div class="d-flex position-relative">
+                                <div class="d-flex position-relative" style="border: 1px solid #ff771d; border-radius: 10px; overflow: hidden;">
                                     <div class="d-lg-none search-box-back">
                                         <button class="" type="button"><i class="la la-long-arrow-left"></i></button>
                                     </div>

@@ -17,18 +17,21 @@ class FlashDealCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        $flash_deal = FlashDeal::findOrFail($this->collection->first()->id);
-        $products = collect();
-        foreach ($flash_deal->flashDealProducts as $key => $flash_deal_product) {
-            if(Product::find($flash_deal_product->product_id) != null){
+        if(count($this->collection) > 0) {
+            $flash_deal = FlashDeal::findOrFail($this->collection->first()->id);
+
+            $products = collect();
+            foreach ($flash_deal->flashDealProducts as $key => $flash_deal_product) {
+                if (Product::find($flash_deal_product->product_id) != null) {
                     $products->push(Product::find($flash_deal_product->product_id));
+                }
             }
+            return [
+                'title' => $flash_deal->title,
+                'end_date' => $flash_deal->end_date,
+                'products' => new ProductCollection($products)
+            ];
         }
-        return [
-            'title' => $flash_deal->title,
-            'end_date' => $flash_deal->end_date,
-            'products' => new ProductCollection($products)
-        ];
     }
 
     public function with($request)

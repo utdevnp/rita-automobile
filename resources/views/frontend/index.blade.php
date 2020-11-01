@@ -94,7 +94,7 @@
                                     <div class="d-block flash-deal-item">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col">
-                                                <div class="trending-title">
+                                                <div class="trending-title text-truncate-2">
                                                     <span>{{$product->name}}</span>
                                                 </div>
                                                 <div class="price">

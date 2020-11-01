@@ -10716,7 +10716,7 @@ ul.inline-links > li {
   display: inline-block;
   padding: 0 .4em 0 .4em;
   position: relative;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
 }
 
 ul.inline-links > li:first-child {
