@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Models\Review;
 
 class ProductCollection extends ResourceCollection
 {
@@ -11,6 +12,7 @@ class ProductCollection extends ResourceCollection
         return [
             'data' => $this->collection->map(function($data) {
                 return [
+                    'id' => $data->id,
                     'name' => $data->name,
                     'photos' => json_decode($data->photos),
                     'thumbnail_image' => $data->thumbnail_img,
@@ -25,6 +27,9 @@ class ProductCollection extends ResourceCollection
                     'discount_type' => $data->discount_type,
                     'rating' => (double) $data->rating,
                     'sales' => (integer) $data->num_of_sale,
+                    'video_provider' => $data->video_provider,
+                    'video_link' => $data->video_link,
+                    'review_count' => (integer) Review::where(['product_id' => $data->id])->count(),
                     'links' => [
                         'details' => route('products.show', $data->id),
                         'reviews' => route('api.reviews.index', $data->id),
