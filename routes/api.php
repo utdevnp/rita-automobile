@@ -50,6 +50,7 @@ Route::prefix('v1')->group(function () {
     Route::get('products/related/{id}', 'Api\ProductController@related')->name('products.related');
     Route::get('products/top-from-seller/{id}', 'Api\ProductController@topFromSeller')->name('products.topFromSeller');
     Route::get('products/search', 'Api\ProductController@search');
+    Route::get('products/previousSearch', 'Api\ProductController@previousSearch');
     Route::post('products/variant/price', 'Api\ProductController@variantPrice');
     Route::get('products/home', 'Api\ProductController@home');
     Route::apiResource('products', 'Api\ProductController')->except(['store', 'update', 'destroy']);
@@ -73,7 +74,9 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('sliders', 'Api\SliderController')->only('index');
 
     Route::get('wishlists/{id}', 'Api\WishlistController@index')->middleware('auth:api');
+    Route::post('wishlists/add', 'Api\WishlistController@store')->middleware('auth:api');
     Route::post('wishlists/check-product', 'Api\WishlistController@isProductInWishlist')->middleware('auth:api');
+    Route::post('wishlists/remove', 'Api\WishlistController@removeProduct')->middleware('auth:api');
     Route::apiResource('wishlists', 'Api\WishlistController')->except(['index', 'update', 'show'])->middleware('auth:api');
 
     Route::apiResource('settings', 'Api\SettingsController')->only('index');
@@ -83,7 +86,8 @@ Route::prefix('v1')->group(function () {
     Route::get('policies/return', 'Api\PolicyController@returnPolicy')->name('policies.return');
 
     Route::get('user/info/{id}', 'Api\UserController@info')->middleware('auth:api');
-    Route::post('user/info/update', 'Api\UserController@updateName')->middleware('auth:api');
+    Route::post('user/info/update', 'Api\UserController@update')->middleware('auth:api');
+    Route::post('user/avatar/update', 'Api\UserController@updateAvatar')->middleware('auth:api');
     Route::post('user/shipping/update', 'Api\UserController@updateShippingAddress')->middleware('auth:api');
 
     Route::post('coupon/apply', 'Api\CouponController@apply')->middleware('auth:api');

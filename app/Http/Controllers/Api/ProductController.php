@@ -13,6 +13,7 @@ use App\Models\FlashDealProduct;
 use App\Models\Product;
 use App\Models\Shop;
 use App\Models\Color;
+use App\Models\Search;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -218,5 +219,45 @@ class ProductController extends Controller
     public function home()
     {
         return new ProductCollection(Product::inRandomOrder()->take(50)->get());
+    }
+
+    public function previousSearch()
+    {
+        $search = Search::select('query')->orderBy('updated_at', 'desc')->first();
+        $key = $search->query;
+        $scope = "";
+
+        switch ($scope) {
+
+            case 'price_low_to_high':
+                $collection = new SearchProductCollection(Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->orderBy('unit_price', 'asc')->paginate(10));
+                $collection->appends(['key' => $key, 'scope' => $scope]);
+                return $collection;
+
+            case 'price_high_to_low':
+                $collection = new SearchProductCollection(Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->orderBy('unit_price', 'desc')->paginate(10));
+                $collection->appends(['key' => $key, 'scope' => $scope]);
+                return $collection;
+
+            case 'new_arrival':
+                $collection = new SearchProductCollection(Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->orderBy('created_at', 'desc')->paginate(10));
+                $collection->appends(['key' => $key, 'scope' => $scope]);
+                return $collection;
+
+            case 'popularity':
+                $collection = new SearchProductCollection(Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->orderBy('num_of_sale', 'desc')->paginate(10));
+                $collection->appends(['key' => $key, 'scope' => $scope]);
+                return $collection;
+
+            case 'top_rated':
+                $collection = new SearchProductCollection(Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->orderBy('rating', 'desc')->paginate(10));
+                $collection->appends(['key' => $key, 'scope' => $scope]);
+                return $collection;
+
+            default:
+                $collection = new SearchProductCollection(Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->orderBy('num_of_sale', 'desc')->paginate(10));
+                $collection->appends(['key' => $key, 'scope' => $scope]);
+                return $collection;
+        }
     }
 }
