@@ -62,6 +62,15 @@ class SubSubCategoryController extends Controller
             $subsubcategory->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->name)).'-'.str_random(5);
         }
 
+        if($request->hasFile('thumbnail')){
+            $image = $request->thumbnail;
+            $ext = $image->getClientOriginalExtension();
+            $filename = uniqid().'.'.$ext;
+            $image->storeAs('uploads/sub_sub_categories/thumbnail',$filename);
+            $subsubcategory->thumbnail = 'uploads/sub_sub_categories/thumbnail/'.$filename;
+        }
+
+
         $data = openJSONFile('en');
         $data[$subsubcategory->name] = $subsubcategory->name;
         saveJSONFile('en', $data);
@@ -132,6 +141,19 @@ class SubSubCategoryController extends Controller
             $subsubcategory->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->name)).'-'.str_random(5);
         }
 
+        if($request->hasFile('thumbnail')){
+            $image = $request->thumbnail;
+            $ext = $image->getClientOriginalExtension();
+            $filename = uniqid().'.'.$ext;
+            $image->storeAs('uploads/sub_sub_categories/thumbnail',$filename);
+
+            if(!empty($subsubcategory->thumbnail)) {
+                @unlink(public_path($subsubcategory->thumbnail));
+            }
+
+            $subsubcategory->thumbnail = 'uploads/sub_sub_categories/thumbnail/'.$filename;
+        }
+
         if($subsubcategory->save()){
             flash(__('SubSubCategory has been updated successfully'))->success();
             return redirect()->route('subsubcategories.index');
@@ -158,6 +180,11 @@ class SubSubCategoryController extends Controller
                 unset($data[$subsubcategory->name]);
                 saveJSONFile($language->code, $data);
             }
+
+            if(!empty($subsubcategory->thumbnail)) {
+                @unlink(public_path($subsubcategory->thumbnail));
+            }
+
             flash(__('SubSubCategory has been deleted successfully'))->success();
             return redirect()->route('subsubcategories.index');
         }

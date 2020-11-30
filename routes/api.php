@@ -61,6 +61,7 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('carts', 'Api\CartController')->only('destroy')->middleware('auth:api');
 
     Route::get('reviews/product/{id}', 'Api\ReviewController@index')->name('api.reviews.index');
+    Route::post('reviews/store', 'Api\ReviewController@store')->middleware('auth:api');
 
     Route::get('shop/user/{id}', 'Api\ShopController@shopOfUser')->middleware('auth:api');
     Route::get('shops/details/{id}', 'Api\ShopController@info')->name('shops.info');

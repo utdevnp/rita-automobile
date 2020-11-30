@@ -11,7 +11,9 @@ class PurchaseHistoryDetailCollection extends ResourceCollection
         return [
             'data' => $this->collection->map(function($data) {
                 return [
+                    'id' => $data->product->id,
                     'product' => $data->product->name,
+                    'thumbnail_image' => $data->product->thumbnail_img,
                     'variation' => $data->variation,
                     'price' => $data->price,
                     'tax' => $data->tax,

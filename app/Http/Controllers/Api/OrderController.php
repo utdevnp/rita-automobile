@@ -24,7 +24,7 @@ class OrderController extends Controller
             'shipping_address' => json_encode($shippingAddress),
             'payment_type' => $request->payment_type,
             'payment_status' => $request->payment_status,
-            'grand_total' => $request->grand_total - $request->coupon_discount,
+            'grand_total' => (double) $request->grand_total - $request->coupon_discount,
             'coupon_discount' => $request->coupon_discount,
             'code' => date('Ymd-his'),
             'date' => strtotime('now')
@@ -53,7 +53,8 @@ class OrderController extends Controller
                 'tax' => $cartItem->tax * $cartItem->quantity,
                 'shipping_cost' => $cartItem->shipping_cost * $cartItem->quantity,
                 'quantity' => $cartItem->quantity,
-                'payment_status' => $request->payment_status
+                'payment_status' => $request->payment_status,
+                'shipping_type' => $request->shipping_type
             ]);
             $product->update([
                 'num_of_sale' => DB::raw('num_of_sale + ' . $cartItem->quantity)
@@ -78,8 +79,10 @@ class OrderController extends Controller
             }
         }
         // clear user's cart
-        $user = User::findOrFail($request->user_id);
-        $user->carts()->delete();
+//        $user = User::findOrFail($request->user_id);
+//        $user->carts()->delete();
+
+        Cart::where('user_id', $request->user_id)->delete();
 
         return response()->json([
             'success' => true,

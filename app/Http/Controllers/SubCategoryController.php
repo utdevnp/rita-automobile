@@ -59,6 +59,14 @@ class SubCategoryController extends Controller
             $subcategory->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->name)).'-'.str_random(5);
         }
 
+        if($request->hasFile('thumbnail')){
+            $image = $request->thumbnail;
+            $ext = $image->getClientOriginalExtension();
+            $filename = uniqid().'.'.$ext;
+            $image->storeAs('uploads/sub_categories/thumbnail',$filename);
+            $subcategory->thumbnail = 'uploads/sub_categories/thumbnail/'.$filename;
+        }
+
         $data = openJSONFile('en');
         $data[$subcategory->name] = $subcategory->name;
         saveJSONFile('en', $data);
@@ -126,6 +134,19 @@ class SubCategoryController extends Controller
             $subcategory->slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->name)).'-'.str_random(5);
         }
 
+        if($request->hasFile('thumbnail')){
+            $image = $request->thumbnail;
+            $ext = $image->getClientOriginalExtension();
+            $filename = uniqid().'.'.$ext;
+            $image->storeAs('uploads/sub_categories/thumbnail',$filename);
+
+            if(!empty($subcategory->thumbnail)) {
+                @unlink(public_path($subcategory->thumbnail));
+            }
+
+            $subcategory->thumbnail = 'uploads/sub_categories/thumbnail/'.$filename;
+        }
+
         if($subcategory->save()){
             flash(__('Subcategory has been updated successfully'))->success();
             return redirect()->route('subcategories.index');
@@ -155,6 +176,11 @@ class SubCategoryController extends Controller
                 unset($data[$subcategory->name]);
                 saveJSONFile($language->code, $data);
             }
+
+            if(!empty($subcategory->thumbnail)) {
+                @unlink(public_path($subcategory->thumbnail));
+            }
+
             flash(__('Subcategory has been deleted successfully'))->success();
             return redirect()->route('subcategories.index');
         }

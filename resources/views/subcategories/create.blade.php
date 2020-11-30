@@ -29,6 +29,7 @@
                         </select>
                     </div>
                 </div>
+                w
                 <div class="form-group">
                     <label class="col-sm-3 control-label">{{__('Meta Title')}}</label>
                     <div class="col-sm-9">
