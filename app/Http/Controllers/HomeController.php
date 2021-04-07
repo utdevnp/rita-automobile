@@ -32,7 +32,7 @@ class HomeController extends Controller
         if(Auth::check()){
             return redirect()->route('home');
         }
-        return view('frontend.user_login');
+        return view('front.auth.user_login');
     }
 
     public function registration(Request $request)
@@ -43,7 +43,7 @@ class HomeController extends Controller
         if($request->has('referral_code')){
             Cookie::queue('referral_code', $request->referral_code, 43200);
         }
-        return view('frontend.user_registration');
+        return view('front.auth.user_register');
     }
 
     // public function user_login(Request $request)
@@ -107,6 +107,9 @@ class HomeController extends Controller
      */
     public function dashboard()
     {
+
+        //dd('done');
+
         if(Auth::user()->user_type == 'seller'){
             return view('frontend.seller.dashboard');
         }
@@ -198,8 +201,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('frontend.index');
+         $check_home = 1;
+$values = [];
+$products=Product::orderby('id','asc')->limit(5)->get();
+
+foreach ($products as $product) {
+    foreach(explode(',', $product->tags) as $value) {
+        $values[] = trim($value);
     }
+}
+$values = array_unique($values);
+
+
+
+        //dd($check_home);
+        return view('front.home.index',compact('check_home','values','products'));
+    }
+
 
     public function flash_deal_details($slug)
     {
@@ -240,14 +258,16 @@ class HomeController extends Controller
 
     public function product(Request $request, $slug)
     {
+
         $detailedProduct  = Product::where('slug', $slug)->first();
-        if($detailedProduct!=null && $detailedProduct->published){
+        
+        if($detailedProduct!=null && $detailedProduct->published==1){
             updateCartSetup();
-            if($request->has('product_referral_code')){
-                Cookie::queue('product_referral_code', $request->product_referral_code, 43200);
-                Cookie::queue('referred_product_id', $detailedProduct->id, 43200);
-            }
-            return view('frontend.product_details', compact('detailedProduct'));
+            // if($request->has('product_referral_code')){
+            //     Cookie::queue('product_referral_code', $request->product_referral_code, 43200);
+            //     Cookie::queue('referred_product_id', $detailedProduct->id, 43200);
+            // }
+            return view('front.products.single_product', compact('detailedProduct'));
         }
         abort(404);
     }
@@ -346,6 +366,7 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
+        
         $query = $request->q;
         $brand_id = (Brand::where('slug', $request->brand)->first() != null) ? Brand::where('slug', $request->brand)->first()->id : null;
         $sort_by = $request->sort_by;
@@ -383,7 +404,7 @@ class HomeController extends Controller
         if($query != null){
             $searchController = new SearchController;
             $searchController->store($request);
-            $products = $products->where('name', 'like', '%'.$query.'%')->orWhere('tags', 'like', '%'.$query.'%');
+            $products = $products->where('name', 'like', '%'.$query.'%')->paginate(15);
         }
 
         if($sort_by != null){
@@ -490,7 +511,7 @@ class HomeController extends Controller
 
         $products = filter_products($products)->paginate(12)->appends(request()->query());
 
-        return view('frontend.product_listing', compact('products', 'query', 'category_id', 'subcategory_id', 'subsubcategory_id', 'brand_id', 'sort_by', 'seller_id','min_price', 'max_price', 'attributes', 'selected_attributes', 'all_colors', 'selected_color'));
+         return view('front.products.index', compact('products', 'query', 'category_id', 'subcategory_id', 'subsubcategory_id', 'brand_id', 'sort_by', 'seller_id','min_price', 'max_price', 'attributes', 'selected_attributes', 'all_colors', 'selected_color'));
     }
 
     public function product_content(Request $request){
@@ -634,4 +655,30 @@ class HomeController extends Controller
         $customer_packages = CustomerPackage::all();
         return view('frontend.partials.customer_packages_lists',compact('customer_packages'));
     }
+
+
+
+
+    public function contact(){
+        return view('front.page.contact');
+    }
+
+   public  function search_products(){  
+      
+      $search=request()->query('search');
+        if($search){
+       $products=Product::where('name', 'LIKE', '%' . $search . '%')->paginate(15);
+      
+        }else{
+            $products=Product::paginate(15);
+        }
+    return view('front.products.index',compact('products','search'));
+
+}
+
+
+
+
+
+
 }

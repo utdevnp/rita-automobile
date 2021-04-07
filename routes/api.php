@@ -98,6 +98,14 @@ Route::prefix('v1')->group(function () {
     Route::post('payments/pay/cod', 'Api\PaymentController@cashOnDelivery')->middleware('auth:api');
 
     Route::post('order/store', 'Api\OrderController@store')->middleware('auth:api');
+
+    // Conversations
+    Route::post('conversation/store', 'Api\ConversationController@store')->middleware('auth:api');
+    Route::get('conversations', 'Api\ConversationController@index')->middleware('auth:api');
+    Route::get('conversations/show', 'Api\ConversationController@showByProduct')->middleware('auth:api');
+    Route::get('conversation/show', 'Api\ConversationController@show')->middleware('auth:api');
+    Route::apiResource('conversation', 'Api\ConversationController')->only('destroy')->middleware('auth:api');
+    Route::get('conversation/remove', 'Api\ConversationController@remove')->middleware('auth:api');
 });
 
 Route::fallback(function() {

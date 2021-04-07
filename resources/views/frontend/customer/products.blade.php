@@ -32,14 +32,14 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div>  
                         </div>
 
                         <div class="row">
                             <div class="col-md-4 offset-md-2">
                                 <div class="dashboard-widget text-center green-widget text-white mt-4 c-pointer">
-                                    <i class="la la-dropbox"></i>
-                                    <span class="d-block title heading-3 strong-400">{{ Auth::user()->remaining_uploads }}</span>
+                                    <i class="la la-dropbox"></i> 
+                                    <span class="d-block title heading-3 strong-400">@if(\Auth::user()->remaining_uploads){{ Auth::user()->remaining_uploads }}@else 0 @endif</span>
                                     <span class="d-block sub-title">{{ __('Remaining Uploads') }}</span>
 
                                 </div>

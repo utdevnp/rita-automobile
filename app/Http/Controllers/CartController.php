@@ -15,18 +15,19 @@ class CartController extends Controller
     {
         //dd($cart->all());
         $categories = Category::all();
-        return view('frontend.view_cart', compact('categories'));
+        return view('front.page.cart', compact('categories'));
     }
 
     public function showCartModal(Request $request)
     {
         $product = Product::find($request->id);
-        return view('frontend.partials.addToCart', compact('product'));
+
+        return view('front.page.addToCart', compact('product')); 
     }
 
     public function updateNavCart(Request $request)
     {
-        return view('frontend.partials.cart');
+        return view('front.page.cart');
     }
 
     public function addToCart(Request $request)
@@ -41,18 +42,18 @@ class CartController extends Controller
         //check the color enabled or disabled for the product
         if($request->has('color')){
             $data['color'] = $request['color'];
-            $str = Color::where('code', $request['color'])->first()->name;
+            $str = Color::where('code',$request['color'])->first()->name;
         }
 
         //Gets all the choice values of customer choice option and generate a string like Black-S-Cotton
-        foreach (json_decode(Product::find($request->id)->choice_options) as $key => $choice) {
-            if($str != null){
-                $str .= '-'.str_replace(' ', '', $request['attribute_id_'.$choice->attribute_id]);
-            }
-            else{
-                $str .= str_replace(' ', '', $request['attribute_id_'.$choice->attribute_id]);
-            }
-        }
+        // foreach (json_decode(Product::find($request->id)->choice_options) as $key => $choice) {
+        //     if($str != null){
+        //     else{
+        //         $str .= str_replace(' ', '', $request['attribute_id_'.$choice->attribute_id]);
+        //     }
+        //         $str .= '-'.str_replace(' ', '', $request['attribute_id_'.$choice->attribute_id]);
+        //     }
+        // }
 
         $data['variant'] = $str;
 
@@ -62,9 +63,9 @@ class CartController extends Controller
             $quantity = $product_stock->qty;
 
             if($quantity >= $request['quantity']){
-                // $variations->$str->qty -= $request['quantity'];
-                // $product->variations = json_encode($variations);
-                // $product->save();
+                 $variations->$str->qty -= $request['quantity'];
+                 $product->variations = json_encode($variations);
+                 $product->save();
             }
             else{
                 return view('frontend.partials.outOfStockCart');
@@ -132,6 +133,7 @@ class CartController extends Controller
             $request->session()->put('cart', $cart);
         }
         else{
+            
             $cart = collect([$data]);
             $request->session()->put('cart', $cart);
         }
@@ -142,13 +144,14 @@ class CartController extends Controller
     //removes from Cart
     public function removeFromCart(Request $request)
     {
+      
         if($request->session()->has('cart')){
             $cart = $request->session()->get('cart', collect([]));
             $cart->forget($request->key);
             $request->session()->put('cart', $cart);
         }
 
-        return view('frontend.partials.cart_details');
+        return view('front.page.cart');
     }
 
     //updated the quantity for a cart item
@@ -163,6 +166,6 @@ class CartController extends Controller
         });
         $request->session()->put('cart', $cart);
 
-        return view('frontend.partials.cart_details');
+        return view('front.page.cart');
     }
 }

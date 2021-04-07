@@ -190,6 +190,8 @@ class   PageController extends Controller
     public function show($slug)
 
     {
+        
+        
         $page_details = Page::where('slug', $slug)->first();
         $page_details->youtubeLink = "";
         if($page_details != null)
@@ -197,7 +199,7 @@ class   PageController extends Controller
                 if(!empty($page_details->video)) {
                     $page_details->youtubeLink = formatYoutubeLink($page_details->video);
                 }
-                return view('frontend.page_details', compact('page_details'));
+                return view('front.page.show', compact('page_details'));
             }
             else if($page_details->type == "Link") {
                 if(!empty($page_details->description)) {

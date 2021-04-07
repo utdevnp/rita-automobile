@@ -63,11 +63,16 @@ class ConversationController extends Controller
      */
     public function store(Request $request)
     {
-        $conversation = new Conversation;
-        $conversation->sender_id = Auth::user()->id;
-        $conversation->receiver_id = Product::findOrFail($request->product_id)->user->id;
-        $conversation->title = $request->title;
-        $conversation->save();
+        $conversation = Conversation::where('product_id', $request->product_id)->where('sender_id', Auth::user()->id)->first();
+
+        if(is_null($conversation)) {
+            $conversation = new Conversation;
+            $conversation->product_id = $request->product_id;
+            $conversation->sender_id = Auth::user()->id;
+            $conversation->receiver_id = Product::findOrFail($request->product_id)->user->id;
+            $conversation->title = $request->title;
+            $conversation->save();
+        }
 
         $message = new Message;
         $message->conversation_id = $conversation->id;

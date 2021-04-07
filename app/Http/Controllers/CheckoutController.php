@@ -159,7 +159,7 @@ class CheckoutController extends Controller
     {
         if(Session::has('cart') && count(Session::get('cart')) > 0){
             $categories = Category::all();
-            return view('frontend.shipping_info', compact('categories'));
+            return view('front.page.checkout', compact('categories'));
         }
         flash(__('Your cart is empty'))->success();
         return back();

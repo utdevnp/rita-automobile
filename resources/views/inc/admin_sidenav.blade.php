@@ -141,11 +141,11 @@
                                     <li class="{{ areActiveRoutes(['products.admin', 'products.create', 'products.admin.edit'])}}">
                                         <a class="nav-link" href="{{route('products.admin')}}">{{__('In House Products')}}</a>
                                     </li>
-                                    @if(\App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
+                                  <!--   @if(\App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
                                         <li class="{{ areActiveRoutes(['products.seller', 'products.seller.edit'])}}">
                                             <a class="nav-link" href="{{route('products.seller')}}">{{__('Seller Products')}}</a>
                                         </li>
-                                    @endif
+                                    @endif -->
                                     @if(\App\BusinessSetting::where('type', 'classified_product')->first()->value == 1)
                                         <li class="{{ areActiveRoutes(['classified_products'])}}">
                                             <a class="nav-link" href="{{route('classified_products')}}">{{__('Classified Product')}}</a>
@@ -244,7 +244,9 @@
                                 </ul>
                             </li>
                         @endif
-                        @if((Auth::user()->user_type == 'admin' || in_array('5', json_decode(Auth::user()->staff->role->permissions))) && \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
+
+                       <!-- <!-- <!--  @if((Auth::user()->user_type == 'admin' || in_array('5', json_decode(Auth::user()->staff->role->permissions))) && \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
+                      <!--   
                         <li>
                             <a href="#">
                                 <i class="fa fa-user-plus"></i>
@@ -253,7 +255,7 @@
                             </a>
 
                             <!--Submenu-->
-                            <ul class="collapse">
+                         <!--    <ul class="collapse">
                                 <li class="{{ areActiveRoutes(['sellers.index', 'sellers.create', 'sellers.edit', 'sellers.payment_history','sellers.approved','sellers.profile_modal'])}}">
                                     @php
                                         $sellers = \App\Seller::where('verification_status', 0)->where('verification_info', '!=', null)->count();
@@ -274,9 +276,9 @@
                                     <a class="nav-link" href="{{route('seller_verification_form.index')}}">{{__('Seller Verification Form')}}</a>
                                 </li>
                             </ul>
-                        </li>
-                        @endif
-
+                        </li> 
+                        @endif -->
+ 
                         @if(Auth::user()->user_type == 'admin' || in_array('6', json_decode(Auth::user()->staff->role->permissions)))
                         <li>
                             <a href="#">
@@ -296,7 +298,7 @@
                             </ul>
                         </li>
                         @endif
-                        @php
+                      <!--   @php
                             $conversation = \App\Conversation::where('receiver_id', Auth::user()->id)->where('receiver_viewed', '1')->get();
                         @endphp
                         <li class="{{ areActiveRoutes(['conversations.admin_index', 'conversations.admin_show'])}}">
@@ -308,7 +310,7 @@
                                 @endif
                             </a>
                         </li>
-
+ -->
                         <li>
                             <a href="#">
                                 <i class="fa fa-file"></i>
@@ -318,18 +320,24 @@
 
                             <!--Submenu-->
                             <ul class="collapse">
+                              
                                 <li class="{{ areActiveRoutes(['stock_report.index'])}}">
                                     <a class="nav-link" href="{{ route('stock_report.index') }}">{{__('Stock Report')}}</a>
                                 </li>
+
                                 <li class="{{ areActiveRoutes(['in_house_sale_report.index'])}}">
                                     <a class="nav-link" href="{{ route('in_house_sale_report.index') }}">{{__('In House Sale Report')}}</a>
                                 </li>
-                                <li class="{{ areActiveRoutes(['seller_report.index'])}}">
+
+
+                               <!--  <li class="{{ areActiveRoutes(['seller_report.index'])}}">
                                     <a class="nav-link" href="{{ route('seller_report.index') }}">{{__('Seller Report')}}</a>
                                 </li>
+
                                 <li class="{{ areActiveRoutes(['seller_sale_report.index'])}}">
                                     <a class="nav-link" href="{{ route('seller_sale_report.index') }}">{{__('Seller Based Selling Report')}}</a>
-                                </li>
+                                </li> -->
+
                                 <li class="{{ areActiveRoutes(['wish_report.index'])}}">
                                     <a class="nav-link" href="{{ route('wish_report.index') }}">{{__('Product Wish Report')}}</a>
                                 </li>
@@ -419,9 +427,9 @@
                                     <!--Submenu-->
                                     <ul class="collapse">
 
-                                        <li class="{{ areActiveRoutes(['sellerpolicy.index'])}}">
+                                      <!--   <li class="{{ areActiveRoutes(['sellerpolicy.index'])}}">
                                             <a class="nav-link" href="{{route('sellerpolicy.index', 'seller_policy')}}">{{__('Seller Policy')}}</a>
-                                        </li>
+                                        </li> -->
                                         <li class="{{ areActiveRoutes(['returnpolicy.index'])}}">
                                             <a class="nav-link" href="{{route('returnpolicy.index', 'return_policy')}}">{{__('Return Policy')}}</a>
                                         </li>
@@ -592,15 +600,16 @@
                             </a>
                         </li>
                         @endif
+                        
 
-                        @if(Auth::user()->user_type == 'admin' || in_array('11', json_decode(Auth::user()->staff->role->permissions)))
+                       <!--  @if(Auth::user()->user_type == 'admin' || in_array('11', json_decode(Auth::user()->staff->role->permissions)))
                         <li class="{{ areActiveRoutes(['seosetting.index'])}}">
                             <a class="nav-link" href="{{ route('seosetting.index') }}">
                                 <i class="fa fa-search"></i>
                                 <span class="menu-title">{{__('SEO Setting')}}</span>
                             </a>
                         </li>
-                        @endif
+                        @endif -->
 
                         @if(Auth::user()->user_type == 'admin' || in_array('10', json_decode(Auth::user()->staff->role->permissions)))
                         <li>
@@ -621,7 +630,7 @@
                             </ul>
                         </li>
                         @endif
-                        @if(Auth::user()->user_type == 'admin' || in_array('15', json_decode(Auth::user()->staff->role->permissions)))
+                      <!--   @if(Auth::user()->user_type == 'admin' || in_array('15', json_decode(Auth::user()->staff->role->permissions)))
                             <li class="{{ areActiveRoutes(['addons.index', 'addons.create'])}}">
                                 <a class="nav-link" href="{{ route('addons.index') }}">
                                     <i class="fa fa-wrench"></i>
@@ -629,7 +638,7 @@
                                 </a>
                             </li>
                         @endif
-
+ -->
                     </ul>
                 </div>
             </div>

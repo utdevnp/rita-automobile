@@ -215,7 +215,7 @@
                                     </a>
                                 </div>
                                 <div class="col-6 text-right">
-                                    <button type="submit" class="btn btn-styled btn-base-1">{{__('Complete Order')}}</button>
+                                    <button type="submit" class="btn btn-danger btn-base-1">{{__('Complete Order')}}</button>
                                 </div>
                             </div>
                         </form>

@@ -241,7 +241,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <button type="submit" class="btn btn-styled btn-base-1">{{__('Continue to Payment')}}</a>
+                                    <button type="submit" class="btn btn-danger btn-base-1">{{__('Continue to Payment')}}</a>
                                 </div>
                             </div>
                         </form>

@@ -7,12 +7,12 @@
             <div class="container container-sm">
                 <div class="row cols-delimited justify-content-center">
                     <div class="col">
-                        <div class="icon-block icon-block--style-1-v5 text-center ">
+                        <div class="icon-block icon-block--style-1-v5 text-center">
                             <div class="block-icon c-gray-light mb-0">
                                 <i class="la la-shopping-cart"></i>
                             </div>
                             <div class="block-content d-none d-md-block">
-                                <h3 class="heading heading-sm strong-300 c-gray-light text-capitalize">1. {{__('My Cart')}}</h3>
+                                <h3 class="heading heading-sm strong-300 text-capitalize">1. {{__('My Cart')}}</h3>
                             </div>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                                 <i class="la la-map-o"></i>
                             </div>
                             <div class="block-content d-none d-md-block">
-                                <h3 class="heading heading-sm strong-300 c-gray-light text-capitalize">2. {{__('Shipping info')}}</h3>
+                                <h3 class="heading heading-sm strong-300 text-capitalize">2. {{__('Shipping info')}}</h3>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                                 <i class="la la-truck"></i>
                             </div>
                             <div class="block-content d-none d-md-block">
-                                <h3 class="heading heading-sm strong-300 c-gray-light text-capitalize">3. {{__('Delivery info')}}</h3>
+                                <h3 class="heading heading-sm strong-300 text-capitalize">3. {{__('Delivery info')}}</h3>
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                                 <i class="la la-credit-card"></i>
                             </div>
                             <div class="block-content d-none d-md-block">
-                                <h3 class="heading heading-sm strong-300 c-gray-light text-capitalize">4. {{__('Payment')}}</h3>
+                                <h3 class="heading heading-sm strong-300 text-capitalize">4. {{__('Payment')}}</h3>
                             </div>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                                 <i class="la la-check-circle"></i>
                             </div>
                             <div class="block-content d-none d-md-block">
-                                <h3 class="heading heading-sm strong-300 c-gray-light text-capitalize">5. {{__('Confirmation')}}</h3>
+                                <h3 class="heading heading-sm strong-300 text-capitalize">5. {{__('Confirmation')}}</h3>
                             </div>
                         </div>
                     </div>
@@ -215,7 +215,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-6 text-right">
-                                    <button type="submit" class="btn btn-styled btn-base-1">{{__('Continue to Delivery Info')}}</a>
+                                    <button type="submit" class="btn btn-danger btn-base-1">{{__('Continue to Delivery Info')}}</a>
                                 </div>
                             </div>
                             {{-- <div class="row align-items-center pt-4">

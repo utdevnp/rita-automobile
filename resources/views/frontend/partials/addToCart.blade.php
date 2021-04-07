@@ -1,93 +1,40 @@
 <div class="modal-body p-4">
     <div class="row no-gutters cols-xs-space cols-sm-space cols-md-space">
-        <div class="col-lg-6">
-            <div class="product-gal sticky-top d-flex flex-row-reverse">
-                @if(is_array(json_decode($product->photos)) && count(json_decode($product->photos)) > 0)
-                    <div class="product-gal-img">
-                        <img src="{{ asset('frontend/images/placeholder.jpg') }}" class="xzoom img-fluid lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset(json_decode($product->photos)[0]) }}" xoriginal="{{ asset(json_decode($product->photos)[0]) }}" />
-                    </div>
-                    <div class="product-gal-thumb">
-                        <div class="xzoom-thumbs">
-                            @foreach (json_decode($product->photos) as $key => $photo)
-                                <a href="{{ asset($photo) }}">
-                                    <img src="{{ asset('frontend/images/placeholder.jpg') }}" class="xzoom-gallery lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" width="80" data-src="{{ asset($photo) }}"  @if($key == 0) xpreview="{{ asset($photo) }}" @endif>
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
-            </div>
-        </div>
+        <div class="product_right_sidebar">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                           <div class="product-details-tab">
+                                 @if(is_array(json_decode($product->photos)) && count(json_decode($product->photos)) > 0)
 
-        <div class="col-lg-6">
-            <!-- Product description -->
-            <div class="product-description-wrapper">
-                <!-- Product title -->
-                <h2 class="product-title">
-                    {{ __($product->name) }}
-                </h2>
+                                <div id="img-1" class="zoomWrapper single-zoom">
+                                    <a href="#">
+                                        <img id="zoom1" src="{{ asset(json_decode($product->photos)[0]) }}" data-zoom-image="{{ asset(json_decode($product->photos)[0]) }}" alt="big-1">  
+                                    </a>
+                                </div>
+                                <div class="single-zoom-thumb">
+                                    <ul class="s-tab-zoom owl-carousel single-product-active" id="gallery_01">
 
-               @if(home_price($product->id) != home_discounted_price($product->id))
+                                        @foreach (json_decode($product->photos) as $key => $photo)
+                                        <li>
+                                            <a href="#" class="elevatezoom-gallery active" data-update="" data-image="{{ asset($photo) }}" data-zoom-image="{{ asset($photo) }}">
+                                                <img src="{{ asset($photo) }}" alt="zo-th-1"/>
+                                            </a>
+                                        </li>
+                                        @endforeach
+                                        <!-- <li >
+                                            <a href="#" class="elevatezoom-gallery active" data-update="" data-image="{{ asset('frontend/img/product/agricultural-sprayer-pump-500x500.jpg')}}" data-zoom-image="{{ asset('frontend/img/product/agricultural-sprayer-pump-500x500.jpg')}}">
+                                                <img src="{{ asset('frontend/img/product/agricultural-sprayer-pump-500x500.jpg')}}" alt="zo-th-1"/>
+                                            </a>
+                                        </li> -->
+                                    </ul>
+                                </div>
 
-                    <div class="row no-gutters mt-4">
-                        <div class="col-2">
-                            <div class="product-description-label">{{__('Price')}}:</div>
-                        </div>
-                        <div class="col-10">
-                            <div class="product-price-old">
-                                <del>
-                                    {{ home_price($product->id) }}
-                                    <span>/{{ $product->unit }}</span>
-                                </del>
+                                @endif
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row no-gutters mt-3">
-                        <div class="col-2">
-                            <div class="product-description-label mt-1">{{__('Discount Price')}}:</div>
-                        </div>
-                        <div class="col-10">
-                            <div class="product-price">
-                                <strong>
-                                    {{ home_discounted_price($product->id) }}
-                                </strong>
-                                <span class="piece">/{{ $product->unit }}</span>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <div class="row no-gutters mt-3">
-                        <div class="col-2">
-                            <div class="product-description-label">{{__('Price')}}:</div>
-                        </div>
-                        <div class="col-10">
-                            <div class="product-price">
-                                <strong>
-                                    {{ home_discounted_price($product->id) }}
-                                </strong>
-                                <span class="piece">/{{ $product->unit }}</span>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-
-                @if (\App\Addon::where('unique_identifier', 'club_point')->first() != null && \App\Addon::where('unique_identifier', 'club_point')->first()->activated && $product->earn_point > 0)
-                    <div class="row no-gutters mt-4">
-                        <div class="col-2">
-                            <div class="product-description-label">{{ __('Club Point') }}:</div>
-                        </div>
-                        <div class="col-10">
-                            <div class="d-inline-block club-point bg-soft-base-1 border-light-base-1 border">
-                                <span class="strong-700">{{ $product->earn_point }}</span>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-
-                <hr>
-
-                @php
+                        <div class="col-lg-6 col-md-6">
+                            <div class="product_d_right">
+                                 @php
                     $qty = 0;
                     if($product->variant_product){
                         foreach ($product->stocks as $key => $stock) {
@@ -98,111 +45,101 @@
                         $qty = $product->current_stock;
                     }
                 @endphp
+                               <form  id="option-choice-form"> 
+                                          @csrf
+                                    <input type="hidden" name="id" value="{{ $product->id }}">
 
-                <form id="option-choice-form">
-                    @csrf
-                    <input type="hidden" name="id" value="{{ $product->id }}">
+                                    <h1>  {{ __($product->name) }}</h1>
+                                    <div class="price_box">
+                                         @if(home_price($product->id) != home_discounted_price($product->id))
+                                       <div class="row no-gutters mt-4">
+                                                <div class="col-2">
+                                                    <div class="product-description-label">{{__('Price')}}:</div>
+                                                </div>
+                                                <div class="col-10">
+                                                    <span class="old_price">
+                                                        <del>
+                                                            {{ home_price($product->id) }}
+                                                            <span>/{{ $product->unit }}</span>
+                                                        </del>
+                                                    </span>
+                                                </div>
+                                            </div>
 
-                    @foreach (json_decode($product->choice_options) as $key => $choice)
+                                            <div class="row no-gutters mt-3">
+                                                <div class="col-2">
+                                                    <div class="product-description-label mt-1">{{__('Discount Price')}}:</div>
+                                                </div>
+                                                <div class="col-10">
+                                                    <span class="current_price">
+                                                        <strong>
+                                                            {{ home_discounted_price($product->id) }}
+                                                        </strong>
+                                                        <span class="piece">/{{ $product->unit }}</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                         @else
+                                       <div class="row no-gutters mt-3">
+                                            <div class="col-2">
+                                                <div class="product-description-label">{{__('Price')}}:</div>
+                                            </div>
+                                            <div class="col-10">
+                                                <span class="current_price">
+                                                    <strong>
+                                                        {{ home_discounted_price($product->id) }}
+                                                    </strong>
+                                                    <span class="piece">/{{ $product->unit }}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                         @endif
 
-                    <div class="row no-gutters">
-                        <div class="col-2">
-                            <div class="product-description-label mt-2 ">{{ \App\Attribute::find($choice->attribute_id)->name }}:</div>
+                                    </div>
+                                  
+
+                                   <div class="product_variant quantity">
+                                        <label>quantity</label>
+                                        <input min="1" max="100" value="1" type="number" name="quantity">
+                                         <div class="avialable-amount" style="font-size: 13px;color: #777;overflow: hidden;text-overflow: ellipsis;">
+                                            (<span id="available-quantity" >{{ $qty }}</span> {{__('available')}})
+                                         </div>
+                                    </div>
+                                    <hr>
+
+                                    <div class="row no-gutters pb-3" id="chosen_price_div">
+                                        <div class="col-4">
+                                            <div class="product-description-label">{{__('Total Price')}} :</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="product-price " >
+                                                <strong id="chosen_price">
+
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="action_links">
+                                        <ul>
+                                        @if ($qty > 0)   
+                                            <li class="add_to_cart"><a onclick="addToCart()" title="add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i> add to cart</a></li>
+                                        @else
+                                            <li class="wishlist"> 
+                                            <button type="button" class="btn btn-styled btn-base-3 btn-icon-left strong-700" disabled>
+                                                <i class="la la-cart-arrow-down"></i> {{__('Out of Stock')}}
+                                            </button>
+                                      </li>
+                                        @endif
+                                        </ul>
+                                    </div>
+                                   
+                                </form>
+
+                            </div>   
                         </div>
-                        <div class="col-10">
-                            <ul class="list-inline checkbox-alphanumeric checkbox-alphanumeric--style-1 mb-2">
-                                @foreach ($choice->values as $key => $value)
-                                    <li>
-                                        <input type="radio" id="{{ $choice->attribute_id }}-{{ $value }}" name="attribute_id_{{ $choice->attribute_id }}" value="{{ $value }}" @if($key == 0) checked @endif>
-                                        <label for="{{ $choice->attribute_id }}-{{ $value }}">{{ $value }}</label>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-
-                    @endforeach
-
-                    @if (count(json_decode($product->colors)) > 0)
-                        <div class="row no-gutters">
-                            <div class="col-2">
-                                <div class="product-description-label mt-2">{{__('Color')}}:</div>
-                            </div>
-                            <div class="col-10">
-                                <ul class="list-inline checkbox-color mb-1">
-                                    @foreach (json_decode($product->colors) as $key => $color)
-                                        <li>
-                                            <input type="radio" id="{{ $product->id }}-color-{{ $key }}" name="color" value="{{ $color }}" @if($key == 0) checked @endif>
-                                            <label style="background: {{ $color }};" for="{{ $product->id }}-color-{{ $key }}" data-toggle="tooltip"></label>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-
-                        <hr>
-                    @endif
-
-                    <!-- Quantity + Add to cart -->
-                    <div class="row no-gutters">
-                        <div class="col-2">
-                            <div class="product-description-label mt-2">{{__('Quantity')}}:</div>
-                        </div>
-                        <div class="col-10">
-                            <div class="product-quantity d-flex align-items-center">
-                                <div class="input-group input-group--style-2 pr-3" style="width: 160px;">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-number" type="button" data-type="minus" data-field="quantity" disabled="disabled">
-                                            <i class="la la-minus"></i>
-                                        </button>
-                                    </span>
-                                    <input type="text" name="quantity" class="form-control input-number text-center" placeholder="1" value="1" min="1" max="10">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-number" type="button" data-type="plus" data-field="quantity">
-                                            <i class="la la-plus"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                                <div class="avialable-amount">(<span id="available-quantity">{{ $qty }}</span> {{__('available')}})</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row no-gutters pb-3 d-none" id="chosen_price_div">
-                        <div class="col-2">
-                            <div class="product-description-label">{{__('Total Price')}}:</div>
-                        </div>
-                        <div class="col-10">
-                            <div class="product-price">
-                                <strong id="chosen_price">
-
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
-
-                <div class="d-table width-100 mt-3">
-                    <div class="d-table-cell">
-                        <!-- Add to cart button -->
-                        @if ($qty > 0)
-                            <button type="button" class="btn btn-styled btn-alt-base-1 c-white btn-icon-left strong-700 hov-bounce hov-shaddow ml-2 add-to-cart" onclick="addToCart()">
-                                <i class="la la-shopping-cart"></i>
-                                <span class="d-none d-md-inline-block"> {{__('Add to cart')}}</span>
-                            </button>
-                        @else
-                            <button type="button" class="btn btn-styled btn-base-3 btn-icon-left strong-700" disabled>
-                                <i class="la la-cart-arrow-down"></i> {{__('Out of Stock')}}
-                            </button>
-                        @endif
                     </div>
                 </div>
-
-            </div>
-        </div>
     </div>
 </div>
 

@@ -158,7 +158,7 @@
                             </div>
                             <div class="col-md-6 text-right">
                                 @if(Auth::check())
-                                    <a href="{{ route('checkout.shipping_info') }}" class="btn btn-styled btn-base-1">{{__('Continue to Shipping')}}</a>
+                                    <a href="{{ route('checkout.shipping_info') }}" class="btn btn-danger btn-base-1">{{__('Continue to Shipping')}}</a>
                                 @else
                                     <button class="btn btn-styled btn-base-1" onclick="showCheckoutModal()">{{__('Continue to Shipping')}}</button>
                                 @endif

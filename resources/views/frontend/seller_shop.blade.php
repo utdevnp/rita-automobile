@@ -47,12 +47,10 @@
                 <div class="col-md-6">
                     <div class="d-flex">
                         <img
-                            height="70"
                             class="lazyload"
                             src="{{ asset('frontend/images/placeholder.jpg') }}"
                             data-src="@if ($shop->logo !== null) {{ asset($shop->logo) }} @else {{ asset('frontend/images/placeholder.jpg') }} @endif"
-                            alt="{{ $shop->name }}"
-                        >
+                            alt="{{ $shop->name }}" style="width:auto;height:70px;">
                         <div class="pl-4">
                             <h3 class="strong-700 heading-4 mb-0">{{ $shop->name }}
                                 @if ($shop->user->seller->verification_status == 1)
@@ -116,7 +114,7 @@
                             <li @if(!isset($type)) class="active" @endif><a href="{{ route('shop.visit', $shop->slug) }}">{{__('Store Home')}}</a></li>
                             <li @if(isset($type) && $type == 'top_selling') class="active" @endif><a href="{{ route('shop.visit.type', ['slug'=>$shop->slug, 'type'=>'top_selling']) }}">{{__('Top Selling')}}</a></li>
                             <li @if(isset($type) && $type == 'all_products') class="active" @endif><a href="{{ route('shop.visit.type', ['slug'=>$shop->slug, 'type'=>'all_products']) }}">{{__('All Products')}}</a></li>
-                        </ul>
+                        </ul>  
                     </div>
                 </div>
             </div>
@@ -125,8 +123,8 @@
 
     @if (!isset($type))
         <section class="py-4">
-            <div class="container">
-                <div class="home-slide">
+            <div class="container">   
+               <!--  <div class="home-slide">
                     <div class="slick-carousel" data-slick-arrows="true" data-slick-dots="true">
                         @if ($shop->sliders != null)
                             @foreach (json_decode($shop->sliders) as $key => $slide)
@@ -136,7 +134,24 @@
                             @endforeach
                         @endif
                     </div>
+                </div> -->
+
+                <div class="row">
+                    <div class="col">
+                        <div class="slider_area slider_two owl-carousel">
+
+                           @if ($shop->sliders != null)
+                            @foreach (json_decode($shop->sliders) as $key => $slide)
+                            <div class="single_slider d-flex align-items-center" data-bgimg="{{ asset($slide) }}">
+                                <div class="slider_content slider_content_two content_position_center">
+                                </div>
+                            </div>
+                            @endforeach
+                            @Endif
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </section>
         <section class="sct-color-1 pt-5 pb-4">
@@ -148,46 +163,50 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="caorusel-box arrow-round gutters-15">
-                            <div class="slick-carousel center-mode" data-slick-items="5" data-slick-lg-items="3"  data-slick-md-items="3" data-slick-sm-items="1" data-slick-xs-items="1">
-                                @foreach ($shop->user->products->where('published', 1)->where('featured', 1) as $key => $product)
-                                    <div class="caorusel-card my-5">
-                                        <div class="product-card-2 card card-product shop-cards shop-tech">
-                                            <div class="card-body p-0">
+                       <div class="row no-gutters shop_wrapper">
+                            @foreach ($shop->user->products->where('published', 1)->where('featured', 1) as $key => $product)
 
-                                                <div class="card-image">
-                                                    <a href="{{ route('product', $product->slug) }}" class="d-block">
-                                                        <img  class="mx-auto img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->featured_img) }}" alt="{{ __($product->name) }}">
-                                                    </a>
-                                                </div>
-
-                                                <div class="p-3">
-                                                    <div class="price-box">
-                                                        <del class="old-product-price strong-400">{{ home_base_price($product->id) }}</del>
-                                                        <span class="product-price strong-600">{{ home_discounted_base_price($product->id) }}</span>
-                                                    </div>
-                                                    <div class="star-rating star-rating-sm mt-1">
-                                                        {{ renderStarRating($product->rating) }}
-                                                    </div>
-                                                    <h2 class="product-title p-0 text-truncate-2">
-                                                        <a href="{{ route('product', $product->slug) }}">{{ __($product->name) }}</a>
-                                                    </h2>
-                                                    @if (\App\Addon::where('unique_identifier', 'club_point')->first() != null && \App\Addon::where('unique_identifier', 'club_point')->first()->activated)
-                                                        <div class="club-point mt-2 bg-soft-base-1 border-light-base-1 border">
-                                                            {{ __('Club Point') }}:
-                                                            <span class="strong-700 float-right">{{ $product->earn_point }}</span>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
+                             <div class="col-lg-3 col-md-4 col-6 ">
+                                <div class="single_product">
+                                    <div class="product_thumb">
+                                        <a href="{{ route('product', $product->slug) }}"><img src="{{ asset($product->thumbnail_img) }}"  alt="{{ __($product->name) }}"></a>
+                                    </div>
+                                    <div class="product_content grid_content">
+                                        <div class="product_name">
+                                            <h3><a href="{{ route('product', $product->slug) }}" class="text-truncate" style="display: block;padding-left:10px;padding-right: 10px;">{{ __($product->name) }}</a></h3>
+                                        </div>
+                                        <div class="price_box">
+                                             @if(home_base_price($product->id) != home_discounted_base_price($product->id))
+                                                                <del class="old-product-price strong-400">{{ home_base_price($product->id) }}</del>
+                                             @endif
+                                             <span class="current_price">{{ home_discounted_base_price($product->id) }}</span>       
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
-                        </div>
+                                    <div class="product_content list_content">
+                                        <div class="product_name">
+                                            <h3><a href="{{ route('product', $product->slug) }}" style="display: block;">{{ __($product->name) }}</a></h3>
+                                        </div>
+
+                                        <div class="price_box">
+                                             @if(home_base_price($product->id) != home_discounted_base_price($product->id))
+                                                                <del class="old-product-price strong-400">{{ home_base_price($product->id) }}</del>
+                                             @endif
+                                             <span class="current_price">{{ home_discounted_base_price($product->id) }}</span> 
+
+                                        </div>
+
+
+                                        <div class="product_desc">
+                                            <p>{! __($product->description) !}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+                            @endforeach                           
                     </div>
                 </div>
             </div>
+          </div>
         </section>
     @endif
 
@@ -203,7 +222,7 @@
                     {{__('All Products')}}
                 @endif
             </h4>
-            <div class="product-list row gutters-5 sm-no-gutters">
+            
                 @php
                     if (!isset($type)){
                         $products = \App\Product::where('user_id', $shop->user->id)->where('published', 1)->orderBy('created_at', 'desc')->paginate(24);
@@ -215,56 +234,49 @@
                         $products = \App\Product::where('user_id', $shop->user->id)->where('published', 1)->paginate(24);
                     }
                 @endphp
+
+                <div class="row no-gutters shop_wrapper">
+
                 @foreach ($products as $key => $product)
-                    <div class="col-xxl-2 col-lg-3 col-md-4 col-6">
-                        <div class="card product-box-1 mb-3">
-                            <div class="card-image">
-                                <a href="{{ route('product', $product->slug) }}" class="d-block text-center">
-                                    <img class="img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->thumbnail_img) }}" alt="{{ __($product->name) }}">
-                                </a>
+                   <div class="col-lg-3 col-md-4 col-6 ">
+                        <div class="single_product">
+                            <div class="product_thumb">
+                                <a href="{{ route('product', $product->slug) }}"><img src="{{ asset($product->thumbnail_img) }}"  alt="{{ __($product->name) }}"></a>
                             </div>
-                            <div class="card-body p-0">
-                                <div class="px-3 py-2">
-                                     @if (\App\Addon::where('unique_identifier', 'club_point')->first() != null && \App\Addon::where('unique_identifier', 'club_point')->first()->activated)
-                                        <div class="club-point mb-2 bg-soft-base-1 border-light-base-1 border">
-                                            {{ __('Club Point') }}:
-                                            <span class="strong-700 float-right">{{ $product->earn_point }}</span>
-                                        </div>
-                                    @endif
-                                    <h2 class="title text-truncate-2 mb-0">
-                                        <a href="{{ route('product', $product->slug) }}">{{ __($product->name) }}</a>
-                                    </h2>
+                            <div class="product_content grid_content">
+                                <div class="product_name">
+                                    <h3><a href="{{ route('product', $product->slug) }}" class="text-truncate" style="display: block;padding-left:10px;padding-right: 10px;">{{ __($product->name) }}</a></h3>
                                 </div>
-                                <div class="price-bar row no-gutters">
-                                    <div class="price col-md-7">
-                                        @if(home_price($product->id) != home_discounted_price($product->id))
-                                            <del class="old-product-price strong-600">{{ home_base_price($product->id) }}</del>
-                                            <span class="product-price strong-600">{{ home_discounted_base_price($product->id) }}</span>
-                                        @else
-                                            <span class="product-price strong-600">{{ home_discounted_base_price($product->id) }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="star-rating star-rating-sm float-md-right">
-                                            {{ renderStarRating($product->rating) }}
-                                        </div>
-                                    </div>
+                                <div class="price_box">
+                                     @if(home_base_price($product->id) != home_discounted_base_price($product->id))
+                                                        <del class="old-product-price strong-400">{{ home_base_price($product->id) }}</del>
+                                     @endif
+                                     <span class="current_price">{{ home_discounted_base_price($product->id) }}</span>       
                                 </div>
-                                <div class="cart-add d-flex">
-                                    <button class="btn add-wishlist border-right" title="Add to Wishlist" onclick="addToWishList({{ $product->id }})">
-                                        <i class="la la-heart-o"></i>
-                                    </button>
-                                    <button class="btn add-compare border-right" title="Add to Compare" onclick="addToCompare({{ $product->id }})">
-                                        <i class="la la-refresh"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-block btn-icon-left" onclick="showAddToCartModal({{ $product->id }})">
-                                        <span class="d-none d-sm-inline-block">{{__('Add to cart')}}</span><i class="la la-shopping-cart ml-2"></i>
-                                    </button>
+                            </div>
+                            <div class="product_content list_content">
+                                <div class="product_name">
+                                    <h3><a href="{{ route('product', $product->slug) }}" style="display: block;">{{ __($product->name) }}</a></h3>
+                                </div>
+
+                                <div class="price_box">
+                                     @if(home_base_price($product->id) != home_discounted_base_price($product->id))
+                                                        <del class="old-product-price strong-400">{{ home_base_price($product->id) }}</del>
+                                     @endif
+                                     <span class="current_price">{{ home_discounted_base_price($product->id) }}</span> 
+
+                                </div>
+
+
+                                <div class="product_desc">
+                                    <p>{! __($product->description) !}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                @endforeach
+                    @endforeach
+               
+
             </div>
             <div class="row">
                 <div class="col">
@@ -280,5 +292,11 @@
         </div>
     </section>
 
+    
+
 
 @endsection
+
+
+
+

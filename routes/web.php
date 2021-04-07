@@ -11,7 +11,19 @@
 |
 */
 
+
+
+//homepage routes..
+
+
+
+
+
 Auth::routes(['verify' => true]);
+
+
+
+
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::post('/language', 'LanguageController@changeLanguage')->name('language.change');
 Route::post('/currency', 'CurrencyController@changeCurrency')->name('currency.change');
@@ -44,32 +56,51 @@ Route::get('/sitemap.xml', function(){
 	return base_path('sitemap.xml');
 });
 
+Route::get('/contact',
+function(){
+	return view('front.page.contact');
+});
 
 Route::get('/customer-products', 'CustomerProductController@customer_products_listing')->name('customer.products');
 Route::get('/customer-products?subsubcategory={subsubcategory_slug}', 'CustomerProductController@search')->name('customer_products.subsubcategory');
 Route::get('/customer-products?subcategory={subcategory_slug}', 'CustomerProductController@search')->name('customer_products.subcategory');
 Route::get('/customer-products?category={category_slug}', 'CustomerProductController@search')->name('customer_products.category');
 Route::get('/customer-products?city={city_id}', 'CustomerProductController@search')->name('customer_products.city');
+
 Route::get('/customer-products?q={search}', 'CustomerProductController@search')->name('customer_products.search');
+
 Route::get('/customer-product/{slug}', 'CustomerProductController@customer_product')->name('customer.product');
 Route::get('/customer-packages', 'HomeController@premium_package_index')->name('customer_packages_list_show');
 
 
 
 Route::get('/product/{slug}', 'HomeController@product')->name('product');
+
+
 Route::get('/products', 'HomeController@listing')->name('products');
+
+
 Route::get('/search?category={category_slug}', 'HomeController@search')->name('products.category');
 Route::get('/search?subcategory={subcategory_slug}', 'HomeController@search')->name('products.subcategory');
 Route::get('/search?subsubcategory={subsubcategory_slug}', 'HomeController@search')->name('products.subsubcategory');
 Route::get('/search?brand={brand_slug}', 'HomeController@search')->name('products.brand');
+
+
+Route::get('/tag?={tag_slug}', 'HomeController@searchtags');
+
+
 Route::post('/product/variant_price', 'HomeController@variant_price')->name('products.variant_price');
+
+
+Route::get('/sort','HomeController@sort');
 Route::get('/shops/visit/{slug}', 'HomeController@shop')->name('shop.visit');
 Route::get('/shops/visit/{slug}/{type}', 'HomeController@filter_shop')->name('shop.visit.type');
 
 Route::get('/cart', 'CartController@index')->name('cart');
+   
 Route::post('/cart/nav-cart-items', 'CartController@updateNavCart')->name('cart.nav_cart');
 Route::post('/cart/show-cart-modal', 'CartController@showCartModal')->name('cart.showCartModal');
-Route::post('/cart/addtocart', 'CartController@addToCart')->name('cart.addToCart');
+Route::post('/cart/addtocart', 'CartController@addToCart')->name('cart.addToCart');   
 Route::post('/cart/removeFromCart', 'CartController@removeFromCart')->name('cart.removeFromCart');
 Route::post('/cart/updateQuantity', 'CartController@updateQuantity')->name('cart.updateQuantity');
 
@@ -115,6 +146,8 @@ Route::get('/brands', 'HomeController@all_brands')->name('brands.all');
 Route::get('/categories', 'HomeController@all_categories')->name('categories.all');
 Route::get('/search', 'HomeController@search')->name('search');
 Route::get('/search?q={search}', 'HomeController@search')->name('suggestion.search');
+Route::get('/search_products', 'HomeController@search_products')->name('search.products');
+
 Route::post('/ajax-search', 'HomeController@ajax_search')->name('search.ajax');
 Route::post('/config_content', 'HomeController@product_content')->name('configs.update_status');
 
@@ -125,7 +158,7 @@ Route::get('/terms', 'HomeController@terms')->name('terms');
 Route::get('/privacypolicy', 'HomeController@privacypolicy')->name('privacypolicy');
 
 Route::group(['middleware' => ['user', 'verified']], function(){
-	Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
+	Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');  
 	Route::get('/profile', 'HomeController@profile')->name('profile');
 	Route::post('/customer/update-profile', 'HomeController@customer_update_profile')->name('customer.profile.update');
 	Route::post('/seller/update-profile', 'HomeController@seller_update_profile')->name('seller.profile.update');
@@ -134,7 +167,7 @@ Route::group(['middleware' => ['user', 'verified']], function(){
 	Route::post('/purchase_history/details', 'PurchaseHistoryController@purchase_history_details')->name('purchase_history.details');
 	Route::get('/purchase_history/destroy/{id}', 'PurchaseHistoryController@destroy')->name('purchase_history.destroy');
 
-	Route::resource('wishlists','WishlistController');
+	Route::resource('wishlists','WishlistController');  
 	Route::post('/wishlists/remove', 'WishlistController@remove')->name('wishlists.remove');
 
 	Route::get('/wallet', 'WalletController@index')->name('wallet.index');
@@ -160,7 +193,7 @@ Route::group(['prefix' =>'seller', 'middleware' => ['seller', 'verified']], func
 	Route::get('/shop/apply_for_verification', 'ShopController@verify_form')->name('shop.verify');
 	Route::post('/shop/apply_for_verification', 'ShopController@verify_form_store')->name('shop.verify.store');
 
-	Route::get('/reviews', 'ReviewController@seller_reviews')->name('reviews.seller');
+	Route::post('/reviews', 'ReviewController@store')->name('reviews.store');
 });
 
 Route::group(['middleware' => ['auth']], function(){
@@ -201,7 +234,7 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::group(['prefix' =>'bulk-upload/download'], function(){
 		Route::get('/category', 'ProductBulkUploadController@pdf_download_category')->name('pdf.download_category');
 		Route::get('/sub_category', 'ProductBulkUploadController@pdf_download_sub_category')->name('pdf.download_sub_category');
-		Route::get('/sub_sub_category', 'ProductBulkUploadController@pdf_download_sub_sub_category')->name('pdf.download_sub_sub_category');
+		Route::get('/suserb_sub_category', 'ProductBulkUploadController@pdf_download_sub_sub_category')->name('pdf.download_sub_sub_category');
 		Route::get('/brand', 'ProductBulkUploadController@pdf_download_brand')->name('pdf.download_brand');
 		Route::get('/seller', 'ProductBulkUploadController@pdf_download_seller')->name('pdf.download_seller');
 	});
@@ -226,3 +259,7 @@ Route::get('/vogue-pay/success/{id}', 'VoguePayController@paymentSuccess');
 Route::get('/vogue-pay/failure/{id}', 'VoguePayController@paymentFailure');
 
 Route::get('/page/{slug}', 'PageController@show')->name('page-details');
+
+
+
+

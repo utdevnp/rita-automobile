@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\FlashDealProduct;
+use App\Flash;
 class Product extends Model
 {
     protected $fillable = [
@@ -45,4 +47,11 @@ class Product extends Model
     public function stocks(){
     return $this->hasMany(ProductStock::class);
     }
+    public function flashes(){
+        return $this->hasMany(Flash::class);
+    }
+      public function flash_deals_products(){
+        return $this->hasMany(FlashDealProduct::class);
+    }
 }
+

@@ -27,6 +27,12 @@ class CouponController extends Controller
                     return new CouponCollection($coupon);
                 }
             }
+        } else {
+            return response()->json([
+                'success' => true,
+                'status' => 201,
+                'message' => 'Coupon doesnot exists'
+            ]);
         }
     }
 }
