@@ -5,9 +5,10 @@ Route::prefix('v1/auth')->group(function () {
     Route::post('signup', 'Api\AuthController@signup');
     Route::post('social-login', 'Api\AuthController@socialLogin');
     Route::post('password/create', 'Api\PasswordResetController@create');
-    Route::middleware('auth:api')->group(function () {
+
+    Route::group(['middleware'=>'auth:api','cors'],function () {
         Route::get('logout', 'Api\AuthController@logout');
-        Route::get('user', 'Api\AuthController@user');
+        Route::get('userdetail', 'Api\AuthController@user');
     });
 });
 

@@ -6,8 +6,8 @@ use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsSeller;
 use App\Http\Middleware\IsUser;
 use App\Http\Middleware\CheckoutMiddleware;
+use App\Http\Middleware\Cors;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-
 class Kernel extends HttpKernel
 {
     /**
@@ -23,6 +23,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
+        
     ];
 
     /**
@@ -42,7 +43,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\Language::class,
             // \App\Http\Middleware\HttpsProtocol::class
         ],
-
+              
         'api' => [
             'throttle:60,1',
             'bindings',
@@ -61,6 +62,7 @@ class Kernel extends HttpKernel
         'seller' => IsSeller::class,
         'user' => IsUser::class,
         'checkout' => CheckoutMiddleware::class,
+        'cors'=> Cors::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -70,6 +72,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        
     ];
 
     /**
