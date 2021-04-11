@@ -72,7 +72,7 @@ class AuthController extends Controller
 
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials))
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['status'=>false,'message' => 'Unauthorized'], 401);
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
         //return $this->loginSuccess($tokenResult, $user);
@@ -137,9 +137,21 @@ class AuthController extends Controller
 
     public function socialLogin(Request $request)
     {
-        $request->validate([
-            'email' => 'required|string|email'
+        $formData = $request->all();
+        
+        $validateData = Validator::make($formData,[
+            'email' => 'required|string|email',
+            'name' => 'required|string',
+            'provider_id' => 'required|string',
         ]);
+
+        if ($validateData->fails()) {
+            return $this->response->error([
+                'message'=>"Validation Error",
+                'data'=>$validateData->errors()
+            ]);
+        }
+
         if (User::where('email', $request->email)->count() > 0) {
             $user = User::where('email', $request->email)->first();
         } else {
@@ -155,7 +167,15 @@ class AuthController extends Controller
             $customer->save();
         }
         $tokenResult = $user->createToken('Personal Access Token');
-        return $this->loginSuccess($tokenResult, $user);
+       // return $this->loginSuccess($tokenResult, $user);
+
+        return $this->response->loginSuccess([
+            'message'=>"Login Successfull",
+            "token"=>$tokenResult->accessToken,
+            "expires_at"=> Carbon::parse($tokenResult->token->expires_at)->toDateTimeString(),
+            'data'=>$user
+        ]);
+
     }
 
     protected function loginSuccess($tokenResult, $user)
