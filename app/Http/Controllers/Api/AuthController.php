@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpUndefinedClassInspection */
+<?php 
 
 namespace App\Http\Controllers\Api;
 
@@ -8,16 +8,35 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\User;
-
+use Validator;
+use App\Http\Controllers\Api\ResponseController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 class AuthController extends Controller
 {
+
+    public function __construct(ResponseController $response){
+        $this->response = $response;
+    }
+
     public function signup(Request $request)
     {
-        $request->validate([
+       //dd($request->all());
+
+      
+        $validateData = Validator::make($request->all(), [
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:6'
-        ]);
+          ]);
+
+        if ($validateData->fails()) {
+            return $this->response->error([
+                'message'=>"Validation Error",
+                'data'=>$validateData->errors()
+            ]);
+        }
+
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
@@ -28,37 +47,92 @@ class AuthController extends Controller
         $customer = new Customer;
         $customer->user_id = $user->id;
         $customer->save();
-        return response()->json([
-            'message' => 'Registration Successful. Please log in to your account'
-        ], 201);
+        
+        $userData = User::find($user->id);
+        return $this->response->success([
+            'message'=>"Registration Successful. Please log in to your account",
+            'data'=>$userData
+        ]);
     }
 
     public function login(Request $request)
     {
-        $request->validate([
+        $validateData = Validator::make($request->all(),[
             'email' => 'required|string|email',
             'password' => 'required|string',
             'remember_me' => 'boolean'
         ]);
+
+        if ($validateData->fails()) {
+            return $this->response->error([
+                'message'=>"Validation Error",
+                'data'=>$validateData->errors()
+            ]);
+        }
+
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials))
             return response()->json(['message' => 'Unauthorized'], 401);
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
-        return $this->loginSuccess($tokenResult, $user);
+        //return $this->loginSuccess($tokenResult, $user);
+        
+        return $this->response->loginSuccess([
+            'message'=>"Login Successfull",
+            "token"=>$tokenResult->accessToken,
+            "expires_at"=> Carbon::parse($tokenResult->token->expires_at)->toDateTimeString(),
+            'data'=>$user
+        ]);
+
     }
 
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        $formData = $request->all();
+
+        $validateData = Validator::make($formData,[
+            'user_id' => 'required|numeric'
+        ]);
+
+        if ($validateData->fails()) {
+            return $this->response->error([
+                'message'=>"Validation Error",
+                'data'=>$validateData->errors()
+            ]);
+        }
+
+
+        $user   = User::find($formData['user_id']);
+
+        if(! $user){
+            return $this->response->error([
+                'message'=>"User cannot find with id ".$formData['user_id'],
+                'data'=>null
+            ]);
+        }
+        return $this->response->success([
+            'message'=>"User detail listed successful",
+            'data'=>$user
+        ]);
+
+        //return response()->json(['hello'=>"hi"]);
     }
 
     public function logout(Request $request)
     {
-        $request->user()->token()->revoke();
-        return response()->json([
-            'message' => 'Successfully logged out'
+        $formData = $request->all();
+        $revokeToken =  DB::table('oauth_access_tokens')->where("user_id",$formData['user_id'])->delete();
+        if($revokeToken == 0){
+            return $this->response->error([
+                'message'=>"Already Logout",
+                'data'=>$revokeToken
+            ]);
+        }
+        return $this->response->success([
+            'message'=>"Successfully Logout.",
+            'data'=>$revokeToken
         ]);
+
     }
 
     public function socialLogin(Request $request)

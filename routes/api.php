@@ -1,14 +1,17 @@
 <?php
-
+use Illuminate\Support\Facades\Route;
+ 
 Route::prefix('v1/auth')->group(function () {
+
+    Route::post('logout', 'Api\AuthController@logout');
+    Route::post("user", 'Api\AuthController@user');
+
     Route::post('login', 'Api\AuthController@login');
     Route::post('signup', 'Api\AuthController@signup');
     Route::post('social-login', 'Api\AuthController@socialLogin');
     Route::post('password/create', 'Api\PasswordResetController@create');
-    Route::middleware('auth:api')->group(function () {
-        Route::get('logout', 'Api\AuthController@logout');
-        Route::get('user', 'Api\AuthController@user');
-    });
+
+   
 });
 
 Route::prefix('v1')->group(function () {
@@ -110,7 +113,7 @@ Route::prefix('v1')->group(function () {
 
 Route::fallback(function() {
     return response()->json([
-        'data' => [],
+        'data' => null,
         'success' => false,
         'status' => 404,
         'message' => 'Invalid Route'
