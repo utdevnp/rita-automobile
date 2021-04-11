@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use App\User;
 use Validator;
 use App\Http\Controllers\Api\ResponseController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 class AuthController extends Controller
 {
 
@@ -86,16 +88,51 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        dd($request->all());
-        return response()->json(['hello'=>"hi"]);
+        $formData = $request->all();
+
+        $validateData = Validator::make($formData,[
+            'user_id' => 'required|numeric'
+        ]);
+
+        if ($validateData->fails()) {
+            return $this->response->error([
+                'message'=>"Validation Error",
+                'data'=>$validateData->errors()
+            ]);
+        }
+
+
+        $user   = User::find($formData['user_id']);
+
+        if(! $user){
+            return $this->response->error([
+                'message'=>"User cannot find with id ".$formData['user_id'],
+                'data'=>null
+            ]);
+        }
+        return $this->response->success([
+            'message'=>"User detail listed successful",
+            'data'=>$user
+        ]);
+
+        //return response()->json(['hello'=>"hi"]);
     }
 
     public function logout(Request $request)
     {
-        $request->user()->token()->revoke();
-        return response()->json([
-            'message' => 'Successfully logged out'
+        $formData = $request->all();
+        $revokeToken =  DB::table('oauth_access_tokens')->where("user_id",$formData['user_id'])->delete();
+        if($revokeToken == 0){
+            return $this->response->error([
+                'message'=>"Already Logout",
+                'data'=>$revokeToken
+            ]);
+        }
+        return $this->response->success([
+            'message'=>"Successfully Logout.",
+            'data'=>$revokeToken
         ]);
+
     }
 
     public function socialLogin(Request $request)
