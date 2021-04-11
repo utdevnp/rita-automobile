@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
- 
+
+
 Route::prefix('v1/auth')->group(function () {
 
     Route::post('logout', 'Api\AuthController@logout');
@@ -10,8 +11,6 @@ Route::prefix('v1/auth')->group(function () {
     Route::post('signup', 'Api\AuthController@signup');
     Route::post('social-login', 'Api\AuthController@socialLogin');
     Route::post('password/create', 'Api\PasswordResetController@create');
-
-   
 });
 
 Route::prefix('v1')->group(function () {

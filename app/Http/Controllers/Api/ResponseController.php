@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 class ResponseController extends Controller
 {
     public function success($responseBag){
+       
         return response()->json([
             'code'=> 200,
             'status'=> true,

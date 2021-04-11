@@ -23,7 +23,8 @@ class BannerCollection extends ResourceCollection
     {
         return [
             'success' => true,
-            'status' => 200
+            'status' => 200,
+            'message'=>"Banner listed successfully."
         ];
     }
 }

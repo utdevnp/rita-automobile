@@ -9,6 +9,17 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        return new SettingsCollection(AppSettings::all());
+       $setting  =  new SettingsCollection(AppSettings::all());
+
+
+        if(! $setting){
+            return $this->response->error([
+                'message'=>"Setting not added yet",
+                'data'=>null
+            ]);
+        }
+
+        return $setting;
+
     }
 }

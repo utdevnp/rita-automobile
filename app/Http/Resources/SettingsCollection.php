@@ -36,7 +36,8 @@ class SettingsCollection extends ResourceCollection
     {
         return [
             'success' => true,
-            'status' => 200
+            'status' => 200,
+            'message'=>"Setting listed successfully",
         ];
     }
 
