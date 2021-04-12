@@ -7,6 +7,11 @@ use App\Models\AppSettings;
 
 class SettingsController extends Controller
 {
+
+    public function __construct(ResponseController $response){
+        $this->response = $response;
+    }
+    
     public function index()
     {
        $setting  =  new SettingsCollection(AppSettings::all());

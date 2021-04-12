@@ -8,22 +8,55 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
+    public function __construct(ResponseController $response){
+        $this->response = $response;
+    }
 
     public function index()
     {
-        return new CategoryCollection(Category::all());
+        $category =  new CategoryCollection(Category::all());
+
+        if(! $category){
+            return $this->response->error([
+                'message'=>"Category listing fail",
+                'data'=>null
+            ]);
+        }
+
+        return $category;
     }
 
     public function featured()
     {
-        return new CategoryCollection(Category::where('featured', 1)->get());
+        $category  =  new CategoryCollection(Category::where('featured', 1)->get());
+
+        if(! $category){
+            return $this->response->error([
+                'message'=>"Category listing fail",
+                'data'=>null
+            ]);
+        }
+
+        return  $category;
+
     }
 
     public function home()
     {
         $homepageCategories = BusinessSetting::where('type', 'category_homepage')->first();
-        $homepageCategories = json_decode($homepageCategories->value);
-        $categories = json_decode($homepageCategories->category);
-        return new CategoryCollection(Category::find($categories));
+
+        if(! $homepageCategories){
+            if(! $homepageCategories){
+                return $this->response->error([
+                    'message'=>"Category listing fail",
+                    'data'=>null
+                ]);
+            }
+        }else{
+            $homepageCategories = json_decode($homepageCategories->value);
+            $categories = json_decode($homepageCategories->category);
+            return  new CategoryCollection(Category::find($categories));
+        }
+       
     }
 }

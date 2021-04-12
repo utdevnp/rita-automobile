@@ -25,7 +25,8 @@ class BrandCollection extends ResourceCollection
     {
         return [
             'success' => true,
-            'status' => 200
+            'status' => 200,
+            'message' => "Brands listed successfully"
         ];
     }
 }

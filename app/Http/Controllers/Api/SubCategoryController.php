@@ -7,8 +7,22 @@ use App\Models\SubCategory;
 
 class SubCategoryController extends Controller
 {
+    public function __construct(ResponseController $response){
+        $this->response = $response;
+    }
+
     public function index($id)
     {
-        return new SubCategoryCollection(SubCategory::where('category_id', $id)->get());
+        $subcategory =  new SubCategoryCollection(SubCategory::where('category_id', $id)->get());
+
+        if(! $category){
+            return $this->response->error([
+                'message'=>"Category listing fail",
+                'data'=>null
+            ]);
+        }
+
+        return $subcategory;
+
     }
 }
