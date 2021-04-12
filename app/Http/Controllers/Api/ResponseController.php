@@ -10,8 +10,8 @@ class ResponseController extends Controller
     public function success($responseBag){
        
         return response()->json([
-            'code'=> 200,
-            'status'=> true,
+            'status'=> 200,
+            'success'=> true,
             'message' => $responseBag['message'],
             'data'=>$responseBag['data']
         ], 200);
@@ -19,8 +19,8 @@ class ResponseController extends Controller
 
     public function error($responseBag){
         return response()->json([
-            'code'=> 400,
-            'status'=> false,
+            'status'=> 400,
+            'success'=> false,
             'message' => $responseBag['message'],
             'errors'=>(object)$responseBag['data']
         ], 200);
@@ -29,8 +29,8 @@ class ResponseController extends Controller
 
     public function loginSuccess($responseBag){
         return response()->json([
-            'code'=> 200,
-            'status'=> true,
+            'status'=> 200,
+            'success'=> true,
             'message' => $responseBag['message'],
             'token' => $responseBag['token'],
             'expires_at'=>$responseBag['expires_at'],

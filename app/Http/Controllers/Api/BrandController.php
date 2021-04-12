@@ -7,9 +7,25 @@ use App\Models\Brand;
 
 class BrandController extends Controller
 {
+
+    public function __construct(ResponseController $response){
+        $this->response = $response;
+    }
+    
     public function index()
     {
-        return new BrandCollection(Brand::all());
+       $brands  =  new BrandCollection(Brand::all());
+
+        
+        if(! $brands){
+            return $this->response->error([
+                'message'=>"Setting not added yet",
+                'data'=>null
+            ]);
+        }
+
+        return $brands;
+
     }
 
     public function top()

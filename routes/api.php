@@ -14,6 +14,7 @@ Route::prefix('v1/auth')->group(function () {
 });
 
 Route::prefix('v1')->group(function () {
+    Route::get("homepage","Api\HomePageController@index");
     Route::apiResource('banners', 'Api\BannerController')->only('index');
 
     Route::get('brands/top', 'Api\BrandController@top');
