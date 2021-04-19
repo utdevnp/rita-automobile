@@ -27,11 +27,13 @@ class CartController extends Controller
 
     public function updateNavCart(Request $request)
     {
-        return view('front.page.cart');
+        
+        return   view('front.partial.cart');
     }
 
     public function addToCart(Request $request)
     {
+        //dd($request->all());
         $product = Product::find($request->id);
 
         $data = array();
@@ -151,7 +153,7 @@ class CartController extends Controller
             $request->session()->put('cart', $cart);
         }
 
-        return view('front.page.cart');
+        return view('front.partial.cart');
     }
 
     //updated the quantity for a cart item

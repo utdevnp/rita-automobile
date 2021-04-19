@@ -191,7 +191,7 @@
                                                     </div> 
                                                     <div class="action_links">
                                                          <ul>
-                                   <li class="add_to_cart" ><a href="#" onclick="addToCart()" title="Add to cart" >Add to cart</a></li>
+                                   <li class="add_to_cart" ><a href="#" class="addIntoCart" value="{{$product->id}}"  onclick="classToCart(this)" title="Add to cart" >Add to cart</a></li>
 
                                                         </ul>
                                                     </div>  
@@ -322,7 +322,7 @@
                                                     </div> 
                                                     <div class="action_links">
                                                          <ul>
-                                                            <li class="add_to_cart"><a href="#" title="Add to cart">Add to cart</a></li>
+                                                            <li class="add_to_cart"><a href="#"  title="Add to cart">Add to cart</a></li>
 
                                                         </ul>
                                                     </div>  
@@ -599,7 +599,8 @@
                        @php
                                  $flash_deal = App\FlashDeal::where('status', 1)->where('featured', 1)->first();
                                  
-                               
+                              
+                            
 
                               @endphp
                         <div class="col-lg-6 col-md-12">

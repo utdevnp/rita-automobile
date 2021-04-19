@@ -69,15 +69,15 @@
                         </div>
                         <div class="header_top_links">
                             <ul>
-                                @auth
-                              <li><a href="#">Logout</a></li>
-                               <li><a href="#">Profiles</a></li>
+                               @if(Auth::check())
+                                    <li><a href="#">Logout</a></li>
+                                    <li><a href="#">Profiles</a></li>
                                 @else
-   <li><a href="#">Register</a></li>
-   <li><a href="#">login</a></li>
-    <li><a href="#">Shopping Cart</a></li>
-     <li><a href="#">Checkout</a></li>
-                                @endauth
+                                    <li><a href="#">Registers</a></li>
+                                    <li><a href="#">login</a></li>
+                                    <li><a href="#">Shopping Cart</a></li>
+                                    <li><a href="#">Checkout</a></li>
+                                @endif
                                 
                                
                                
@@ -182,10 +182,20 @@
                         <div class="col-lg-8 col-md-7">
                             <div class="header_top_links text-right">
                                 <ul>
-                                    <li><a href="{{ route('user.registration') }}">Register</a></li>
-                                    <li><a href="{{ route('user.login') }}">login</a></li>
+                                @if(Auth::check())
+                                    <li><a href="{{ route('dashboard') }}">Welcome ! <b>{{Auth::user()->name}}</b> </a></li>
                                     <li><a href="{{ route('cart') }}">Shopping Cart</a></li>
                                     <li><a href="{{ route('checkout.shipping_info') }}">Checkout</a></li>
+                                    <li><a href="{{ route('logout') }}"><i class="icon-power"></i> Logout</a></li>
+                                @else
+                                    <li><a href="{{ route('cart') }}">Shopping Cart</a></li>
+                                    <li><a href="{{ route('user.registration') }}">Register</a></li>
+                                    <li><a href="{{ route('user.login') }}">login</a></li>
+                                @endif
+                               
+
+                                   
+                                 
                                 </ul>
                             </div>   
                         </div>
@@ -234,14 +244,7 @@
                                         <!--mini cart-->
                                         <div class="mini_cart">
                                             <div class="mini_cart_inner">
-                                                <div class="cart_close">
-                                                    <div class="cart_text">
-                                                        <h3>cart</h3>
-                                                    </div>
-                                                    <div class="mini_cart_close">
-                                                        <a href="javascript:void(0)"><i class="icon-x"></i></a>
-                                                    </div>
-                                                </div>
+                                               
                                                    @php
                                         $total = 0;
                                     @endphp 
@@ -255,7 +258,7 @@
                                             $total = $total + $cartItem['price']*$cartItem['quantity'];
                                         @endphp   
 
-                                                <div class="cart_item">
+                                                <div class="cart_item" id="cart_items">
                                                    <div class="cart_img">
                                                        <a href="{{ route('product', $product->slug) }}"><img src="{{ asset($product->thumbnail_img) }}" alt=""></a>
                                                    </div>
@@ -264,7 +267,7 @@
                                                         <p>Qty: x{{ $cartItem['quantity'] }} <span> {{ single_price($cartItem['price']*$cartItem['quantity']) }} </span></p>    
                                                     </div>
                                                     <div class="cart_remove">
-                                                        <a href="#"><i class="ion-android-close"></i></a>
+                                                        <a href="#"><i onclick="removeFromCart('{{$key}}')" class="ion-android-close"></i></a>
                                                     </div>
                                                 </div>
                                                    @endforeach

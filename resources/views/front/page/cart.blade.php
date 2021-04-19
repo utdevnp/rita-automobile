@@ -24,7 +24,9 @@
     <!--shopping cart area start -->
     <div class="cart_page_bg">
         <div class="container">
+        
             <div class="shopping_cart_area">
+            @if(Session::has('cart'))
                 <form action="#"> 
                         <div class="row">
                             <div class="col-12">
@@ -133,7 +135,13 @@
                         </div>
                         <!--coupon code area end-->
                     </form>   
+                    @else
+
+                    <h3 class="text-center">Your shopping cart is empty ! </h3>
+
+                    @endif
             </div>
+           
         </div>
     </div>
     <!--shopping cart area end -->

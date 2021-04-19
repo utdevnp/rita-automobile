@@ -19,11 +19,14 @@ class HomePageCollection extends ResourceCollection
     {
        // return parent::toArray($request);
        //$this->collection->map(function($data) 
+       foreach(Banner::all() as $model){
+        $model['photo'] = 'public/' . $model['photo'];
+     }
 
        return [
             "data"=>[
                 "feature_category"=>Category::where('featured', 1)->get(),
-                "banners"=>Banner::all(),
+                "banners"=>$model,
                 "deal_of_day"=>Product::where('todays_deal', 1)->latest()->get(),
                 //"setting"=> new SettingsCollection(AppSettings::all())
             ],

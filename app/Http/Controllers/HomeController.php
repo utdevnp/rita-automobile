@@ -46,22 +46,23 @@ class HomeController extends Controller
         return view('front.auth.user_register');
     }
 
-    // public function user_login(Request $request)
-    // {
-    //     $user = User::whereIn('user_type', ['customer', 'seller'])->where('email', $request->email)->first();
-    //     if($user != null){
-    //         if(Hash::check($request->password, $user->password)){
-    //             if($request->has('remember')){
-    //                 auth()->login($user, true);
-    //             }
-    //             else{
-    //                 auth()->login($user, false);
-    //             }
-    //             return redirect()->route('dashboard');
-    //         }
-    //     }
-    //     return back();
-    // }
+    public function user_login(Request $request)
+    {   //dd($request->all());
+        $user = User::whereIn('user_type', ['customer', 'seller'])->where('email', $request->email)->first();
+      // dd($user);
+        if($user != null){
+            if(Hash::check($request->password, $user->password)){
+                if($request->has('remember')){
+                    auth()->login($user, true);
+                }
+                else{
+                    auth()->login($user, false);
+                }
+                return redirect()->route('dashboard');
+            }
+        }
+        return back();
+    }
 
     public function cart_login(Request $request)
     {
@@ -201,16 +202,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-         $check_home = 1;
-$values = [];
-$products=Product::orderby('id','asc')->limit(5)->get();
+        $check_home = 1;
+        $values = [];
+        $products=Product::orderby('id','asc')->limit(5)->get();
 
-foreach ($products as $product) {
-    foreach(explode(',', $product->tags) as $value) {
-        $values[] = trim($value);
-    }
-}
-$values = array_unique($values);
+        foreach ($products as $product) {
+            foreach(explode(',', $product->tags) as $value) {
+                $values[] = trim($value);
+            }
+        }
+        $values = array_unique($values);
 
 
 
@@ -674,9 +675,20 @@ $values = array_unique($values);
         }
     return view('front.products.index',compact('products','search'));
 
+
+   
+
+
 }
 
 
+
+public function user_logout () {
+    //logout user
+    auth()->logout();
+    // redirect to homepage
+    return redirect('/');
+}
 
 
 
