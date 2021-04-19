@@ -54,20 +54,21 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="account_form register">
                        <h2  style="text-align:center">login</h2>
-                            <form action="#">
+                            <form method="post" action="{{route("user.login.submit")}}">
+                                @csrf
                                 <p>   
                                     <label>Username or email <span>*</span></label>
-                                    <input type="text">
+                                    <input type="text" name="email">
                                  </p>
                                  <p>   
                                     <label>Passwords <span>*</span></label>
-                                    <input type="password">
+                                    <input type="password" name="password">
                                  </p>   
                                 <div class="login_submit">
                                    <a href="#">Lost your password?</a><br>
                                     <a href="{{ route('user.registration') }}">  <p>You don’t have any account? Register Now</p></a>
                                     <label for="remember">
-                                        <input id="remember" type="checkbox">
+                                        <input id="remember" name="remember" type="checkbox">
                                         Remember me
                                     </label>
                                     <br>

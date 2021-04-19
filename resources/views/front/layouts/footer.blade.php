@@ -366,11 +366,11 @@
                     , key: key
                 }
                 , function(data) {
-                    console.log(response.data)
+                    //console.log(response.data)
                    
                     updateNavCart();
 
-                 $('#cart-summary').html(data);
+                 $('#cart_items').html(data);
                     showFrontendAlert('success', 'Item has been removed from cart');
                     $('#cart_items_sidenav').html(parseInt($('#cart_items_sidenav').html()) - 1);
                 });
@@ -423,6 +423,9 @@
             if (checkAddToCartValidity()) {
                 $('#classToCart').modal();
                 $('.c-preloader').show();
+                
+         
+               var id = ($(id).attr('value'));
                 $.ajax({
                     type: "POST"
                     , url: '{{ route('cart.addToCart') }}'
@@ -445,6 +448,17 @@
                 showFrontendAlert('warning', 'Please choose all the options');
             }
         }
+
+
+          function updateNavCart() {
+            $.post('{{ route('cart.nav_cart') }}', {
+                    _token: '{{ csrf_token() }}'
+                }
+                , function(data) {
+                    $('#cart_items').html(data);
+                });
+        }
+
 
 
 
