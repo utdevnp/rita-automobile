@@ -159,15 +159,22 @@ class CartController extends Controller
     //updated the quantity for a cart item
     public function updateQuantity(Request $request)
     {
+     
         $cart = $request->session()->get('cart', collect([]));
+        
+       //  dd($cart);
+
         $cart = $cart->map(function ($object, $key) use ($request) {
-            if($key == $request->key){
+      
+            if($key == $request->key['quantity']){
                 $object['quantity'] = $request->quantity;
             }
+            
             return $object;
         });
+       // dd($cart);
         $request->session()->put('cart', $cart);
 
-        return view('front.page.cart');
+        return redirect()->route("cart"); //view('front.page.cart');
     }
 }

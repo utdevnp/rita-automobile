@@ -27,7 +27,8 @@
         
             <div class="shopping_cart_area">
             @if(Session::has('cart'))
-                <form action="#"> 
+                <form method="post" action="{{route('cart.updateQuantity')}}"> 
+                    @csrf
                         <div class="row">
                             <div class="col-12">
                                 <div class="table_desc">
@@ -44,18 +45,36 @@
                                                 </tr>
                                             </thead>
                                             <tbody> @php
+
+                                         
+                                        
                                         $total = 0;
                                         @endphp
                                         @foreach (Session::get('cart') as $key => $cartItem)
                                             @php
                                             $product = \App\Product::find($cartItem['id']);
-                                            $total = $total + $cartItem['price']*$cartItem['quantity'];
+                                            
+                                          
+                                            if($cartItem['quantity'] != null){
+                                                if(count($cartItem['quantity'])>0){
+                                                    $quantity = $cartItem['quantity'][0];
+                                                }else{
+                                                    $quantity  = $cartItem['quantity'];
+                                                }
+                                            }else{
+                                                $quantity  = 1;
+                                            }
+                                       
+                                            $total = $total + $cartItem['price'] * $quantity;
+                                          
+                                          
+
                                             $product_name_with_choice = $product->name;
 
                                       
                                             @endphp
                                                 
-                                              
+                                           
                                                 <tr>
 
 
@@ -69,7 +88,7 @@
 
                                                     <td class="product_quantity">
 
-                                                        <input type="text" name="quantity[{{ $key }}]" class="form-control input-number" placeholder="1" value="{{ $cartItem['quantity'] }}" min="1" max="10" onchange="updateQuantity({{ $key }}, this)">
+                                                        <input type="text" name="quantity[{{ $key }}]" class="form-control input-number" placeholder="1" value="{{ $quantity }}" min="1" max="10" onchange="updateQuantity({{ $key }}, this)">
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-number" type="button" data-type="plus" data-field="quantity[{{ $key }}]">
                                                                 <i class="la la-plus"></i>
@@ -79,12 +98,12 @@
                                                     </td>
 
 
-                                                    <td class="product_total">{{ single_price(($cartItem['price']+$cartItem['tax'])*$cartItem['quantity']) }}</td>
+                                                    <td class="product_total">{{ single_price(($cartItem['price']+$cartItem['tax'])*$quantity) }}</td>
 
 
                                                 </tr>
                                               
-   @endforeach
+                                                 @endforeach
                                             </tbody>
                                         </table>   
                                     </div>  
@@ -94,6 +113,7 @@
                                 </div>
                              </div>
                          </div>
+                   
                          <!--coupon code area start-->
                         <div class="coupon_area">
                             <div class="row">
@@ -113,17 +133,17 @@
                                         <div class="coupon_inner">
                                            <div class="cart_subtotal">
                                                <p>Subtotal</p>
-                                               <p class="cart_amount">£215.00</p>
+                                               <p class="cart_amount">{{single_price($total)}} </p>
                                            </div>
                                            <div class="cart_subtotal ">
                                                <p>Shipping</p>
-                                               <p class="cart_amount"><span>Flat Rate:</span> £255.00</p>
+                                               <p class="cart_amount"><span>Flat Rate:</span>{{single_price(0)}} </p>
                                            </div>
                                            <a href="#">Calculate shipping</a>
 
                                            <div class="cart_subtotal">
                                                <p>Total</p>
-                                               <p class="cart_amount">£215.00</p>
+                                               <p class="cart_amount">{{single_price($total)}}</p>
                                            </div>
                                            <div class="checkout_btn">
                                                <a href="#">Proceed to Checkout</a>

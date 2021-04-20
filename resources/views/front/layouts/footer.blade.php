@@ -358,6 +358,11 @@
 
 <script>
 
+$( document ).ready(function() {
+    updateNavCart();
+});
+
+
  function removeFromCart(key) {
 
 
