@@ -242,77 +242,7 @@
                                             </span>
                                         </a>
                                         <!--mini cart-->
-                                        <div class="mini_cart">
-                                            <div class="mini_cart_inner">
-                                               
-                                                   @php
-                                        $total = 0;
-                                    @endphp 
-
-                                     @if(Session::has('cart'))
-                                        @if(count($cart = Session::get('cart')) > 0)
-
-                                     @foreach($cart as $key => $cartItem)
-                                        @php
-                                            $product = App\Product::find($cartItem['id']);
-                                            $total = $total + $cartItem['price']*$cartItem['quantity'];
-                                        @endphp   
-
-                                                <div class="cart_item" id="cart_items">
-                                                   <div class="cart_img">
-                                                       <a href="{{ route('product', $product->slug) }}"><img src="{{ asset($product->thumbnail_img) }}" alt=""></a>
-                                                   </div>
-                                                    <div class="cart_info">
-                                                        <a href="{{ route('product', $product->slug) }}">{{ __($product->name) }} </a>
-                                                        <p>Qty: x{{ $cartItem['quantity'] }} <span> {{ single_price($cartItem['price']*$cartItem['quantity']) }} </span></p>    
-                                                    </div>
-                                                    <div class="cart_remove">
-                                                        <a href="#"><i onclick="removeFromCart('{{$key}}')" class="ion-android-close"></i></a>
-                                                    </div>
-                                                </div>
-                                                   @endforeach
-                                               
-                                                
-                                                <div class="mini_cart_table">
-                                                    <div class="cart_total">
-                                                        <span>Sub total:</span>
-                                                        <span class="price">{{ single_price($total) }}</span>
-                                                    </div>
-                                                    <!-- <div class="cart_total mt-10">
-                                                        <span>total:</span>
-                                                        <span class="price">$138.00</span>
-                                                    </div> -->
-                                                </div>
-                                            </div>
-
-
-                                            <div class="mini_cart_footer">
-                                               <div class="cart_button">
-
-                                                    <a href="{{ route('cart') }}">View cart</a>
-                                                   @if (Auth::check())
-                                            <a href="{{ route('checkout.shipping_info') }}">Checkout</a>
-                                            @endif
-
-                                      @else
-                                        <div class="dc-header">
-                                            <h3 class="heading heading-6 strong-700">{{__('Your Cart is empty')}}</h3>
-                                        </div>
-
-                                          @endif
-                                @else
-                                    <div class="dc-header">
-                                        <h3 class="heading heading-6 strong-700">{{__('Your Cart is empty')}}</h3>
-                                    </div>
-                                @endif<!-- 
-                                                <div class="cart_button">
-                                                    <a class="active" href="#">Checkout</a>
-                                                </div> -->
-
-                                            </div>
-                                        </div>
-                                        <!--mini cart end-->
-                                    </div>
+                                        <div id="cart_items"></div>
                                 </div>
                             </div>
                         </div>

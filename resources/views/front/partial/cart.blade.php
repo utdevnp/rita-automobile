@@ -2,7 +2,14 @@
   @if(Session::has('cart'))  {{ count(Session::get('cart'))}}  @else 0  @endif</span> </a>
     <!--mini cart-->
      <div class="mini_cart" style="z-index: 1000;">
-
+     <div class="cart_close">
+        <div class="cart_text">
+            <h3>cart</h3>
+        </div>
+        <div class="mini_cart_close">
+            <a href="javascript:void(0)"><i class="icon-x"></i></a>
+        </div>
+        </div>
         @php
             $total = 0;
         @endphp
