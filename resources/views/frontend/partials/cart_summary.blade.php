@@ -1,3 +1,6 @@
+@extends('front.layouts.master')
+@section('content')
+
 <div class="card sticky-top">
     <div class="card-title py-3">
         <div class="row align-items-center">
@@ -170,3 +173,4 @@
 
     </div>
 </div>
+@endsection

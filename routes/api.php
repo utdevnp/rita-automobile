@@ -27,6 +27,8 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('categories', 'Api\CategoryController')->only('index');
     Route::get('sub-categories/{id}', 'Api\SubCategoryController@index')->name('subCategories.index');
 
+    Route::get("allcategory","Api\CategoryController@getAllCategory");
+
     Route::apiResource('colors', 'Api\ColorController')->only('index');
 
     Route::apiResource('currencies', 'Api\CurrencyController')->only('index');

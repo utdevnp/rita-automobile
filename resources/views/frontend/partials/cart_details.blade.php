@@ -1,3 +1,6 @@
+@extends('front.layouts.master')
+@section('content')
+
 <div class="container">
     <div class="row cols-xs-space cols-sm-space cols-md-space">
         <div class="col-xl-8">
@@ -102,3 +105,5 @@
 <script type="text/javascript">
     cartQuantityInitialize();
 </script>
+
+@endsection
