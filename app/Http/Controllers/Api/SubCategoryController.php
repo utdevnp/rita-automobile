@@ -15,7 +15,7 @@ class SubCategoryController extends Controller
     {
         $subcategory =  new SubCategoryCollection(SubCategory::where('category_id', $id)->get());
 
-        if(! $category){
+        if(! $subcategory){
             return $this->response->error([
                 'message'=>"Category listing fail",
                 'data'=>null

@@ -104,6 +104,14 @@
 									<input type="text" class="form-control" name="tags[]" placeholder="Type to add a tag" data-role="tagsinput">
 								</div>
 							</div>
+
+							<div class="form-group">
+								<label class="col-lg-2 control-label">{{__('Part No')}}</label>
+								<div class="col-lg-7">
+									<input type="text" class="form-control" name="part_no" placeholder="125.45.32">
+								</div>
+							</div>
+
 							@php
 							    $pos_addon = \App\Addon::where('unique_identifier', 'pos_system')->first();
 							@endphp
