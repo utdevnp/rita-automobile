@@ -117,17 +117,8 @@
                          <!--coupon code area start-->
                         <div class="coupon_area">
                             <div class="row">
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="coupon_code left">
-                                        <h3>Coupon</h3>
-                                        <div class="coupon_inner">   
-                                            <p>Enter your coupon code if you have one.</p>                                
-                                            <input placeholder="Coupon code" type="text">
-                                            <button type="submit">Apply coupon</button>
-                                        </div>    
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6">
+                               
+                                <div class="col-lg-12 col-md-12">
                                     <div class="coupon_code right">
                                         <h3>Cart Totals</h3>
                                         <div class="coupon_inner">
@@ -146,7 +137,7 @@
                                                <p class="cart_amount">{{single_price($total)}}</p>
                                            </div>
                                            <div class="checkout_btn">
-                                               <a href="#">Proceed to Checkout</a>
+                                               <a href="{{route("checkout.shipping_info")}}">Proceed to Checkout</a>
                                            </div>
                                         </div>
                                     </div>
