@@ -10959,3 +10959,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+.homepage_product_cat img{
+  height:100px;
+}

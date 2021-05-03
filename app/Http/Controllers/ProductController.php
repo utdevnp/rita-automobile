@@ -104,6 +104,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+       
         $refund_request_addon = \App\Addon::where('unique_identifier', 'refund_request')->first();
 
         $product = new Product;
@@ -175,6 +176,8 @@ class ProductController extends Controller
         elseif ($request->shipping_type == 'flat_rate') {
             $product->shipping_cost = $request->flat_shipping_cost;
         }
+        $product->part_no = $request->part_no;
+
         $product->meta_title = $request->meta_title;
         $product->meta_description = $request->meta_description;
 

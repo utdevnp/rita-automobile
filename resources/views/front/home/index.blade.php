@@ -40,7 +40,7 @@
     <section class="slider_section mb-80">
         <div class="slider_area slider_carousel owl-carousel">
                  @foreach (\App\Slider::where('published', 1)->get() as $key => $slider)
-            <div class="single_slider d-flex align-items-center"data-bgimg="{{ asset($slider->photo) }}">
+            <div class="single_slider    d-flex align-items-center"data-bgimg="{{ asset($slider->photo) }}">
                <div class="container">
                    <div class="row">
                        <div class="col-12">
@@ -67,7 +67,7 @@
                     <div class="categories_product_inner categories_column7 owl-carousel">
                             @foreach (App\Category::all()->take(8) as $key => $category)
                 <div class="single_categories_product">
-                    <div class="categories_product_thumb">
+                    <div class="categories_product_thumb homepage_product_cat">
                         <a href="{{ route('products.category', $category->slug) }}"><img src="{{ asset($category->icon) }}" alt=""></a>
                     </div>
                     <div class="categories_product_content">
@@ -158,13 +158,13 @@
                                         <article class="single_product">
                                             <figure>
                                                 <div class="product_thumb">
-                                                    <a class="primary_img" href="product-details.html"><img src="{{ asset($image1) }}" alt=""></a>
-                                                    <a class="secondary_img" href="product-details.html"><img src="{{ asset($image2) }}" alt=""></a>
+                                                    <a class="primary_img" href="{{route("product",['slug'=>$product->slug])}}"><img src="{{ asset($image1) }}" alt=""></a>
+                                                    <a class="secondary_img" href="{{route("product",['slug'=>$product->slug])}}"><img src="{{ asset($image2) }}" alt=""></a>
                                                 </div>
                                                 <div class="product_content">
                                                     <div class="product_content_inner">
                                                       <p class="manufacture_product"><a href="#">{{ $product->name }}</a></p>
-                                                        <h4 class="product_name"><a href="product-details.html">
+                                                        <h4 class="product_name"><a href="{{route("product",['slug'=>$product->slug])}}">
            
                                                         </a></h4>
                                                         <div class="product_rating">
@@ -295,13 +295,13 @@
                                         <article class="single_product">
                                             <figure>
                                                 <div class="product_thumb">
-                                                    <a class="primary_img" href="product-details.html"><img src="{{ asset($image1) }}" alt=""></a>
-                                                    <a class="secondary_img" href="product-details.html"><img src="{{ asset($image2) }}" alt=""></a>
+                                                    <a class="primary_img" href="{{route("product",['slug'=>$featured_product->slug])}}"><img src="{{ asset($image1) }}" alt=""></a>
+                                                    <a class="secondary_img" href="{{route("product",['slug'=>$featured_product->slug])}}"><img src="{{ asset($image2) }}" alt=""></a>
                                                 </div>
                                                 <div class="product_content">
                                                     <div class="product_content_inner">
                                                       <p class="manufacture_product"><a href="#">{{ $featured_product->name }}</a></p>
-                                                        <h4 class="product_name"><a href="product-details.html">
+                                                        <h4 class="product_name"><a href="{{route("product",['slug'=>$featured_product->slug])}}">
            
                                                         </a></h4>
                                                         <div class="product_rating">
@@ -426,13 +426,13 @@
                                         <article class="single_product">
                                             <figure>
                                                 <div class="product_thumb">
-                                                    <a class="primary_img" href="product-details.html"><img src="{{ asset($image1) }}" alt=""></a>
-                                                    <a class="secondary_img" href="product-details.html"><img src="{{ asset($image2) }}" alt=""></a>
+                                                    <a class="primary_img" href="{{route("product",['slug'=>$arrival_product->slug])}}"><img src="{{ asset($image1) }}" alt=""></a>
+                                                    <a class="secondary_img" href="{{route("product",['slug'=>$arrival_product->slug])}}"><img src="{{ asset($image2) }}" alt=""></a>
                                                 </div>
                                                 <div class="product_content">
                                                     <div class="product_content_inner">
-                                                      <p class="manufacture_product"><a href="#">{{ $arrival_product->name }}</a></p>
-                                                        <h4 class="product_name"><a href="product-details.html">
+                                                      <p class="manufacture_product"><a href="{{route("product",['slug'=>$arrival_product->slug])}}">{{ $arrival_product->name }}</a></p>
+                                                        <h4 class="product_name"><a href="{{route("product",['slug'=>$arrival_product->slug])}}">
            
                                                         </a></h4>
                                                         <div class="product_rating">
@@ -503,7 +503,7 @@
                     <div class="col-lg-6 col-md-6">
                         <figure class="single_banner">
                             <div class="banner_thumb">
-                                <a href="shop.html"><img src="{{ asset($banner->photo) }}" alt=""></a>
+                                <a href="#"><img src="{{ asset($banner->photo) }}" alt=""></a>
                             </div>
                         </figure>
                     </div>
@@ -544,8 +544,8 @@
                                         @endphp
 
                                         <div class="product_thumb">
-                                                            <a class="primary_img" href="product-details.html"><img src="{{ asset('frontend_assets/assets/img/product/product9.jpg') }}" alt=""></a>
-                                                            <a class="secondary_img" href="product-details.html"><img src="{{ asset('frontend_assets/assets/img/product/product10.jpg') }}" alt=""></a>
+                                                            <a class="primary_img" href="{{route("product",['slug'=>$flash_deal_product->slug])}}"><img src="{{ asset('frontend_assets/assets/img/product/product9.jpg') }}" alt=""></a>
+                                                            <a class="secondary_img" href="{{route("product",['slug'=>$flash_deal_product->slug])}}"><img src="{{ asset('frontend_assets/assets/img/product/product10.jpg') }}" alt=""></a>
                                                             <div class="label_product">
                                                                 <span class="label_sale">-
                                                                   {{ $flash_deal_product->discount }}
@@ -562,7 +562,7 @@
                                        
 
                                             </a></p>
-                                            <h4 class="product_name"><a href="product-details.html">{{ $product->name }}</a></h4>
+                                            <h4 class="product_name"><a href="{{route("product",['slug'=>$flash_deal_product->slug])}}">{{ $product->name }}</a></h4>
                                             <div class="product_rating">
                                                <ul>
                                                    <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
@@ -633,8 +633,8 @@
                                             <article class="single_product">
                                                     <figure>
                                                         <div class="product_thumb">
-                                                            <a class="primary_img" href="product-details.html"><img src="{{ asset('frontend_assets/assets/img/product/product9.jpg') }}" alt=""></a>
-                                                            <a class="secondary_img" href="product-details.html"><img src="{{ asset('frontend_assets/assets/img/product/product10.jpg') }}" alt=""></a>
+                                                            <a class="primary_img" href="{{route("product",['slug'=>$flash_product->slug])}}"><img src="{{ asset('frontend_assets/assets/img/product/product9.jpg') }}" alt=""></a>
+                                                            <a class="secondary_img" href="{{route("product",['slug'=>$flash_product->slug])}}"><img src="{{ asset('frontend_assets/assets/img/product/product10.jpg') }}" alt=""></a>
                                                             <div class="label_product">
                                                                 <span class="label_sale">-44%</span>
                                                             </div>
@@ -646,7 +646,7 @@
                                                                    {{ $flash_product->name }}
 
                                                                 </a></p>
-                                                                <h4 class="product_name"><a href="product-details.html">Cas Meque Metus</a></h4>
+                                                                <h4 class="product_name"><a href="{{route("product",['slug'=>$flash_product->slug])}}">Cas Meque Metus</a></h4>
                                                                 <div class="product_rating">
                                                                    <ul>
                                                                        <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
