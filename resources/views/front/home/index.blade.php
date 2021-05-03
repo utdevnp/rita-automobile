@@ -163,7 +163,7 @@
                                                 </div>
                                                 <div class="product_content">
                                                     <div class="product_content_inner">
-                                                      <p class="manufacture_product"><a href="#">{{ $product->name }}</a></p>
+                                                      <p class="manufacture_product"><a href="{{route("product",['slug'=>$product->slug])}}">{{ $product->name }}</a></p>
                                                         <h4 class="product_name"><a href="{{route("product",['slug'=>$product->slug])}}">
            
                                                         </a></h4>
@@ -300,7 +300,7 @@
                                                 </div>
                                                 <div class="product_content">
                                                     <div class="product_content_inner">
-                                                      <p class="manufacture_product"><a href="#">{{ $featured_product->name }}</a></p>
+                                                      <p class="manufacture_product"><a href="{{route("product",['slug'=>$featured_product->slug])}}">{{ $featured_product->name }}</a></p>
                                                         <h4 class="product_name"><a href="{{route("product",['slug'=>$featured_product->slug])}}">
            
                                                         </a></h4>
