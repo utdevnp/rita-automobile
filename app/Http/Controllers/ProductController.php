@@ -104,6 +104,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+       
         $refund_request_addon = \App\Addon::where('unique_identifier', 'refund_request')->first();
 
         $product = new Product;
