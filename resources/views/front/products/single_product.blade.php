@@ -97,7 +97,7 @@
                                 <span class="current_price">${{ $detailedProduct->purchase_price }}</span>
                             </div>
                             <div class="product_desc">
-                                <p>{!! $detailedProduct->description !!} </p>
+                                <!-- <p>{!! $detailedProduct->description !!} </p> -->
                             </div>
                             <div class="product_variant color">
                                 <h3>Available Options</h3>
@@ -198,9 +198,10 @@
                               
 
 
-                                <div class="reviews_wrapper">
+
+                            <div class="reviews_wrapper">
                                    @foreach ($detailedProduct->reviews as $key => $review)
-                                     <h2>{{$total}} review for {{ __($detailedProduct->name) }}</h2>
+                                     <h2> review for {{ __($detailedProduct->name) }}</h2>
 
                                     <div class="reviews_comment_box">
                                         <div class="comment_thmb">
@@ -226,7 +227,8 @@
 
                                     @endforeach 
                                     @foreach ($detailedProduct->reviews as $key => $review)
-                                     <h2>{{$total}} review for {{ __($detailedProduct->name) }}</h2>
+                                     <h2>
+                                          review for {{ __($detailedProduct->name) }}</h2>
 
                                     <div class="reviews_comment_box">
                                         <div class="comment_thmb">
