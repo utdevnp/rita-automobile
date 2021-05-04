@@ -502,9 +502,29 @@
                                         $product = App\Product::where('id',$flash_deal_product->product_id)->first();
                                         @endphp
 
+                                        @php
+                              $photos = json_decode($arrival_product->photos);
+
+                              $image1 = $image2 = '';
+
+                              if(!empty($photos)){
+                              if(key_exists(0, $photos))
+                                  $image1 = $photos['0'];
+
+                              if(key_exists(1, $photos))
+                                  $image2 = $photos['1'];
+                              else
+                                  $image2 = $image1;
+                               }
+
+                               $counter++;
+                           
+                              @endphp 
+
+
                                         <div class="product_thumb">
-                                                            <a class="primary_img" href="{{route("product",['slug'=>$flash_deal_product->slug])}}"><img src="{{ asset('frontend_assets/assets/img/product/product9.jpg') }}" alt=""></a>
-                                                            <a class="secondary_img" href="{{route("product",['slug'=>$flash_deal_product->slug])}}"><img src="{{ asset('frontend_assets/assets/img/product/product10.jpg') }}" alt=""></a>
+                                                            <a class="primary_img" href="{{route("product",['slug'=>$flash_deal_product->slug])}}"><img src="{{ asset($image1) }}" alt=""></a>
+                                                            <a class="secondary_img" href="{{route("product",['slug'=>$flash_deal_product->slug])}}"><img src="{{ asset($image2) }}" alt=""></a>
                                                             <div class="label_product">
                                                                 <span class="label_sale">-
                                                                   {{ $flash_deal_product->discount }}
@@ -533,7 +553,7 @@
                                             </div>
                                             <div class="price_box">
                                                 <span class="old_price">{{ $product->unit_price }}</span>
-                                                <span class="current_price">$120.00</span>
+                                                <span class="current_price">{{ $flash_deal_product->unit_price}}</span>
                                             </div>
                                             <div class="product_desc">
                                                 <p>Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc.</p>
@@ -582,6 +602,25 @@
                                   
 
                                 @endphp
+
+                                @php
+                              $photos = json_decode($arrival_product->photos);
+
+                              $image1 = $image2 = '';
+
+                              if(!empty($photos)){
+                              if(key_exists(0, $photos))
+                                  $image1 = $photos['0'];
+
+                              if(key_exists(1, $photos))
+                                  $image2 = $photos['1'];
+                              else
+                                  $image2 = $image1;
+                               }
+
+                               $counter++;
+                           
+                              @endphp 
                           
                         
                              
@@ -592,10 +631,10 @@
                                             <article class="single_product">
                                                     <figure>
                                                         <div class="product_thumb">
-                                                            <a class="primary_img" href="{{route("product",['slug'=>$flash_product->slug])}}"><img src="{{ asset('frontend_assets/assets/img/product/product9.jpg') }}" alt=""></a>
-                                                            <a class="secondary_img" href="{{route("product",['slug'=>$flash_product->slug])}}"><img src="{{ asset('frontend_assets/assets/img/product/product10.jpg') }}" alt=""></a>
+                                                            <a class="primary_img" href="{{route("product",['slug'=>$flash_product->slug])}}"><img src="{{ asset($image1) }}" alt=""></a>
+                                                            <a class="secondary_img" href="{{route("product",['slug'=>$flash_product->slug])}}"><img src="{{ asset($image2) }}" alt=""></a>
                                                             <div class="label_product">
-                                                                <span class="label_sale">-44%</span>
+                                                                <span class="label_sale">{{ $flash_product->discount}}%</span>
                                                             </div>
 
                                                         </div>
@@ -616,8 +655,8 @@
                                                                    </ul>
                                                                 </div>
                                                                 <div class="price_box">
-                                                                    <span class="old_price">$420.00</span>
-                                                                    <span class="current_price">$180.00</span>
+                                                                    <span class="old_price">{{ $flash_product->unit_price}}</span>
+                                                                    <span class="current_price">{{ $flash_product->unit_price}}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="action_links">
