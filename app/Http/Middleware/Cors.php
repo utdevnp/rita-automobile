@@ -16,7 +16,7 @@ class Cors
      */
     public function handle(Request $request, Closure $next)
     {
-        dd($request->header('Authorization'));
+       
         if(! $request->header('Authorization')){
             $response = [
                 'status' => false,
