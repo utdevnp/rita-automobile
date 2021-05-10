@@ -176,15 +176,38 @@
 
                 <!--shop toolbar end-->
                 <div class="row shop_wrapper">
+               
                     @if($products->count() > 0)
+                    @php $counter = 0; @endphp
              @foreach($products as $product)
+
+
+              @php
+                              $photos = json_decode($product->photos);
+
+                              $image1 = $image2 = '';
+
+                              if(!empty($photos)){
+                              if(key_exists(0, $photos))
+                                  $image1 = $photos['0'];
+
+                              if(key_exists(1, $photos))
+                                  $image2 = $photos['1'];
+                              else
+                                  $image2 = $image1;
+                               }
+
+                               $counter++;
+                           
+                              @endphp 
+
 
                     <div class="col-lg-3 col-md-4 col-12" id="box">
                         <article class="single_product">
                             <figure>
                                 <div class="product_thumb">
-                           <a class="primary_img" href="product-details.html"><img src="{{ asset('frontend_assets/assets/img/product/product1.jpg') }}" alt=""></a>
-                                    <a class="secondary_img" href=""><img src="{{ asset('frontend_assets/assets/img/product/product2.jpg') }}" alt=""></a>
+                           <a class="primary_img" href="product-details.html"><img src="{{ asset( $image1) }}" alt=""></a>
+                                    <a class="secondary_img" href=""><img src="{{ asset( $image2) }}" alt=""></a>
                                 </div>
                                 <div class="product_content grid_content">
                                     <div class="product_content_inner">
@@ -205,9 +228,7 @@
                                                <del class="old-product-price strong-400">
                                                    {{ $product->unit_price }}
                                                </del>
- @if(home_base_price($product->id) != home_discounted_base_price($product->id))
-                                            <span class="current_price">${{ home_base_price($product->purchase_price) }}</span>
-                                            @endif
+
 
                                             <span class="current_price">${{ $product->purchase_price }}</span>
 
@@ -245,9 +266,7 @@
                                             </ul>
                                         </div>
                                         <div class="price_box">
-                                              @if(home_base_price($product->id) != home_discounted_base_price($product->id))
-                                            <span class="current_price">${{ home_base_price($product->purchase_price) }}</span>
-                                            @endif
+                                             
                                             <span class="current_price">{{ $product->purchase_price }}</span>
 
                                         </div>

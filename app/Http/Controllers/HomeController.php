@@ -367,8 +367,10 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
+       
         
         $query = $request->q;
+       
         $brand_id = (Brand::where('slug', $request->brand)->first() != null) ? Brand::where('slug', $request->brand)->first()->id : null;
         $sort_by = $request->sort_by;
         $category_id = (Category::where('slug', $request->category)->first() != null) ? Category::where('slug', $request->category)->first()->id : null;
@@ -379,7 +381,7 @@ class HomeController extends Controller
         $seller_id = $request->seller_id;
 
         $conditions = ['published' => 1];
-
+    
         if($brand_id != null){
             $conditions = array_merge($conditions, ['brand_id' => $brand_id]);
         }
@@ -397,6 +399,7 @@ class HomeController extends Controller
         }
 
         $products = Product::where($conditions);
+   
 
         if($min_price != null && $max_price != null){
             $products = $products->where('unit_price', '>=', $min_price)->where('unit_price', '<=', $max_price);
