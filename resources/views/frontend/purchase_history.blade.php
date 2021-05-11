@@ -2,6 +2,11 @@
 
 @section('content')
 
+
+
+
+
+
     <section class="gry-bg py-4 profile">
         <div class="container">
             <div class="row cols-xs-space cols-sm-space cols-md-space">
@@ -35,7 +40,7 @@
                             </div>
                         </div>
 
-                        @if (count($orders) > 0)
+                     
                             <!-- Order history table -->
                             <div class="card no-border mt-4">
                                 <div>
@@ -98,7 +103,7 @@
                                     </table>
                                 </div>
                             </div>
-                        @endif
+                      
 
                         <div class="pagination-wrapper py-4">
                             <ul class="pagination justify-content-end">

@@ -112,10 +112,11 @@ class HomeController extends Controller
         //dd('done');
 
         if(Auth::user()->user_type == 'seller'){
-            return view('frontend.seller.dashboard');
+            return view('front.seller.dashboard');
         }
         elseif(Auth::user()->user_type == 'customer'){
-            return view('frontend.customer.dashboard');
+            
+            return view('front.customer.dashboard');
         }
         else {
             abort(404);
@@ -125,10 +126,11 @@ class HomeController extends Controller
     public function profile(Request $request)
     {
         if(Auth::user()->user_type == 'customer'){
-            return view('frontend.customer.profile');
+           
+            return view('front.customer.profile');
         }
         elseif(Auth::user()->user_type == 'seller'){
-            return view('frontend.seller.profile');
+            return view('front.seller.profile');
         }
     }
 
