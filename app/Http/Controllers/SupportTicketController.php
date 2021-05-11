@@ -18,7 +18,7 @@ class SupportTicketController extends Controller
     public function index()
     {
         $tickets = Ticket::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(9);
-        return view('frontend.support_ticket.index', compact('tickets'));
+        return view('front.support_ticket.index', compact('tickets'));
     }
 
     public function admin_index(Request $request)
