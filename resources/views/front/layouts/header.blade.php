@@ -236,7 +236,7 @@
                                     <div class="mini_cart_wrapper">
                                         <a href="javascript:void(0)">
                                             <i class="icon-shopping-bag2"></i>
-                                            <span class="cart_price">$152.00 <i class="ion-ios-arrow-down"></i></span>
+                                            <span class="cart_price">Rs 0.00 <i class="ion-ios-arrow-down"></i></span>
                                             <span class="cart_count">
                                                   @if(Session::has('cart'))  {{ count(Session::get('cart'))}}  @else 0  @endif
                                             </span>
