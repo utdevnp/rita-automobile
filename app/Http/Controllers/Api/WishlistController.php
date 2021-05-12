@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 class WishlistController extends Controller
 {
 
+    public function __construct(ResponseController $response){
+        $this->response = $response;
+    }
+    
+
     public function index($id)
     {
         return new WishlistCollection(Wishlist::where('user_id', $id)->latest()->get());
@@ -19,13 +24,24 @@ class WishlistController extends Controller
         Wishlist::updateOrCreate(
             ['user_id' => $request->user_id, 'product_id' => $request->product_id]
         );
-        return response()->json(['message' => 'Product is successfully added to your wishlist'], 201);
+
+
+        return $this->response->success([
+            'message'=>"Product is successfully added to your wishlist",
+            'data'=>[]
+        ]);
+
+       
     }
 
     public function destroy($id)
     {
         Wishlist::destroy($id);
-        return response()->json(['message' => 'Product is successfully removed from your wishlist'], 200);
+
+        return $this->response->success([
+            'message'=>"Product is successfully removed from your wishlist",
+            'data'=>[]
+        ]);
     }
 
     public function isProductInWishlist(Request $request)
@@ -34,6 +50,7 @@ class WishlistController extends Controller
         if ($product > 0)
             return response()->json([
                 'message' => 'Product present in wishlist',
+                "success"=> true,
                 'is_in_wishlist' => true,
                 'product_id' => (integer) $request->product_id,
                 'wishlist_id' => (integer) Wishlist::where(['product_id' => $request->product_id, 'user_id' => $request->user_id])->first()->id
@@ -42,6 +59,7 @@ class WishlistController extends Controller
         return response()->json([
             'message' => 'Product is not present in wishlist',
             'is_in_wishlist' => false,
+            "success"=> false,
             'product_id' => (integer) $request->product_id,
             'wishlist_id' => 0
         ], 200);
@@ -54,10 +72,17 @@ class WishlistController extends Controller
 
             Wishlist::where(["product_id" => $request->product_id, 'user_id' => $request->user_id])->delete();
 
-            return response()->json(['message' => 'Product is successfully removed from your wishlist'], 200);
+            return $this->response->success([
+                'message'=>"Product is successfully removed from your wishlist",
+                'data'=>[]
+            ]);
+
         } else {
 
-            return response()->json(['message' => 'Product is not present in wishlist'], 200);
+            return $this->response->error([
+                'message'=>"Product is not present in wishlist",
+                'data'=>[]
+            ]);
 
         }
 
