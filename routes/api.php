@@ -79,10 +79,10 @@ Route::prefix('v1')->group(function () {
 
     Route::apiResource('sliders', 'Api\SliderController')->only('index');
 
-    Route::get('wishlists/{id}', 'Api\WishlistController@index')->middleware('auth:api');
-    Route::post('wishlists/add', 'Api\WishlistController@store')->middleware('auth:api');
-    Route::post('wishlists/check-product', 'Api\WishlistController@isProductInWishlist')->middleware('auth:api');
-    Route::post('wishlists/remove', 'Api\WishlistController@removeProduct')->middleware('auth:api');
+    Route::get('wishlists/{id}', 'Api\WishlistController@index');
+    Route::post('wishlists/add', 'Api\WishlistController@store');
+    Route::post('wishlists/check-product', 'Api\WishlistController@isProductInWishlist');
+    Route::post('wishlists/remove', 'Api\WishlistController@removeProduct');
     Route::apiResource('wishlists', 'Api\WishlistController')->except(['index', 'update', 'show'])->middleware('auth:api');
 
     Route::apiResource('settings', 'Api\SettingsController')->only('index');
