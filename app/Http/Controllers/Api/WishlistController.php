@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\WishlistCollection;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
-
+use Validator;
 class WishlistController extends Controller
 {
 
@@ -16,11 +16,35 @@ class WishlistController extends Controller
 
     public function index($id)
     {
+        if(empty($id)){
+            return $this->response->error([
+                'message'=>"Validation error",
+                'data'=>[
+                    "id"=> "Id is required"
+                ]
+            ]);
+        }
+
+        
         return new WishlistCollection(Wishlist::where('user_id', $id)->latest()->get());
     }
 
     public function store(Request $request)
     {
+
+        $validateData = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'product_id' => 'required',
+          ]);
+
+        if ($validateData->fails()) {
+            return $this->response->error([
+                'message'=>"Validation Error",
+                'data'=>$validateData->errors()
+            ]);
+        }
+
+
         Wishlist::updateOrCreate(
             ['user_id' => $request->user_id, 'product_id' => $request->product_id]
         );
@@ -36,6 +60,16 @@ class WishlistController extends Controller
 
     public function destroy($id)
     {
+        if(empty($id)){
+            return $this->response->error([
+                'message'=>"Validation error",
+                'data'=>[
+                    "id"=> "Id is required"
+                ]
+            ]);
+        }
+
+
         Wishlist::destroy($id);
 
         return $this->response->success([
@@ -46,6 +80,20 @@ class WishlistController extends Controller
 
     public function isProductInWishlist(Request $request)
     {
+
+        $validateData = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'product_id' => 'required',
+          ]);
+
+        if ($validateData->fails()) {
+            return $this->response->error([
+                'message'=>"Validation Error",
+                'data'=>$validateData->errors()
+            ]);
+        }
+
+
         $product = Wishlist::where(['product_id' => $request->product_id, 'user_id' => $request->user_id])->count();
         if ($product > 0)
             return response()->json([
@@ -67,6 +115,20 @@ class WishlistController extends Controller
 
     public function removeProduct(Request $request)
     {
+
+        $validateData = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'product_id' => 'required',
+          ]);
+
+        if ($validateData->fails()) {
+            return $this->response->error([
+                'message'=>"Validation Error",
+                'data'=>$validateData->errors()
+            ]);
+        }
+
+
         $wishlist = Wishlist::where(['product_id' => $request->product_id, 'user_id' => $request->user_id])->get();
         if (count($wishlist) > 0) {
 
