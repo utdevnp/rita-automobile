@@ -33,8 +33,8 @@ class WishlistController extends Controller
     {
 
         $validateData = Validator::make($request->all(), [
-            'user_id' => 'required',
-            'product_id' => 'required',
+            'user_id' => 'required|numeric',
+            'product_id' => 'required|numeric',
           ]);
 
         if ($validateData->fails()) {
