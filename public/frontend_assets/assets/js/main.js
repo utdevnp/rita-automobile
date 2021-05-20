@@ -35,7 +35,7 @@
         nav: false,
         autoplay: true,
         autoplayTimeout: 4000,
-        items: 3,
+        items: 1,
         dots: true,
     });
     
