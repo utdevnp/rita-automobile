@@ -39,7 +39,7 @@
                             consistency in our service, our employees are the key to our successful and growing business.</p>
                         <ul>
                             <li><i class="fa fa-fax"></i>  Address : Swastik Marg, Kantipur Colony Off Link Marg, Kuleshwor Kathmandu</li>
-                            <li><i class="fa fa-phone"></i> <a href="#">Infor@ritaautomobiles.com</a></li>
+                            <li><i class="fa fa-phone"></i> <a href="#">Info@ritaautomobiles.com</a></li>
                             <li><i class="fa fa-envelope-o"></i> (+977) 9857025575</li>
                         </ul>
                     </div>
