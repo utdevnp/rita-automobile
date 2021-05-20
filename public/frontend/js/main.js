@@ -38,7 +38,7 @@
     /*---slider activation---*/
     $('.slider_area').owlCarousel({
         animateOut: 'fadeOut',
-        autoplay: false,
+        autoplay: true,
 		loop: true,
         nav: false,
         autoplayTimeout: 5000,
