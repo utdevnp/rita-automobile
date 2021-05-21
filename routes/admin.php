@@ -204,4 +204,8 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function()
 	//Classified Products
 	Route::get('/classified_products', 'CustomerProductController@customer_product_index')->name('classified_products');
 	Route::post('/classified_products/published', 'CustomerProductController@updatePublished')->name('classified_products.published');
+
+	/// veachel segemnt 
+	Route::resource("vehicle","VeachelSegmentController");
+	Route::get('/vehicle/destroy/{id}', 'VeachelSegmentController@destroy')->name('vehicle.destroy');
 });

@@ -27,7 +27,7 @@ class AddPartNoInProductTable extends Migration
      */
     public function down()
     {
-        if(Schema::hasColumn("products","part_no")){
+        if(! Schema::hasColumn("products","part_no")){
             Schema::table('products', function (Blueprint $table) {
                 $table->string("part_no")->nullable();
             });
