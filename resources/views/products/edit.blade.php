@@ -687,7 +687,7 @@
 		        }));
 		    }
 			$("#model_id > option").each(function() {
-				var str = @php if($product->model_id){echo $product->model_id } }else{ echo 0;}  @endphp;
+				var str = @php echo $product->model_id  @endphp;
 		        $("#model_id").val(str).change();
 		    });
 
