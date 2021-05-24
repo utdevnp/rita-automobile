@@ -13,6 +13,7 @@ use Session;
 use ImageOptimizer;
 use DB;
 use CoreComponentRepository;
+use App\VeachelSegment;
 
 class ProductController extends Controller
 {
@@ -93,7 +94,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('products.create', compact('categories'));
+        $segments = VeachelSegment::all();
+        return view('products.create', compact('categories','segments'));
     }
 
     /**
@@ -176,7 +178,20 @@ class ProductController extends Controller
         elseif ($request->shipping_type == 'flat_rate') {
             $product->shipping_cost = $request->flat_shipping_cost;
         }
+
+
         $product->part_no = $request->part_no;
+
+        $product->segment_id = $request->segment_id;
+        $product->model_id = $request->model_id;
+        $product->smart_part_no = $request->smart_part_no;
+        $product->ref_part_no = $request->ref_part_no;
+        $product->oe_part_no = $request->oe_part_no;
+        $product->size = $request->size;
+        $product->mega_categories = $request->mega_categories;
+        $product->series = $request->series;
+
+
 
         $product->meta_title = $request->meta_title;
         $product->meta_description = $request->meta_description;
@@ -324,7 +339,8 @@ class ProductController extends Controller
         //dd(json_decode($product->price_variations)->choices_0_S_price);
         $tags = json_decode($product->tags);
         $categories = Category::all();
-        return view('products.edit', compact('product', 'categories', 'tags'));
+        $segments = VeachelSegment::all();
+        return view('products.edit', compact('product', 'categories', 'tags','segments'));
     }
 
     /**
@@ -360,6 +376,18 @@ class ProductController extends Controller
         $product->brand_id = $request->brand_id;
         $product->current_stock = $request->current_stock;
         $product->barcode = $request->barcode;
+
+
+        $product->part_no = $request->part_no;
+        $product->segment_id = $request->segment_id;
+        $product->model_id = $request->model_id;
+        $product->smart_part_no = $request->smart_part_no;
+        $product->ref_part_no = $request->ref_part_no;
+        $product->oe_part_no = $request->oe_part_no;
+        $product->size = $request->size;
+        $product->mega_categories = $request->mega_categories;
+        $product->series = $request->series;
+
 
         if ($refund_request_addon != null && $refund_request_addon->activated == 1) {
             if ($request->refundable != null) {

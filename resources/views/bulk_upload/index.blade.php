@@ -29,6 +29,8 @@
                 <a href="{{ route('pdf.download_sub_category') }}"><button class="btn btn-primary">Download Sub category</button></a>
                 <a href="{{ route('pdf.download_sub_sub_category') }}"><button class="btn btn-primary">Download Sub Sub category</button></a>
                 <a href="{{ route('pdf.download_brand') }}"><button class="btn btn-primary">Download Brand</button></a>
+                <a href="{{ route('pdf.download_segments') }}"><button class="btn btn-primary">Download Segments</button></a>
+                <a href="{{ route('pdf.pdf_download_models') }}"><button class="btn btn-primary">Download Models</button></a>
             </div>
             <br>
         </div>

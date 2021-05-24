@@ -114,6 +114,69 @@
 								</div>
 							</div>
 
+
+							
+							<div class="form-group">
+								<label class="col-lg-2 control-label">{{__('VECHICLE SEGMENT')}}</label>
+								<div class="col-lg-7">
+
+								<select class="form-control demo-select2-placeholder" name="segment_id" id="segment_id" required>
+										@foreach($segments as $category)
+											<option <?php if($product->segment_id == $category->id) echo "selected"; ?>  value="{{$category->id}}">{{__($category->name)}}</option>
+										@endforeach
+									</select>
+
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">{{__('VECHICLE MODEL')}}</label>
+								<div class="col-lg-7">
+									<select class="form-control demo-select2-placeholder" name="model_id" id="model_id" required>
+
+									</select>
+
+								
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-lg-2 control-label">{{__('SMART PART NO')}}</label>
+								<div class="col-lg-7">
+									<input type="text" class="form-control" value="{{ $product->smart_part_no }}" name="smart_part_no" placeholder="125.45.32">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">{{__('REFERENCE PART NO')}}</label>
+								<div class="col-lg-7">
+									<input type="text" class="form-control" value="{{ $product->ref_part_no }}" name="ref_part_no" placeholder="125.45.32">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">{{__('OE PART NO')}}</label>
+								<div class="col-lg-7">
+									<input type="text" class="form-control" value="{{ $product->oe_part_no }}" name="oe_part_no" placeholder="125.45.32">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">{{__('SIZE')}}</label>
+								<div class="col-lg-7">
+									<input type="text" class="form-control" value="{{ $product->size }}" name="size" placeholder="125.45.32">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">{{__('MEGA CATEGORIES')}}</label>
+								<div class="col-lg-7">
+									<input type="text" class="form-control" value="{{ $product->mega_categories }}" name="mega_categories" placeholder="125.45.32">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label">{{__('SERIES')}}</label>
+								<div class="col-lg-7">
+									<input type="text" class="form-control" value="{{ $product->series }}" name="series" placeholder="125.45.32">
+								</div>
+							</div>
+
+
 							@php
 							    $pos_addon = \App\Addon::where('unique_identifier', 'pos_system')->first();
 							@endphp
@@ -610,9 +673,36 @@
 		});
 	}
 
+
+
+	function get_model_by_segment_id(){
+		
+		var segment_id = $('#segment_id').val();
+		$.post('{{ route('get_model_by_segment') }}',{_token:'{{ csrf_token() }}', segment_id:segment_id}, function(data){
+		    $('#model_id').html(null);
+		    for (var i = 0; i < data.length; i++) {
+		        $('#model_id').append($('<option>', {
+		            value: data[i].id,
+		            text: data[i].name
+		        }));
+		    }
+			$("#model_id > option").each(function() {
+				var str = @php echo $product->model_id @endphp;
+		        $("#model_id").val(str).change();
+		    });
+
+			$('.demo-select2').select2();
+		});
+
+	}
+
+
 	$(document).ready(function(){
+		
+
 		$('#container').removeClass('mainnav-lg').addClass('mainnav-sm');
 	    get_subcategories_by_category();
+		get_model_by_segment_id();
 		$("#photos").spartanMultiImagePicker({
 			fieldName:        'photos[]',
 			maxCount:         10,
@@ -713,6 +803,16 @@
 	    //get_brands_by_subsubcategory();
 		//get_attributes_by_subsubcategory();
 	});
+
+
+
+	
+
+
+	$('#segment_id').on('change', function() {
+		get_model_by_segment_id();
+	});
+
 
 	$('#choice_attributes').on('change', function() {
 		//$('#customer_choice_options').html(null);

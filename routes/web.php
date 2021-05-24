@@ -237,6 +237,8 @@ Route::group(['middleware' => ['auth']], function(){
 		Route::get('/suserb_sub_category', 'ProductBulkUploadController@pdf_download_sub_sub_category')->name('pdf.download_sub_sub_category');
 		Route::get('/brand', 'ProductBulkUploadController@pdf_download_brand')->name('pdf.download_brand');
 		Route::get('/seller', 'ProductBulkUploadController@pdf_download_seller')->name('pdf.download_seller');
+		Route::get('/segments', 'ProductBulkUploadController@pdf_download_segments')->name('pdf.download_segments');
+		Route::get('/models', 'ProductBulkUploadController@pdf_download_models')->name('pdf.pdf_download_models');
 	});
 
 	//Product Export

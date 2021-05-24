@@ -126,6 +126,16 @@
 
                                 <!--Submenu-->
                                 <ul class="collapse">
+
+                                    <li class="{{ areActiveRoutes(['vehicle.index', 'vehicle.create', 'vehicle.edit'])}}">
+                                        <a class="nav-link" href="{{route('vehicle.index')}}">{{__('Vehicle Segment')}}</a>
+                                    </li>
+
+                                    <li class="{{ areActiveRoutes(['vehiclemodel.index', 'vehiclemodel.create', 'vehiclemodel.edit'])}}">
+                                        <a class="nav-link" href="{{route('vehiclemodel.index')}}">{{__('Vehicle Model')}}</a>
+                                    </li>
+
+
                                     <li class="{{ areActiveRoutes(['brands.index', 'brands.create', 'brands.edit'])}}">
                                         <a class="nav-link" href="{{route('brands.index')}}">{{__('Brand')}}</a>
                                     </li>
