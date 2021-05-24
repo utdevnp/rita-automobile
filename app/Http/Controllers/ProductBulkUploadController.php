@@ -14,6 +14,8 @@ use App\ProductsImport;
 use App\ProductsExport;
 use PDF;
 use Excel;
+use App\VeachelSegment;
+use App\VehicleModel;
 
 class ProductBulkUploadController extends Controller
 {
@@ -42,6 +44,36 @@ class ProductBulkUploadController extends Controller
 
         return $pdf->download('category.pdf');
     }
+
+
+    public function pdf_download_segments()
+    {
+        // VeachelSegment VehicleModel
+        $segments = VeachelSegment::all();
+        $pdf = PDF::setOptions([
+                        'isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,
+                        'logOutputFile' => storage_path('logs/log.htm'),
+                        'tempDir' => storage_path('logs/')
+                    ])->loadView('downloads.segment', compact('segments'));
+
+        return $pdf->download('segment.pdf');
+    }
+
+
+    public function pdf_download_models()
+    {
+        $models = VehicleModel::all();
+      // return view("downloads.models",compact('models'));
+        ob_start();
+        $pdf = PDF::setOptions([
+                        'isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true,
+                        'logOutputFile' => storage_path('logs/log.htm'),
+                        'tempDir' => storage_path('logs/')
+                    ])->loadView('downloads.models', compact('models'));
+
+        return $pdf->download('models_list.pdf');
+    }
+
 
     public function pdf_download_sub_category()
     {
@@ -96,7 +128,7 @@ class ProductBulkUploadController extends Controller
         if($request->hasFile('bulk_file')){
             Excel::import(new ProductsImport, request()->file('bulk_file'));
         }
-        flash('Products exported successfully')->success();
+        flash('Products imported successfully')->success();
         return back();
     }
 
