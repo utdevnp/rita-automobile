@@ -208,4 +208,9 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function()
 	/// veachel segemnt 
 	Route::resource("vehicle","VeachelSegmentController");
 	Route::get('/vehicle/destroy/{id}', 'VeachelSegmentController@destroy')->name('vehicle.destroy');
+
+	Route::resource("vehiclemodel","VehicleModelController");
+	Route::get('/vehiclemodel/destroy/{id}', 'VehicleModelController@destroy')->name('vehiclemodel.destroy');
+	Route::post("get_model_by_segment","VehicleModelController@get_model_by_segment")->name("get_model_by_segment");
+
 });
