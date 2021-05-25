@@ -91,12 +91,12 @@ Route::prefix('v1')->group(function () {
     Route::get('policies/support', 'Api\PolicyController@supportPolicy')->name('policies.support');
     Route::get('policies/return', 'Api\PolicyController@returnPolicy')->name('policies.return');
 
-    Route::get('user/info/{id}', 'Api\UserController@info')->middleware('auth:api');
-    Route::post('user/info/update', 'Api\UserController@update')->middleware('auth:api');
-    Route::post('user/avatar/update', 'Api\UserController@updateAvatar')->middleware('auth:api');
-    Route::post('user/shipping/update', 'Api\UserControll er@updateShippingAddress')->middleware('auth:api');
+    Route::get('user/info/{id}', 'Api\UserController@info');
+    Route::post('user/info/update', 'Api\UserController@update');
+    Route::post('user/avatar/update', 'Api\UserController@updateAvatar');
+    Route::post('user/shipping/update', 'Api\UserController@updateShippingAddress');
 
-    Route::post('coupon/apply', 'Api\CouponController@apply')->middleware('auth:api');
+    Route::post('coupon/apply', 'Api\CouponController@apply');
 
     Route::post('payments/pay/stripe', 'Api\StripeController@processPayment')->middleware('auth:api');
     Route::post('payments/pay/paypal', 'Api\PaypalController@processPayment')->middleware('auth:api');
@@ -105,12 +105,12 @@ Route::prefix('v1')->group(function () {
     Route::post('order/store', 'Api\OrderController@store')->middleware('auth:api');
 
     // Conversations
-    Route::post('conversation/store', 'Api\ConversationController@store')->middleware('auth:api');
-    Route::get('conversations', 'Api\ConversationController@index')->middleware('auth:api');
-    Route::get('conversations/show', 'Api\ConversationController@showByProduct')->middleware('auth:api');
-    Route::get('conversation/show', 'Api\ConversationController@show')->middleware('auth:api');
-    Route::apiResource('conversation', 'Api\ConversationController')->only('destroy')->middleware('auth:api');
-    Route::get('conversation/remove', 'Api\ConversationController@remove')->middleware('auth:api');
+    Route::post('conversation/store', 'Api\ConversationController@store');
+    Route::get('conversations', 'Api\ConversationController@index');
+    Route::get('conversations/show', 'Api\ConversationController@showByProduct');
+    Route::get('conversation/show', 'Api\ConversationController@show');
+    Route::apiResource('conversation', 'Api\ConversationController')->only('destroy');
+    Route::get('conversation/remove', 'Api\ConversationController@remove');
 });
 
 Route::fallback(function() {
