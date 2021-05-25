@@ -14,11 +14,35 @@ class ConversationController extends Controller
 {
     public function index(Request $request)
     {
+        $validateData = Validator::make($request->all(), [
+            'user_id' => 'required|numeric|exists:users,id',
+          ]);
+
+        if ($validateData->fails()) {
+            return $this->response->error([
+                'message'=>"Validation Error",
+                'data'=>$validateData->errors()
+            ]);
+        }
+
+
         return new ConversationCollection(Conversation::where('sender_id', $request->user_id)->orWhere('receiver_id', $request->user_id)->paginate(10));
     }
 
     public function store(Request $request)
     {
+
+        $validateData = Validator::make($request->all(), [
+            'product_id' => 'required|numeric|exists:products,id',
+          ]);
+
+        if ($validateData->fails()) {
+            return $this->response->error([
+                'message'=>"Validation Error",
+                'data'=>$validateData->errors()
+            ]);
+        }
+
         $product = Product::findOrFail($request->product_id);
         if(empty($request->title) || !isset($request->title))
             $request->title = $product->name;
