@@ -40,7 +40,7 @@
                     <tr>
                         <td>{{ ($key+1) + ($vehiclemodel->currentPage() - 1)*$vehiclemodel->perPage() }}</td>
                         <td>{{__($subcategory->name)}}</td>
-                        <td>{{$subcategory->segment->name}}</td>
+                        <td>@if(! empty($subcategory->segment->name)){{$subcategory->segment->name}} @endif</td>
                         <td>
                             <div class="btn-group dropdown">
                                 <button class="btn btn-primary dropdown-toggle dropdown-toggle-icon" data-toggle="dropdown" type="button">

@@ -54,7 +54,7 @@ Route::prefix('v1')->group(function () {
     Route::get('products/best-seller', 'Api\ProductController@bestSeller');
     Route::get('products/related/{id}', 'Api\ProductController@related')->name('products.related');
     Route::get('products/top-from-seller/{id}', 'Api\ProductController@topFromSeller')->name('products.topFromSeller');
-    Route::get('products/search', 'Api\ProductController@search');
+    Route::get('products/search', 'Api\ ProductController@search');
     Route::get('products/previousSearch', 'Api\ProductController@previousSearch');
     Route::post('products/variant/price', 'Api\ProductController@variantPrice');
     Route::get('products/home', 'Api\ProductController@home');
