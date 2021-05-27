@@ -78,7 +78,7 @@
                                                 <tr>
 
 
-                                                 <td class="product_remove"><a href="" onclick="removeFromCart({{ $key }})"
+                                                 <td class="product_remove"><a href="#" onclick="removeFromCart({{ $key }})"
                                                     ><i class="fa fa-trash-o"></i></a></td>
                                                     <td class="product_thumb"><a href="#"><img src="{{ asset($product->thumbnail_img) }}" alt=""></a></td>
                                                     <td class="product_name"><a href="#">{{
@@ -108,7 +108,11 @@
                                         </table>   
                                     </div>  
                                     <div class="cart_submit">
-                                        <button type="submit">update cart</button>
+                                    @if(Auth::check())
+                                        <a href="{{ route('checkout.shipping_info') }}" class="btn btn-danger btn-base-1">{{__('Continue to Shipping')}}</a>
+                                    @else
+                                        <a href="#" class="btn btn-dark btn-base-1"  data-toggle="modal" data-target="#GuestCheckout">{{__('Continue to Shipping')}}</a>
+                                    @endif
                                     </div>      
                                 </div>
                              </div>
@@ -156,6 +160,88 @@
         </div>
     </div>
     <!--shopping cart area end -->
+
+
+
+     <!-- Modal -->
+     <div class="modal fade" id="GuestCheckout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-zoom" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="exampleModalLabel">{{__('Login')}}</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="p-3">
+                        <form class="form-default" role="form" action="{{ route('cart.login.submit') }}" method="POST">
+                            @csrf
+                            <div class="form-group mb-2">
+                                <div class="input-group input-group--style-1">
+                                    <input type="email" name="email" class="form-control" placeholder="{{__('Email')}}">
+                                    <span class="input-group-addon">
+                                        <i class="text-md la la-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <div class="input-group input-group--style-1">
+                                    <input type="password" name="password" class="form-control" placeholder="{{__('Password')}}">
+                                    <span class="input-group-addon">
+                                        <i class="text-md la la-lock"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <a href="{{ route('password.request') }}" class="link link-xs link--style-3">{{__('Forgot password?')}}</a>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <button type="submit" class="btn btn-success btn-base-1 px-4">{{__('Sign in')}}</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                     @if(\App\BusinessSetting::where('type', 'google_login')->first()->value == 1 || \App\BusinessSetting::where('type', 'facebook_login')->first()->value == 1 || \App\BusinessSetting::where('type', 'twitter_login')->first()->value == 1)
+                        <div class="or or--1 mt-3 text-center">
+                            <span>or</span>
+                        </div>
+                        <div class="p-3 pb-0">
+                            @if (\App\BusinessSetting::where('type', 'facebook_login')->first()->value == 1)
+                                <a href="{{ route('social.login', ['provider' => 'facebook']) }}" class="btn btn-styled btn-block btn-facebook btn-icon--2 btn-icon-left px-4 mb-3">
+                                    <i class="icon fa fa-facebook"></i> {{__('Login with Facebook')}}
+                                </a>
+                            @endif
+                            @if(\App\BusinessSetting::where('type', 'google_login')->first()->value == 1)
+                                <a href="{{ route('social.login', ['provider' => 'google']) }}" class="btn btn-styled btn-block btn-google btn-icon--2 btn-icon-left px-4 mb-3">
+                                    <i class="icon fa fa-google"></i> {{__('Login with Google')}}
+                                </a>
+                            @endif
+                            @if (\App\BusinessSetting::where('type', 'twitter_login')->first()->value == 1)
+                            <a href="{{ route('social.login', ['provider' => 'twitter']) }}" class="btn btn-styled btn-block btn-twitter btn-icon--2 btn-icon-left px-4 mb-3">
+                                <i class="icon fa fa-twitter"></i> {{__('Login with Twitter')}}
+                            </a>
+                            @endif
+                        </div>
+                    @endif
+                    @if (\App\BusinessSetting::where('type', 'guest_checkout_active')->first()->value == 1)
+                        <div class="or or--1 mt-0 text-center">
+                            <span>or</span>
+                        </div>
+                        <div class="text-center">
+                            <a href="{{ route('checkout.shipping_info') }}" class="btn btn-primary btn-base-1">{{__('Guest Checkout')}}</a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     
      <!--brand area start-->
     <div class="brand_area brand_padding">
@@ -279,6 +365,28 @@
     </div>
     <!--newsletter area end-->
 
+    <script type="text/javascript">
+    function removeFromCartView(e, key){
+        e.preventDefault();
+        removeFromCart(key);
+        updateNavCart();
+    }
+
+    function updateQuantity(key, element){
+        $.post('{{ route('cart.updateQuantity') }}', { _token:'{{ csrf_token() }}', key:key, quantity: element.value}, function(data){
+            updateNavCart();
+            $('#cart-summary').html(data);
+        });
+    }
+
+    function showCheckoutModal(e){
+    
+        $('#GuestCheckout').modal();
+    }
+    </script>
+
+
 @endsection
+
 
     
