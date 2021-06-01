@@ -18,7 +18,15 @@
     <!--breadcrumbs area end-->
     
     <!--Checkout page section-->
+    {{--dd(session()->get("shipping_info"))  --}}
+    @if(Request::segment(2)=='payment_select')
+    <form role="form" method="POST" action="{{ route('payment.checkout') }}">
+    @elseif(Request::segment(2)=='delivery_info')
+    <form role="form" method="POST" action="{{ route('checkout.store_delivery_info') }}">
+    @else 
     <form role="form" method="POST" action="{{ route('checkout.store_shipping_infostore') }}">
+    @endif
+    
         @csrf    
     <div class="checkout_page_bg">
         <div class="container">
@@ -35,8 +43,14 @@
                                         @php
                                             $user = Auth::user();
                                         @endphp
+                                        @if(Request::segment(2)=='payment_select')
+                                            @include("front.partial.payment-info")
+                                        @elseif(Request::segment(2)=='delivery_info')
+                                            @include("front.partial.delivery-info")
+                                        @else 
+                                            @include("front.partial.user-shipping")
+                                        @endif
                                         
-                                        @include("front.partial.user-shipping")
                                     @else 
                                         @include("front.partial.guest-shipping")
                                     @endif
@@ -185,3 +199,7 @@
     <!--newsletter area end-->
     
 @endsection
+
+
+
+
