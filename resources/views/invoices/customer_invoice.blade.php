@@ -133,8 +133,17 @@
 									@endif
 								</td>
 								<td class="gry-color">{{ $orderDetail->quantity }}</td>
-								<td class="gry-color currency">{{ single_price($orderDetail->price/$orderDetail->quantity) }}</td>
-								<td class="gry-color currency">{{ single_price($orderDetail->tax/$orderDetail->quantity) }}</td>
+								<td class="gry-color currency">
+								@if($orderDetail->price !=-0)	
+									{{ single_price($orderDetail->price/$orderDetail->quantity) }}
+								@endif
+
+							</td>
+								<td class="gry-color currency">
+								@if($orderDetail->tax !=-0)	
+									{{ single_price($orderDetail->tax/$orderDetail->quantity) }}
+								@endif
+								</td>
 			                    <td class="text-right currency">{{ single_price($orderDetail->price+$orderDetail->tax) }}</td>
 							</tr>
 		                @endif

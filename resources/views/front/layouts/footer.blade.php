@@ -431,6 +431,27 @@ $( document ).ready(function() {
         }
 
 
+        function display_option(key){
+
+        }
+        function show_pickup_point(el) {
+            var value = $(el).val();
+            var target = $(el).data('target');
+
+            console.log(value);
+
+            if(value == 'home_delivery'){
+                if(!$(target).hasClass('d-none')){
+                    $(target).addClass('d-none');
+                }
+            }else{
+                $(target).removeClass('d-none');
+            }
+        }
+
+
+
+
 
 
 </script>

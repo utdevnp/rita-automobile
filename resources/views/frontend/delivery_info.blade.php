@@ -78,6 +78,7 @@
                                         array_push($admin_products, $cartItem['id']);
                                     }
                                     else{
+                                 
                                         $product_ids = array();
                                         if(array_key_exists(\App\Product::find($cartItem['id'])->user_id, $seller_products)){
                                             $product_ids = $seller_products[\App\Product::find($cartItem['id'])->user_id];
@@ -87,7 +88,8 @@
                                     }
                                 }
                             @endphp
-
+                            
+                            {{dd($admin_products)}}
                             @if (!empty($admin_products))
                             <div class="card mb-3">
                                 <div class="card-header bg-white py-3">

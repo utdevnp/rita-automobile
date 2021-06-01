@@ -191,11 +191,15 @@ class CheckoutController extends Controller
         $total = $subtotal + $tax + $shipping;
 
         if(Session::has('coupon_discount')){
-                $total -= Session::get('coupon_discount');
+            $total -= Session::get('coupon_discount');
         }
 
-        return view('frontend.delivery_info');
-        // return view('frontend.payment_select', compact('total'));
+       // dd("payment_info");
+        //return view('frontend.delivery_info');
+         //return view('frontend.payment_select', compact('total'));
+         return view('front.page.checkout');
+        // return redirect()->route("checkout.store_delivery_info");
+        
     }
 
     public function store_delivery_info(Request $request)
@@ -246,8 +250,9 @@ class CheckoutController extends Controller
             }
 
             //dd($total);
+            return view('front.page.checkout', compact('total'));
 
-            return view('frontend.payment_select', compact('total'));
+           // return view('frontend.payment_select', compact('total'));
         }
         else {
             flash('Your Cart was empty')->warning();
@@ -272,7 +277,10 @@ class CheckoutController extends Controller
                 $total -= Session::get('coupon_discount');
         }
 
-        return view('frontend.payment_select', compact('total'));
+        //return view('frontend.payment_select', compact('total'));
+
+        return view('front.page.checkout', compact('total'));
+
     }
 
     public function apply_coupon_code(Request $request){
@@ -353,7 +361,8 @@ class CheckoutController extends Controller
     }
 
     public function order_confirmed(){
+        Session::forget('cart');
         $order = Order::findOrFail(Session::get('order_id'));
-        return view('frontend.order_confirmed', compact('order'));
+        return view('front.page.order-confirm', compact('order'));
     }
 }

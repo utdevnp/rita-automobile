@@ -95,7 +95,10 @@
                                                         <td>{{__('Country')}}:</td>
                                                         <td class="p-2">
                                                             @if (Auth::user()->country != null)
+                                                                @if(!empty(\App\Country::where('code', Auth::user()->country)->first()->name ))
                                                                 {{ \App\Country::where('code', Auth::user()->country)->first()->name }}
+                                                                @endif
+                                                               
                                                             @endif
                                                         </td>
                                                     </tr>
