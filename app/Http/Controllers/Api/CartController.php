@@ -10,18 +10,44 @@ use App\Models\FlashDealProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Validator;
 class CartController extends Controller
 {
+    function __construct(ResponseController $response){
+        $this->response = $response;
+    }
+
     public function index($id)
     {
+        if(empty($id) && !(int)$id){
+            return $this->response->error([
+                'message'=>"Validation error",
+                'data'=>[
+                    "id"=> "user Id is required"
+                ]
+            ]);
+        }
         return new CartCollection(Cart::where('user_id', $id)->latest()->get());
     }
 
     public function add(Request $request)
     {
-        $product = Product::findOrFail($request->id);
+     
+        $validateData = Validator::make($request->all(), [
+            'user_id' => 'required|numeric',
+            'id' => 'required|numeric|exists:products,id',
+          ]);
 
+        if ($validateData->fails()) {
+            return $this->response->error([
+                'message'=>"Validation Error",
+                'data'=>$validateData->errors()
+            ]);
+        }
+
+
+        $product = Product::findOrFail($request->id);
+       
         $variant = $request->variant;
         $color = $request->color;
         $tax = 0;
@@ -67,7 +93,7 @@ class CartController extends Controller
             $tax = $product->tax;
         }
 
-        Cart::updateOrCreate([
+        $cart = Cart::updateOrCreate([
             'user_id' => $request->user_id,
             'product_id' => $request->id,
             'variation' => $variant
@@ -78,23 +104,59 @@ class CartController extends Controller
             'quantity' => DB::raw('quantity + 1')
         ]);
 
-        return response()->json([
-            'message' => 'Product added to cart successfully'
+        return $this->response->success([
+            'message'=>"Product added to cart successfully",
+            'data'=>$cart
         ]);
+
+
     }
 
     public function changeQuantity(Request $request)
     {
+
+         $validateData = Validator::make($request->all(), [
+            'quantity' => 'required|numeric',
+            'id' => 'required|numeric|exists:carts,id',
+          ]);
+
+        if ($validateData->fails()) {
+            return $this->response->error([
+                'message'=>"Validation Error",
+                'data'=>$validateData->errors()
+            ]);
+        }
+
         $cart = Cart::findOrFail($request->id);
         $cart->update([
             'quantity' => $request->quantity
         ]);
-        return response()->json(['message' => 'Cart updated'], 200);
+
+        return $this->response->success([
+            'message'=>"'Cart updated successfully",
+            'data'=>$cart
+        ]);
+
     }
 
     public function destroy($id)
     {
+        if(empty($id) && !(int)$id){
+            return $this->response->error([
+                'message'=>"Validation error",
+                'data'=>[
+                    "id"=> "Cart Id is required"
+                ]
+            ]);
+        }
+
         Cart::destroy($id);
-        return response()->json(['message' => 'Product is successfully removed from your cart'], 200);
+
+        return $this->response->success([
+            'message'=>"Product is successfully removed from your cart",
+            'data'=>[]
+        ]);
+
+        
     }
 }

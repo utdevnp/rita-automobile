@@ -60,10 +60,10 @@ Route::prefix('v1')->group(function () {
     Route::get('products/home', 'Api\ProductController@home');
     Route::apiResource('products', 'Api\ProductController')->except(['store', 'update', 'destroy']);
 
-    Route::get('carts/{id}', 'Api\CartController@index')->middleware('auth:api');
-    Route::post('carts/add', 'Api\CartController@add')->middleware('auth:api');
-    Route::post('carts/change-quantity', 'Api\CartController@changeQuantity')->middleware('auth:api');
-    Route::apiResource('carts', 'Api\CartController')->only('destroy')->middleware('auth:api');
+    Route::get('carts/{id}', 'Api\CartController@index');
+    Route::post('carts/add', 'Api\CartController@add');
+    Route::post('carts/change-quantity', 'Api\CartController@changeQuantity');
+    Route::apiResource('carts', 'Api\CartController')->only('destroy');
 
     Route::get('reviews/product/{id}', 'Api\ReviewController@index')->name('api.reviews.index');
     Route::post('reviews/store', 'Api\ReviewController@store');
