@@ -12,11 +12,33 @@ use App\Models\CouponUsage;
 use App\Models\BusinessSetting;
 use App\User;
 use DB;
-
+use Validator;
 class OrderController extends Controller
 {
+
+    public function __construct(ResponseController $response){
+        $this->response = $response;
+    }
+
     public function processOrder(Request $request)
     {
+        $validateData = Validator::make($request->all(), [
+            'user_id' => 'required|numeric|exists:users,id',
+            "shipping_address"=>'required',
+            "payment_type"=>'required',
+            "payment_status"=>'required',
+            "grand_total"=>'required',
+            "coupon_discount"=>'required',
+          ]);
+
+        if ($validateData->fails()) {
+            return $this->response->error([
+                'message'=>"Validation Error",
+                'data'=>$validateData->errors()
+            ]);
+        }
+
+
         $shippingAddress = json_decode($request->shipping_address);
         // create an order
         $order = Order::create([
@@ -31,6 +53,15 @@ class OrderController extends Controller
         ]);
 
         $cartItems = Cart::where('user_id', $request->user_id)->get();
+
+        if(count($cartItems)==0){
+
+            return $this->response->error([
+                'message'=>"Your cart is empty please add product in cart and proceed.",
+                'data'=>[]
+            ]);
+
+        }
         // save order details
         foreach ($cartItems as $cartItem) {
             $product = Product::findOrFail($cartItem->product_id);
@@ -78,16 +109,18 @@ class OrderController extends Controller
                 ]);
             }
         }
-        // clear user's cart
-//        $user = User::findOrFail($request->user_id);
-//        $user->carts()->delete();
+
+        //  clear user's cart
+        //  $user = User::findOrFail($request->user_id);
+        // $user->carts()->delete();
 
         Cart::where('user_id', $request->user_id)->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Your order has been placed successfully'
+        $getRecentOrder = Order::where(['user_id'=>$request->user_id])->orderBy("id",'desc')->take(1)->get();
+        return $this->response->success([
+            'message'=>"Your order has been placed successfully",
+            'data'=>$getRecentOrder
         ]);
+
     }
 
     public function store(Request $request)
