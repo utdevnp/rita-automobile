@@ -102,7 +102,7 @@ Route::prefix('v1')->group(function () {
     Route::post('payments/pay/paypal', 'Api\PaypalController@processPayment')->middleware('auth:api');
     Route::post('payments/pay/cod', 'Api\PaymentController@cashOnDelivery')->middleware('auth:api');
 
-    Route::post('order/store', 'Api\OrderController@store')->middleware('auth:api');
+    Route::post('order/store', 'Api\OrderController@store');
 
     // Conversations
     Route::post('conversation/store', 'Api\ConversationController@store');
