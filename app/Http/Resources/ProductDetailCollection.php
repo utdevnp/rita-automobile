@@ -46,7 +46,7 @@ class ProductDetailCollection extends ResourceCollection
                 if(!is_null($data->brand_id)) {
                     $items['brand'] = [
                         'name' => (!empty($data->brand->name))? $data->brand->name : "",
-                        'logo' => $data->brand->logo,
+                        'logo' => (!empty($data->brand->logo))? $data->brand->logo : "",
                         'links' => [
                             'products' => route('api.products.brand', $data->brand_id)
                         ]
