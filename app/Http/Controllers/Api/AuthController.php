@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\ResponseController;
 use App\Models\BusinessSetting;
 use App\Models\Customer;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
-use App\User;
-use Validator;
-use App\Http\Controllers\Api\ResponseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Validator;
 class AuthController extends Controller
 {
 
