@@ -133,6 +133,9 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function()
 	Route::get('/sales/{id}/show', 'OrderController@sales_show')->name('sales.show');
 	Route::get('/orders/destroy/{id}', 'OrderController@destroy')->name('orders.destroy');
 	Route::get('/sales', 'OrderController@sales')->name('sales.index');
+	Route::get("orders/partial/{id}","OrderController@partialOrderList")->name("partialOrder");
+
+	Route::resource("orderpartial","OrderpartialController");
 
 	Route::resource('links','LinkController');
 	Route::get('/links/destroy/{id}', 'LinkController@destroy')->name('links.destroy');

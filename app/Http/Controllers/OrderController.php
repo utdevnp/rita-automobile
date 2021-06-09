@@ -173,6 +173,8 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+       // dd($request->all());
+      
         $order = new Order;
         if(Auth::check()){
             $order->user_id = Auth::user()->id;
@@ -180,6 +182,8 @@ class OrderController extends Controller
         else{
             $order->guest_id = mt_rand(100000, 999999);
         }
+
+    
 
         $order->shipping_address = json_encode($request->session()->get('shipping_info'));
 
@@ -191,24 +195,42 @@ class OrderController extends Controller
         //     $order->pickup_point_id = Session::get('delivery_info')['pickup_point_id'];
         // }
 
-        $order->payment_type = $request->payment_option;
+        //dd( $order->payment_type);
+        
+     
+
+        $order->payment_type = $request->payment_type;
         $order->delivery_viewed = '0';
         $order->payment_status_viewed = '0';
         $order->code = date('Ymd-His').rand(10,99);
         $order->date = strtotime('now');
 
         if($order->save()){
+
+
+           
+
             $subtotal = 0;
             $tax = 0;
             $shipping = 0;
+
             foreach (Session::get('cart') as $key => $cartItem){
                 $product = Product::find($cartItem['id']);
 
+                if($cartItem['quantity'] == null){
+                    $cartItem['quantity'] = 1;
+                }else{
+                    $cartItem['quantity'] = $cartItem['quantity'];
+                }
+            
                 $subtotal += $cartItem['price']*$cartItem['quantity'];
                 $tax += $cartItem['tax']*$cartItem['quantity'];
 
+              
                 if ($cartItem['shipping_type'] == 'home_delivery') {
                     $shipping += \App\Product::find($cartItem['id'])->shipping_cost*$cartItem['quantity'];
+
+                   
                 }
 
                 $product_variation = $cartItem['variant'];
@@ -335,6 +357,11 @@ class OrderController extends Controller
         $order->viewed = 1;
         $order->save();
         return view('orders.show', compact('order'));
+    }
+
+    public function partialOrderList($id){
+        $order = Order::findOrFail(decrypt($id));
+        return view('orders.partialorder', compact('order'));
     }
 
     /**
