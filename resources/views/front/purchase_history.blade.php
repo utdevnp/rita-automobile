@@ -72,7 +72,8 @@
                                                         </td>
                                                         <td>
                                                             @php
-                                                                $status = $order->orderDetails->first()->delivery_status;
+                                                                $status = $order->orderDetails;
+                                                                
                                                             @endphp
                                                             @if($order->delivery_viewed == 0)
                                                                 <span class="ml-2" style="color:green"><strong>({{ __('Updated') }})</strong></span>

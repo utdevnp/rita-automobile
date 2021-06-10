@@ -24,6 +24,7 @@ use App\BusinessSetting;
 use App\Http\Controllers\SearchController;
 use ImageOptimizer;
 use Cookie;
+use App\Wishlist;
 
 class HomeController extends Controller
 {
@@ -116,7 +117,11 @@ class HomeController extends Controller
         }
         elseif(Auth::user()->user_type == 'customer'){
             
-            return view('front.customer.dashboard');
+            $data['orders'] = Order::where("user_id",Auth::id())->get();
+            $data['ordersLimit'] = Order::where("user_id",Auth::id())->limit(4)->latest()->get();
+            $data['wishlists'] = Wishlist::where("user_id",Auth::id())->get();
+
+            return view('front.customer.dashboard',$data);
         }
         else {
             abort(404);

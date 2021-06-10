@@ -44,7 +44,7 @@
                                             <div class="card text-left">
                                                 <div class="card-body">
                                                     <p class="card-text"> <b>Orders</b></p>
-                                                    <h4 class="card-title">0</h4>
+                                                    <h4 class="card-title">{{count($orders)}}</h4>
                                                 </div>
                                                 <div class="card-footer text-muted">
                                                     <a href="#">View All</a>
@@ -56,7 +56,7 @@
                                             <div class="card text-left">
                                                 <div class="card-body">
                                                     <p class="card-text"> <b>Wishlist</b></p>
-                                                    <h4 class="card-title">0</h4>
+                                                    <h4 class="card-title">{{count($wishlists)}}</h4>
                                                 </div>
                                                 <div class="card-footer text-muted">
                                                     <a href="#">View All</a>
@@ -131,18 +131,19 @@
                                                     <table class="table">
                                                         <tr>
                                                             <th># Order Id</th>
-                                                            <th> Product Name</th>
-                                                            <th>Quantuty</th>
+                                                            <th>Qty </th>
                                                             <th>Amount</th>
                                                             <th>Status</th>
                                                         </tr>
+                                                        @foreach($ordersLimit as $order)
                                                         <tr>
-                                                            <td># </td>
-                                                            <td> </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
+                                                           
+                                                            <td> {{$order->code}} </td>
+                                                            <td> {{ $order->orderDetails->where('order_id', $order->id)->sum("quantity") }}</td>
+                                                            <td>{{$order->grand_total}}</td>
+                                                            <td>{{$order->payment_status}}</td>
                                                         </tr>
+                                                        @endforeach
                                                     </table>
                                                 </div>
                                             

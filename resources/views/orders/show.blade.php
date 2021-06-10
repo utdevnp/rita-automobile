@@ -124,6 +124,9 @@
             					<th class="min-col text-center text-uppercase">
             						{{__('Qty')}}
             					</th>
+								<th class="min-col text-center text-uppercase">
+            						{{__('Partial Qty')}}
+            					</th>
             					<th class="min-col text-center text-uppercase">
             						{{__('Price')}}
             					</th>
@@ -167,6 +170,10 @@
                                     </td>
                 					<td class="text-center">
                 						{{ $orderDetail->quantity }}
+                					</td>
+
+									<td class="text-center">
+                						{{ $orderDetail->partial_qty }}
                 					</td>
                 					<td class="text-center">
                 						{{ single_price($orderDetail->price/$orderDetail->quantity) }}

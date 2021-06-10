@@ -21,6 +21,7 @@ use PDF;
 use Mail;
 use App\Mail\InvoiceEmailManager;
 use CoreComponentRepository;
+use App\Orderpartial;
 
 class OrderController extends Controller
 {
@@ -361,7 +362,8 @@ class OrderController extends Controller
 
     public function partialOrderList($id){
         $order = Order::findOrFail(decrypt($id));
-        return view('orders.partialorder', compact('order'));
+        $partialorder = Orderpartial::where("order_id",decrypt($id))->get();
+        return view('orders.partialorder', compact('order','partialorder'));
     }
 
     /**

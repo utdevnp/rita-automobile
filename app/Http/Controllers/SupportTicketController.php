@@ -151,7 +151,7 @@ class SupportTicketController extends Controller
         $ticket->client_viewed = 1;
         $ticket->save();
         $ticket_replies = $ticket->ticketreplies;
-        return view('frontend.support_ticket.show', compact('ticket','ticket_replies'));
+        return view('front.support_ticket.show', compact('ticket','ticket_replies'));
     }
 
     public function admin_show($id)

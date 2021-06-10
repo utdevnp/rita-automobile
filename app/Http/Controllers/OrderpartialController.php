@@ -38,6 +38,7 @@ class OrderpartialController extends Controller
     {
         $orderpartial = new Orderpartial();
 
+       
         // get product 
         $product = OrderDetail::where(
             [
@@ -45,19 +46,33 @@ class OrderpartialController extends Controller
                 "order_id"=>$request->order_id
             ]
         )->get()->first();
+
+          $countProductQtyIssue = Orderpartial::CountProductQty($product);
+          
         if($product){
+
+            if( $countProductQtyIssue >= $product->quantity){
+                flash(__('All partial order has been issued for.'.($product->product->name)))->error();
+                return redirect()->route('partialOrder',['id'=>encrypt($product->order_id)]);
+            }
 
             if( $request->issue_qty > $product->quantity  ){
                 flash(__('Issue quantity cannot grater then order quantity.'))->error();
                 return redirect()->route('partialOrder',['id'=>encrypt($product->order_id)]);
             }
 
+
+
             $orderpartial->order_id = $product->order_id;
             $orderpartial->product_id = $product->product_id;
             $orderpartial->user_id = 0; 
             $orderpartial->qty = $request->issue_qty;
             $orderpartial->action_by = Auth::id();
-            $orderpartial->save();
+            
+            if($orderpartial->save()){
+                $product->partial_qty = $countProductQtyIssue;
+                $product->save();
+            }
 
             flash(__('Item has been issued successfully'))->success();
             return redirect()->route('partialOrder',['id'=>encrypt($product->order_id)]);

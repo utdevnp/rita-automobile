@@ -7,6 +7,7 @@
     		<div class="invoice-masthead">
     			<div class="invoice-text">
     				<h3 class="h1 text-thin mar-no text-primary">{{ __('Partial Order Details') }}</h3>
+					
     			</div>
     		</div>
          
@@ -27,8 +28,10 @@
                         <a href="{{ asset(json_decode($order->manual_payment_data)->photo) }}" target="_blank"><img src="{{ asset(json_decode($order->manual_payment_data)->photo) }}" alt="" height="100"></a>
                     @endif
 					<a href="{{ route('customer.invoice.download', $order->id) }}" class="btn btn-default"><i class="demo-pli-printer icon-lg"></i></a>
+					<a href="{{route("orders.show",["id"=>encrypt($order->id)])}}" class=" btn btn-primary btn-rounded float-right">Back to orders</a>
     			</div>
     			<div class="col-sm-6 text-xs-center">
+			
     				<table class="invoice-details">
     				<tbody>
     				<tr>
@@ -118,8 +121,34 @@
 		</form>	
 	</div>
 
-	<div class="addform col-md-4">
-		list
+	<div class="addform col-md-8">
+		<div class="panel">
+			<div class="panel-header"></div>
+			<div class="panel-body">
+			
+			<table class="table">
+				<thead>
+					<tr>
+					<th scope="col">#</th>
+					<th scope="col">Product</th>
+					<th scope="col">Issued Qty</th>
+					<th scope="col">Issued Date </th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach($partialorder as $order)
+					<tr>
+						<th scope="row">{{$loop->iteration}}</th>
+						<td>{{$order->product->name}}</td>
+						<td>{{$order->qty}}</td>
+						<td>{{$order->created_at}}</td>
+
+					</tr>
+					@endforeach
+				</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 
 </div>
