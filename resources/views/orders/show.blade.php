@@ -14,7 +14,7 @@
                     $delivery_status = $order->orderDetails->first()->delivery_status;
                     $payment_status = $order->orderDetails->first()->payment_status;
                 @endphp
-                <div class="col-lg-offset-6 col-lg-3">
+                <div class="col-lg-offset-5 col-lg-3">
                     <label for=update_payment_status"">{{__('Payment Status')}}</label>
                     <select class="form-control demo-select2"  data-minimum-results-for-search="Infinity" id="update_payment_status">
                         <option value="paid" @if ($payment_status == 'paid') selected @endif>{{__('Paid')}}</option>
@@ -30,6 +30,9 @@
                         <option value="delivered" @if ($delivery_status == 'delivered') selected @endif>{{__('Delivered')}}</option>
                     </select>
                 </div>
+				<div class="col-lg-1">
+					<a style="margin-top: 23px;" href="{{route("partialOrder",["id"=>encrypt($order->id)])}}" class=" btn btn-primary btn-rounded">Partial</a>
+				</div>
             </div>
             <hr>
     		<div class="invoice-bill row">
@@ -121,6 +124,9 @@
             					<th class="min-col text-center text-uppercase">
             						{{__('Qty')}}
             					</th>
+								<th class="min-col text-center text-uppercase">
+            						{{__('Partial Qty')}}
+            					</th>
             					<th class="min-col text-center text-uppercase">
             						{{__('Price')}}
             					</th>
@@ -164,6 +170,10 @@
                                     </td>
                 					<td class="text-center">
                 						{{ $orderDetail->quantity }}
+                					</td>
+
+									<td class="text-center">
+                						{{ $orderDetail->partial_qty }}
                 					</td>
                 					<td class="text-center">
                 						{{ single_price($orderDetail->price/$orderDetail->quantity) }}

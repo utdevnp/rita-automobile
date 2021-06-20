@@ -31,11 +31,14 @@ class CheckoutController extends Controller
     //check the selected payment gateway and redirect to that controller accordingly
     public function checkout(Request $request)
     {
+       
+    
         $orderController = new OrderController;
         $orderController->store($request);
-
+        
+        //dd('stop when order is complete');
         $request->session()->put('payment_type', 'cart_payment');
-
+    
         if($request->session()->get('order_id') != null){
             if($request->payment_option == 'paypal'){
                 $paypal = new PaypalController;
@@ -70,7 +73,8 @@ class CheckoutController extends Controller
                 return $paytm->index();
             }
             elseif ($request->payment_option == 'cash_on_delivery') {
-                $request->session()->put('cart', collect([]));
+            
+             $request->session()->put('cart', collect([]));
                 // $request->session()->forget('order_id');
                 $request->session()->forget('delivery_info');
                 $request->session()->forget('coupon_id');

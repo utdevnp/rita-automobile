@@ -5,7 +5,7 @@
                                         <div class="col-lg-3 mb-20">
                                            
                                             <div class="card">
-                                                <input type="radio" class="payboxixon" value="cash_payment"  id="cashPayment" />
+                                                <input type="radio" name="payment_type" class="payboxixon" value="cash_on_delivery"  id="cashPayment" />
                                                 <label for="cashPayment"><img src="http://rita-automobile.local:2077/public/frontend/images/icons/cards/cod.png" /></label>
                                                 <div class="card-body">
                                                     <p class="card-text">Cash Payment</p>

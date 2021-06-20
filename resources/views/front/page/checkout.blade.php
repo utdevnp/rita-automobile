@@ -18,7 +18,7 @@
     <!--breadcrumbs area end-->
     
     <!--Checkout page section-->
-    {{--dd(session()->get("shipping_info"))  --}}
+   
     @if(Request::segment(2)=='payment_select')
     <form role="form" method="POST" action="{{ route('payment.checkout') }}">
     @elseif(Request::segment(2)=='delivery_info')
