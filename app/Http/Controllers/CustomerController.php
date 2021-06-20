@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Customer;
 use App\User;
 use App\Order;
+use App\Category;
 
 class CustomerController extends Controller
 {
@@ -60,7 +61,9 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        //
+        $categories = Category::get();
+        $customer = Customer::find($id);
+        return view('customers.show', compact('customer','categories'));
     }
 
     /**
@@ -71,7 +74,7 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
@@ -83,7 +86,18 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+      
+        if($user){
+            $user->category = json_encode($request->category);
+            $user->sub_category = json_encode($request->sub_category);
+            $user->sub_sub_category = json_encode($request->sub_sub_category);
+            $user->save();
+
+            flash(__('Customer cateogry is save successfully'))->success();
+            return redirect()->route('customers.show', $request->id);
+
+        }
     }
 
     /**

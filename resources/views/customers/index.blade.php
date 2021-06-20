@@ -42,21 +42,22 @@
                 @foreach($customers as $key => $customer)
                     <tr>
                         <td>{{ ($key+1) + ($customers->currentPage() - 1)*$customers->perPage() }}</td>
-                        <td>{{$customer->user->name}}</td>
-                        <td>{{$customer->user->email}}</td>
-                        <td>{{$customer->user->phone}}</td>
+                        <td>@if(!empty($customer->user->name)){{$customer->user->name}} @endif</td>
+                        <td>@if(!empty($customer->user->email)){{$customer->user->email}} @endif</td>
+                        <td>@if(!empty($customer->user->phone)){{$customer->user->phone}} @endif</td>
                         <td>
-                            @if ($customer->user->customer_package != null)
+                            @if (!empty($customer->user->customer_package) != null)
                                 {{$customer->user->customer_package->name}}
                             @endif
                         </td>
-                        <td>{{single_price($customer->user->balance)}}</td>
+                        <td>@if(!empty($customer->user->balance)) {{single_price($customer->user->balance)}} @endif</td>
                         <td>
                             <div class="btn-group dropdown">
                                 <button class="btn btn-primary dropdown-toggle dropdown-toggle-icon" data-toggle="dropdown" type="button">
                                     {{__('Actions')}} <i class="dropdown-caret"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="{{route('customers.show', $customer->id)}}">{{__('View')}}</a></li>
                                     <li><a onclick="confirm_modal('{{route('customers.destroy', $customer->id)}}');">{{__('Delete')}}</a></li>
                                 </ul>
                             </div>
